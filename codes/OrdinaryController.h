@@ -26,17 +26,18 @@
 };
 
 struct None{};
-/*           operators i.e. differential or integral ops          */
+/*          operators i.e. differential or integral ops          */
 
 typedef double(*FUNC)(double);
 
 template <typename OPTYPE> 
 class Operator{
   double m_h,m_delta;
+  double tmp;
   public:
       Operator(double _h):m_h(_h), m_delta(OPTYPE::step(_h)){}
       double operator ()(std::vector<double>& _e){
-           double tmp{0.0};
+           tmp= 0.0;
            for (int i=0; i < OPTYPE::m_N; i++){
                tmp += OPTYPE::m_W[i]*_e[OPTYPE::m_N-1-i];
            }
@@ -60,6 +61,7 @@ class Operator<None>{
               return 0; 
       }
 };
+
 /* ------------- controller ----------------*/
 template <typename OP1, typename OP2>
 struct Controller{

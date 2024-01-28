@@ -9,9 +9,9 @@ double fun(double x){
 
 int main()
 {
-Operator<FourPointDerivative> op(0.001);
+Operator<FourPointDerivative> derivative(0.001);
 Controller<SimpleDerivative,SimpleIntegral> c(0.01);
 
- std::cout << op(fun,0.5) << std::endl;
+ std::cout << derivative(fun,0.5) << std::endl;
 return 0;
 }

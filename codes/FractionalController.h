@@ -12,7 +12,7 @@ struct RL{};
 template <>
 struct FractioanlDervative<GL> {
     FractioanlDervative(){}
-    FractioanlDervative(double _alpha, int _n, double _h):{}
+    FractioanlDervative(double _alpha, int _n, double _h){}
     
     double operator() (std::vector<double>& e) {
         double dummy{0.0};
