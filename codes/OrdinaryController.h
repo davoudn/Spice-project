@@ -36,14 +36,15 @@ class Operator{
   double tmp;
   public:
       Operator(double _h):m_h(_h), m_delta(OPTYPE::step(_h)){}
-      double operator ()(std::vector<double>& _e){
+
+double operator ()(std::vector<double>& _e){
            tmp= 0.0;
            for (int i=0; i < OPTYPE::m_N; i++){
                tmp += OPTYPE::m_W[i]*_e[OPTYPE::m_N-1-i];
            }
            return tmp * m_h; 
       }
-double operator ()( FUNC _e, double x){
+double operator ()(FUNC _e, double x){
            double tmp{0.0};
            for (int i=0; i < OPTYPE::m_N; i++){
                tmp += OPTYPE::m_W[i]*_e(x-i*m_h);
