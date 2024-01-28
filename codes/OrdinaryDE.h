@@ -4,8 +4,8 @@
 */
 class Euler{
        static const int Nw = 2.0;
-       static const double CorrectorWeighs[NW] = {0.5,0.5};
-       static const double PredictorWeighs[NW] = {0.0,1.0};
+       const double CorrectorWeighs[Nw] = {0.5,0.5};
+       const double PredictorWeighs[Nw] = {0.0,1.0};
 };
 template <typename METHOD, typename FUNC>
 class SolvePredictorCorrector{         // P and C stand for predictor and corrector respectively.
