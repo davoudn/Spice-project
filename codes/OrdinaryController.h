@@ -1,4 +1,26 @@
 #include <vector>
+#include <type_traits>
+
+struct SimpleDerivative;
+struct SimpleIntegral;
+struct FourPointDerivative;
+struct FourPointIntegral;
+
+/*                            */
+template <typename T>
+struct is_Integral{
+        static const bool value = false;
+};
+
+template <>
+struct is_Integral<SimpleIntegral>{
+        static const bool value = true;
+};
+template <>
+struct is_Integral<FourPointIntegral>{
+        static const bool value = true;
+};
+
 /* -----------------------List of oproximate differentioal and integral operators---------------------------- */
   
   struct SimpleDerivative{
@@ -25,7 +47,16 @@
   }
 };
 
+ struct FourPointIntegral{
+  constexpr static double m_W[4] = {+3.0/8.0,19.0/24.0, -5.0/24.0,1.0/24.0};
+  static const int    m_N    =  4;
+  static double step(double _h){
+         return _h;
+  }
+};
+/* ------------------------------------------------------------- */
 struct None{};
+
 /*          operators i.e. differential or integral ops          */
 
 typedef double(*FUNC)(double);
@@ -51,8 +82,16 @@ double operator ()(FUNC _e, double x){
            }
            return tmp * m_delta; 
       }
+ //typename std::enable_if<is_Integral<OPTYPE>::value,double>::type 
+ double operator ()(FUNC _e, double x1, double x2){
+           int N=(x2-x1)/m_h;
+           double integral{0.0};
+           for (int k=0; k<N; ++k){
+               integral+=(*this)(_e,x1+k*m_h);
+           }
+           return integral; 
+      }
 };
-
 template <> 
 class Operator<None>{
   double m_h;
@@ -62,7 +101,6 @@ class Operator<None>{
               return 0; 
       }
 };
-
 /* ------------- controller ----------------*/
 template <typename OP1, typename OP2>
 struct Controller{
@@ -75,12 +113,10 @@ struct Controller{
                                                       , m_P(_params[0]), m_D(_params[1])
                                                       , m_I(_params[0]), m_h(_h), m_N(OP1::m_N)
                                                       {}
-
     Controller(double _h): m_DO(_h), m_IO(_h)
                           , m_P(0.0), m_D(0)
                           , m_I(0), m_h(_h)
                           {}
-     
      void set_params(std::vector<double>&& _params){
        m_P = _params[0]; 
        m_I = _params[1]; 

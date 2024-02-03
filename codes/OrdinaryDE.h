@@ -3,10 +3,20 @@
      \frac{d}{dt} y(t) = F(y,t)  
 */
 class Euler{
-       static const int Nw = 2.0;
-       const double CorrectorWeighs[Nw] = {0.5,0.5};
-       const double PredictorWeighs[Nw] = {0.0,1.0};
+    public:
+       static const int Nw = 2;
+       constexpr static double CorrectorWeighs[Nw] = {0.5,0.5};
+       constexpr static double PredictorWeighs[Nw] = {0.0,1.0};
 };
+
+
+class FourPoints {
+    public:
+    static const int Nw = 4;
+    constexpr static double CorrectorWeighs[Nw] =  {+3.0/8.0, +19.0/24.0, -5.0/24.0, +1.0/24.0};
+    constexpr static double PredictorWeighs[Nw] = {+55.0/+24.0, -59.0/+24.0, +37.0/24, -9.0/+24.0}; 
+};
+
 template <typename METHOD, typename FUNC>
 class SolvePredictorCorrector{         // P and C stand for predictor and corrector respectively.
       std::vector<double> m_y, m_t;
@@ -30,7 +40,7 @@ class SolvePredictorCorrector{         // P and C stand for predictor and correc
            m_y[m_iStep+1] += m_y[m_iStep];
            return;
       }
-      void Corrector(){
+      void Correct(){
            m_yCorrector=0.0;
            for (int iw=0; iw < METHOD::Nw, iw++){
                m_yCorrector += METHOD::CorrectorWeighs[iw] * m_Func(y[iStep+1-iw], m_t[iStep+1-iw]);
