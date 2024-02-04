@@ -42,7 +42,7 @@ struct Operator {
     }    
 
     double operator() (std::vector<double>& e, int _last) {
-        double dummy{0.0};
+        dummy =0.0;
         for (int i=0; i<m_Fo.m_N; i++)
             dummy += m_Fo.m_W[i] * e[(m_Fo.m_N-i+_last)%m_Fo.m_N];
         return dummy*m_Delta;
