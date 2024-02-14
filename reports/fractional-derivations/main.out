@@ -1,0 +1,30 @@
+\BOOKMARK [0][-]{section*.2}{A survay about Fractional Order Calculus.}{}% 2
+\BOOKMARK [1][-]{section*.1}{Abstract}{section*.2}% 1
+\BOOKMARK [1][-]{section*.3}{Introduction}{section*.2}% 3
+\BOOKMARK [1][-]{section*.4}{Fractional order integration}{section*.2}% 4
+\BOOKMARK [1][-]{section*.5}{Fractional order Differentation}{section*.2}% 5
+\BOOKMARK [2][-]{section*.6}{Reimann-Liouvile FOD}{section*.5}% 6
+\BOOKMARK [2][-]{section*.7}{Gronvald-Letnikov FOD and FOI}{section*.5}% 7
+\BOOKMARK [2][-]{section*.8}{Caputo FOD}{section*.5}% 8
+\BOOKMARK [2][-]{section*.9}{The relation between RL, GL, and Caputo FOD}{section*.5}% 9
+\BOOKMARK [1][-]{section*.10}{Fourier and Laplace transformations}{section*.2}% 10
+\BOOKMARK [1][-]{section*.11}{Numerical Methods of solutions of Ordinary Differential Equations}{section*.2}% 11
+\BOOKMARK [2][-]{section*.12}{Multi linear methods for the solutions of ODEs}{section*.11}% 12
+\BOOKMARK [2][-]{section*.13}{Runge-Cutta}{section*.11}% 13
+\BOOKMARK [1][-]{section*.14}{Numerical Methods for solving Fractional Order Differential Equations\(FODE\)}{section*.2}% 14
+\BOOKMARK [2][-]{section*.15}{Multi linear methods for the solutions of FODEs}{section*.14}% 15
+\BOOKMARK [2][-]{section*.16}{Runge-Cutta}{section*.14}% 16
+\BOOKMARK [1][-]{section*.17}{Higher order finite difference FOD}{section*.2}% 17
+\BOOKMARK [2][-]{section*.18}{Higher order finite difference for integer order derivatives}{section*.17}% 18
+\BOOKMARK [2][-]{section*.19}{Higher order finite difference for FOD}{section*.17}% 19
+\BOOKMARK [1][-]{section*.20}{Numerical implementation}{section*.2}% 20
+\BOOKMARK [1][-]{section*.21}{Transient simulation of electrical circuits\(passive parts only\)}{section*.2}% 21
+\BOOKMARK [2][-]{section*.22}{Simulation of parts without FO components}{section*.21}% 22
+\BOOKMARK [2][-]{section*.23}{Simulation of parts with FO components}{section*.21}% 23
+\BOOKMARK [2][-]{section*.24}{Implementation of transient algorithem}{section*.21}% 24
+\BOOKMARK [2][-]{section*.25}{Inclusion of SPICE net lists}{section*.21}% 25
+\BOOKMARK [1][-]{section*.26}{Some applications of FOC in the electrochemistry}{section*.2}% 26
+\BOOKMARK [1][-]{section*.27}{Possible integration into QUCS}{section*.2}% 27
+\BOOKMARK [1][-]{section*.28}{Acknowledgments}{section*.2}% 28
+\BOOKMARK [1][-]{section*.29}{Appendix}{section*.2}% 29
+\BOOKMARK [1][-]{section*.30}{References}{section*.2}% 30

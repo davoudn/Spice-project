@@ -1,0 +1,2697 @@
+\documentclass[10pt]{article}
+\usepackage{lineno,hyperref}
+\usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage{cite}
+\usepackage{newtxtext}       % 
+\usepackage[varvw]{newtxmath} 
+\setcounter{tocdepth}{3}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\begin{document}
+\author{Alexander I. Zhmakin\footnote{Ioffe Physical  Technical Institute \& SoftImpact, Ltd., e-mail: a.zhmakin0@gmail.com}}
+\title{A Compact Introduction to Fractional Calculus}
+
+\maketitle
+\tableofcontents
+\pagenumbering{arabic}
+
+\section{Fractional Derivatives}
+Fractional calculus (FC) is now an efficient tool for problems in science and engineering \cite{old74,mil93,kir94,sam87,car97,pod98,nakh03,tar11}.
+The term "fractional" is kept for the historical reasons --- it is a misnomer since the order can be real \cite{gor03,ben13}.
+
+Historical survey of the development of FC starting from the letter by Gottfried Leibniz to Guillaume l'H\^opital (1695) including contributions by Joseph Liouville, Bernhard Riemann, Niels Abel, Gr\"unwald,  Aleksey Letnikov, Gerasimov, Marcel Riesz, Magnus Mittag-Leffler, Paul L\'evy, Raoul Nigmatullin, Yuri Rabotnov, Arthur Erd\'elyi and others during the XIX and XX centuries could be found in refs. \cite{ross97,hil08,kir10,kir11,kir14}. 
+
+Lorenzo \& Hartley \cite{lor98} analysed the minimal set of criteria for the generalized calculus formulated by B. Ross:
+{{\em analyticity}: if $f (z)$ is an analytic function of the complex variable $z$, the derivative $D_z^{\nu} f (z)$ is an analytic function of $z$ and $\nu$;}
+{{\em backward compatibility}: the operation $D_z^{\nu} f (z)$ must produce the same result as ordinary differentiation when $\nu = n$ is a positive integer; the operation $D_z^{\nu} f (z)$ must produce the same result as ordinary $n$-fold integration when $n$ is a negative integer;  $D_z^{\nu} f (z)$ must vanish along with its $n - 1$ derivatives at  $x = c$;}
+{{\em zero property}: the operation of order zero leaves the function unchanged $D_z^0 f (z) = f (x) $;}
+{{\em linearity}: the fractional operators must be linear $D_z^{\nu} [a f (x) + b g (x) ] = a D_z^{\nu} f (x) + D_z^{\nu} g (x)$;}
+{{\em composition (index law)}: the law of exponents for integration of arbitrary order $D_z^{\nu} D_z^{\mu} f (x) = D_z^{\nu + \mu} f (x)$.}
+
+The fractional derivatives are based on the extension of the repeated integration and are defined either by the continuation of the fractional integral to the negative order or by the integer order derivatives of the fractional integrals \cite{hil08}.
+There is no unique definition \cite{sam87,pod98,tar11} (and notation is not standardized \cite{hil08,oli14}). 
+
+There are several kinds of definitions of the fractional derivatives (Riemann-Liouville, Caputo, Gr\"unfeld-Letnikov, Riesz, Weyl, Marchaud, Caputo-Fabrizio, Yang, Chen, He and  others) that are not equivalent \cite{li07,li11}. The initial conditions for the Caputo derivative are expressed in terms of the initial values of the integer order derivatives; for the zero initial conditions  Riemann-Liouville, Caputo and Gr\"unwald-Letnikov derivatives coincide \cite{rah10}.
+ Most of the fractional derivatives are defined through the fractional integral thus derivatives inherent some non-local behaviour \cite{iyi16}.
+The following relation is valid fo all types of the fractional derivatives \cite{zas08}
+\begin{equation*}
+	\frac{d^{\alpha + \beta}}{d t^{\alpha + \beta}} = \frac{d^{\alpha}}{d t^{\alpha}} \frac{d^{\beta}}{d t^{\beta}} = \frac{d^{\beta}}{d t^{\beta}} \frac{d^{\alpha}}{d t^{\alpha}}.
+\end{equation*}
+
+The most frequently used are the Riemann-Liouville (e.g., in the calculus), the Caputo (e.g., in the physics, the numerical computations) and Gr\"unwald-Letnikov (e.g., in the signal processing, the engineering)  fractional derivatives \cite{agu14,oli14}.
+
+Grigoletto \& de Oliveira \cite{gri13} considered the generalization of the fundamental theorem of calculus  --- Fundamental Theorem of Fractional Calculus (FTFC) for the cases of the Riemann-Liouville, Liouville, Caputo, Weyl and Riesz derivatives.
+
+Baleanu \&  Fernandez \cite{bal19} considered the possible classification of the fractional operators into broad classes under some restrictions and criteria. In particularity, many operators could be considered as the special cases of \cite{fer19}
+\begin{equation*}
+	_c^AI_x^{\alpha,\beta} \int\limits_c^x (x - t)^{ \alpha - 1} A \left( (x - t)^{\beta} \right) f(t) d t, \qquad A (z) = \sum\limits_{k =0}^{\infty} a_k z^k
+\end{equation*}
+where $c$ is a constant often taken as zero or $\infty$,  $\alpha$ and $\beta$ are complex parameters with positive real parts, and $
+	A (z)$ is a general analytic function whose
+coefficients $a_k \in  \mathcal{C}$ are permitted to depend on $\alpha$ and $\beta$, $x$ as a real variable larger than $c$.
+
+\subsection{Riemann-Liouville Fractional Integral}
+Both the Riemann-Liouville (RL) and  the Caputo fractional derivatives are based on the RL fractional integral  that for any $\alpha > 0$ is defined as \cite{mai07,del13}
+\begin{equation}
+	\label{lrl}
+	J_{a^+}^{\alpha} f (x) = \frac{1}{\Gamma (\alpha)} \int\limits_a^x (x - t)^{\alpha - 1} f (t) d t,
+\end{equation}
+If $\alpha = 0$, $J_{a^+}^0 = I$, $I$ is the identity operator.
+Here 
+$$\Gamma (\alpha)  = \int\limits_0^{\infty} \exp (- \alpha) u^{\alpha - 1} d u$$
+is the Euler Gamma function.
+This integral exists if $f (t)$ is the locally integrable function and for $t \rightarrow 0$ behaves  like $O (t^{-\nu})$ with $\nu < \alpha$. To get the strict mathematical rigor it is possible to use the framework of the Lebesgue spaces of the summable functions or the Sobolev spaces of the generalized functions \cite{gor97a}.
+
+The RL  integral is a generalization of Cauchy's formula for an n-fold integral
+\begin{equation*}
+	\int\limits_a^x dx_1	\int\limits_a^{x_1} dx_2	\dots \int\limits_a^{x_{n - 1}} dx_n	= \frac{1}{(n - 1)!} \int\limits_a^x (x - t)^{n - 1} dt
+\end{equation*}
+using the relation 
+\begin{equation*}
+	(n - 1)! = \prod_{k = 1}^{n - 1} k = \Gamma (n).
+\end{equation*}
+
+The equation (\ref{lrl}) is {\em left-sided} RL integral. The {\em right-sided} RL integral is written as 
+\begin{equation}
+	\label{rrl}
+	J_{b^-}^{\alpha} f (x) = \frac{1}{\Gamma (\alpha)} \int\limits_x^b (t - x)^{\alpha - 1} f (t) d t.
+\end{equation}
+
+The RL integral is a case of the convolution integral of the Volterra type \cite{mai00} 
+\begin{equation*}
+	K * f (x) = \int\limits_a^b k (x - t) f (t) dt.
+\end{equation*}
+
+The RL integral has the {\em semi-group} property (also called {\em additivity law} \cite{hil08}):
+\begin{equation*}
+	J_{a^+}^{\alpha} J_{a^+}^{\beta} f (x) = 	J_{a^+}^{\alpha + \beta} f (x), \quad \alpha > 0, \quad \beta > 0
+\end{equation*}
+which implies the {\em commutative} property \cite{mai00}: $	J_{a^+}^{\beta} J_{a^+}^{\alpha} = J_{a^+}^{\alpha} J_{a^+}^{\beta}$.	
+
+The RL fractional integral coincides with the classical definition in the case $\alpha \in \mathcal{N}$. The fractional integration improves the  smoothness  of functions \cite{die10}.
+
+Sometimes the RL integral could be expressed via the elementary functions, e.g., 
+\begin{equation*}
+	J_{a^+}^{\alpha} (x - a)^{\mu} = \frac{\Gamma (\mu + 1)}{\Gamma (\alpha + \mu +1)} (x - a)^{\alpha + \mu}.
+\end{equation*}
+
+A particular case of the RL fractional integrals is the Liouville fractional integrals \cite{gri13} that is obtained by transitions $a \rightarrow - \infty$ and $b \rightarrow  \infty$ in equations (\ref{lrl}) and (\ref{rrl}) as
+\begin{equation*}
+	J_{+}^{\alpha} f (x) = \frac{1}{\Gamma (\alpha)} \int\limits_{- \infty}^x (x - t)^{\alpha - 1} f (t) d t,
+	\quad
+	%\end{equation*}
+	%and
+	% \begin{equation*}
+	J_{-}^{\alpha} f (x) = \frac{1}{\Gamma (\alpha)} \int\limits_x^{\infty} (t - x)^{\alpha - 1} f (t) d t.
+\end{equation*}
+
+\subsection{Riemann-Liouville Fractional Derivative} 
+{The left and the right Riemann-Liouville fractional derivatives are defined as \cite{pod98}
+	\begin{equation}
+		\label{lrld}
+		D_{a^+}^{\alpha} [ f (x)]= \left \{
+		\begin{array}{rl}
+			\displaystyle \frac{1}{\Gamma (1 - \alpha)} 
+			\frac{d}{dx}
+			\int\limits_a^x (x - t)^{- \alpha} f(t) dt,  & \quad \alpha \in (0,1)\\
+			%\displaystyle \frac{1}{\Gamma (1 - \alpha)} \int\limits_0^t \frac{\partial u (x,s)}{\partial t} (t - s)^{- \alpha} ds,  & \quad \alpha \in (0,1)\\
+			\displaystyle \frac{df (x)}{dt},
+			&  \quad \alpha = 1
+		\end{array} \right.
+	\end{equation}
+	and
+	\begin{equation}
+		\label{rrld}
+		D_{b^-}^{\alpha} [ f (x)]= \left \{
+		\begin{array}{rl}
+			\displaystyle \frac{1}{\Gamma (1 - \alpha)} 
+			\frac{d}{dx}
+			\int\limits_x^b (t - x)^{- \alpha} f(t) dt,  & \quad \alpha \in (0,1)\\
+			%\displaystyle \frac{1}{\Gamma (1 - \alpha)} \int\limits_0^t \frac{\partial u (x,s)}{\partial t} (t - s)^{- \alpha} ds,  & \quad \alpha \in (0,1)\\
+			\displaystyle \frac{df (x)}{dt},
+			&  \quad \alpha = 1
+		\end{array} \right.
+	\end{equation}
+	Operator $D_{a^+}^{\alpha}$ is left-inverse meaning that $D_{a^+}^{\alpha} J_{a^+}^{\alpha} = I$, $I$ is the identity operator. Thus $D_{a^+}^{\alpha} J_{a^+}^{\alpha} f = f$ but the unconditional semigroup property of fractional differentiation in the RL sense does not hold: Diethelm \cite{die10} gives examples where $D_{a^+}^{\alpha_1} D_{a^+}^{\alpha_2} f = D_{a^+}^{\alpha_2} D_{a^+}^{\alpha_1} f \ne D_{a^+}^{\alpha1 + \alpha_2} f$ and $D_{a^+}^{\alpha_1} D_{a^+}^{\alpha_2} f \ne D_{a^+}^{\alpha_2} D_{a^+}^{\alpha_1} f = D_{a^+}^{\alpha1 + \alpha_2} f$.
+	
+	Atangana \& Secer \cite{atang13} presented tables of the RL derivatives of the  trigonometric and some special functions.
+	The fractional RL derivative of the power function is
+	\begin{equation*}
+		D_{a^+}^{\alpha} t^{\nu} = \frac{\Gamma (1 + \nu)}{\Gamma (1 + \nu - \alpha)} t^{\nu - \alpha}
+	\end{equation*}
+	and, particular, the derivative of a constant
+	$	D_{a^+}^{\alpha} 1 = {t^{- \alpha}}/{\Gamma (1 - \alpha)}$. 
+	
+	Since the fractional RL derivative of a constant is not zero, thus the magnitude of the fractional derivative changes with adding of the constant. 
+	
+	Jumarie \cite{jum} suggested a modification to remove this drawback. He started with a fractional derivative ({\em F-derivative})
+	\begin{equation*}
+		f^{\alpha} (x) = \lim_{h \rightarrow 0} \frac{\Delta^{\alpha} f (x)}{h^{\alpha}}
+	\end{equation*}
+	based on the fractional difference $\Delta^{\alpha} f (x)$ of order $\alpha, \quad \alpha \in \mathfrak{R}, \quad 0 < \alpha \le 1$.
+	
+	Jumarie proposed the modification of the fractional RL derivative
+	\begin{equation*}
+		\displaystyle \frac{1}{\Gamma (1 - \alpha)} 
+		\frac{d}{dx}
+		\int\limits_a^x (x - t)^{- \alpha} (f(t) - f (0))dt.
+	\end{equation*}
+
+	\subsubsection{Leibniz' formula}
+	The classical Leibnitz' formula for the first-order derivative (i.e. when $n \in \mathcal{N}$) is
+	\begin{equation*}
+		D^n [f (x) g (x)] = \sum_{k = 0}^n \binom{n}{k} [D^k g (x) D^{n - k} f (x)]
+	\end{equation*}
+	where $f (x)$ and $g (x)$ are the $n$-time differentiable functions.
+	
+	The fractional derivatives violate the classical Leibnitz' rule \cite{tar1,tar2}. Generalization of the Lebnitz' formula was  developed by Osler \cite{osl1,osl2}.
+	
+	The Leibniz' formula for the differentiation of the product of the functions for the RL operators for the functions that are analytic on $(a - h, a + h)$ is written as \cite{die10}
+	\begin{equation*}
+		D_{a^+}^{n} [f g] (x) = \sum_{k = 0}^{\lfloor n \rfloor} \binom n k (D_{a^+}^{k} f) (x) (D_{a^+}^{n - k} g) (x) + 
+		\sum_{k = [n] + 1}^{\infty} \binom n k (D_{a^+}^{k} f) (x) (J_{a^+}^{n - k} g) (x).
+	\end{equation*}
+	where $\lfloor \quad \rfloor$ denotes the floor function.
+		Jumarie studied the Leibniz' formula for the differentiation of the product of the non-differentiable functions \cite{jum13}. 
+	
+	\subsubsection{Fa\'a di Bruno formula (the chain rule)}
+	For the functions $f$ and $g$ with a sufficient number of the derivatives and $n \in \mathcal{N}$ \cite{die10,del13,tar16a}
+	\begin{equation*}
+		D^n [g (f (\cdot))] (x) = \sum (D^k g) \prod_{m = 1}^n (D^m f (x)^{b_m}
+	\end{equation*}
+	where the sum is over all partitions of $\{1, 2, \dots, n\}$ and for each partition $k$ is its number of the blocks and $b_j$ is the number of the blocks with exactly $j$ elements.
+	
+	Tarasov \cite{tar16} analysed the simplified chain rules suggested by Jumarie \cite{jum07,jum07a,jum13a} and found that these simplifications are not universally valid.
+	
+	
+	
+	\subsubsection{Fractional Taylor expansion}
+	The fractional Taylor expansion is written as \cite{die10,qi13,odi07}
+	\begin{equation*}
+		f (x) = \frac{(x - a)^{n - m}}{\Gamma (n - m +1)} \lim_{z \rightarrow a +} J_a^{m - n} f (z) +
+	\end{equation*}
+	\begin{equation*}	
+		\sum_{k = 1}^{m - 1} \frac{(x - a)^{k + n - m}}{\Gamma (k + n - m +1)} \lim_{z \rightarrow a +} D^k J_a^{m - n} f (z) + J_a^n D_a^n f (x).
+	\end{equation*}
+	
+	\subsubsection{Symmetrised space derivative}
+	Vermeersch \& Shakouri \cite{ver14} formulated the symmetrised space derivatives of the fractional order between 1 and 2 and between 0 and 1:
+	\begin{itemize}
+		\item {$1 < \alpha < 2$. 			
+			The symmetrised space derivative of the function $g (x)$ that is integrable over the entire real axis is
+			\begin{equation*}
+				\frac{\partial^{\alpha} g}{\partial |x|^{\alpha}} = \frac{\partial}{\partial x} \left[w_{\alpha} \star \frac{\partial g}{\partial x} \right] 
+			\end{equation*}	
+			where $\star$ denotes the convolution and $w_{\alpha}$ is an unknown kernel function with the Fourier image found to be
+			$W_{\alpha} = {1}/{|\xi|^{2 - \alpha}}$.
+			The Fourier inversion yields
+			\begin{equation*}
+				w_{\alpha} = \frac{1}{2 \pi} \int\limits_{- \infty}^{\infty} \frac{exp (j \xi x) d \xi}{|\xi|^{2 - \alpha}} = \frac{|x|^{- (\alpha - 1)}}{2 \Gamma (2 - \alpha) \cos [(2 - \alpha) \frac{\pi}{2}]}.	
+			\end{equation*}
+			Thus
+			\begin{equation*}
+				\frac{\partial^{\alpha} g}{\partial |x|^{\alpha}} =	\frac{1}{2 \Gamma (2 - \alpha) \cos [(2 - \alpha) \frac{\pi}{2}]} \frac{\partial}{\partial x} \int\limits_{- \infty}^{\infty} \frac{\frac{\partial g}{\partial x} (x^{\prime}) d x^{\prime}}{|x - x^{\prime}|^{\alpha - 1}}.
+			\end{equation*}
+		}
+		\item {$0 < \alpha < 1$}. 	The symmetrised space derivative of the function $g (x)$ is 
+		
+		\begin{equation*}
+			\frac{\partial^{\alpha} g}{\partial |x|^{\alpha}} = w_{\alpha} \star \frac{\partial g}{\partial x}. 
+		\end{equation*}	
+		
+		The Fourier image of the kernel function  $w_{\alpha}$ is $W_{\alpha} = {j \cdot sgn (\xi)}/{|\xi|^{1 - \alpha}}$.	
+			Performing the Fourier inversion, the authors get finally	
+		\begin{equation*}
+			\frac{\partial^{\alpha} g}{\partial |x|^{\alpha}} = 	\frac{- 1}{2 \Gamma (1 - \alpha) \cos [(1 - \alpha) \frac{\pi}{2}]} \frac{\partial}{\partial x} \int\limits_{- \infty}^{\infty} \frac{ - sgn (x) \cdot \frac{\partial g}{\partial x} (x^{\prime}) d x^{\prime}}{|x - x^{\prime}|^{\alpha}}.
+		\end{equation*}
+		
+	\end{itemize}
+	
+	In the case $\alpha = 1/2$ the fractional integrals and derivatives are also called {\em semi-integrals}	and {\em semi-derivatives} \cite{sok02}.
+	
+	
+	
+	\subsection{Caputo Fractional Derivative} 
+	\label{capu}
+	The fractional derivatives in the Caputo sense on the left ($_CD_{a+}^{\alpha}$) and on the right ($_CD_{b-}^{\alpha}$) are defined via the RL fractional integral \cite{gri13}
+	$(_CD_{a+}^{\alpha} f) = (J_{a+}^{n -\alpha} f^{(n)}) (x)$ and $(- 1)^n (_CD_{b-}^{\alpha} f) = (J_{b-}^{n -\alpha} f^{(n)}) (x)$. It was introduced independently in 1948 by M. Caputo and by A.N. Gerasimov \cite{ger}; later by Dzherbashyan \& Nersesian \cite{dzh}.
+	
+	The major difference of the Caputo fractional derivative is that the derivative act first on the function and after the integral is evaluated while in the RL approach the derivative act on the integral.
+	
+	The Caputo fractional derivative is defined as \cite{pod98}
+	\begin{equation}
+		\label{cd}
+		D_{\star}^{\alpha} f (t) = \left \{
+		\begin{array}{rl}
+			\displaystyle \frac{1}{\Gamma (1 - \alpha)} \int\limits_0^t  (t - x)^{- \alpha} \frac{df(x)}{dt} dt,  & \quad \alpha \in (0,1)\\
+			%\displaystyle \frac{1}{\Gamma (1 - \alpha)} \int\limits_0^t \frac{\partial u (x,s)}{\partial t} (t - s)^{- \alpha} ds,  & \quad \alpha \in (0,1)\\
+			\displaystyle \frac{df (x)}{dt},
+			&  \quad \alpha = 1
+		\end{array} \right.
+	\end{equation}
+	
+	
+	The definition of the Caputo derivative (\ref{cd}) is more restrictive than of the RL one
+	(\ref{lrld}, \ref{rrld}) since it requires the absolute integrability of the derivative $df (x)/ dt$ \cite{gor97a}.
+	
+	The Caputo fractional derivative can be considered as the  regularization in the time origin for the RL derivative \cite{gor03}
+	\begin{equation*}
+		D_{\star}^{\alpha} f (t) = D^{\alpha} f (t) - f (0^+) \frac{t^{- \alpha}}{\Gamma (1 - \alpha)}	
+	\end{equation*}
+	and satisfies the property of being zero when applied to a constant. 
+	
+	Yuan \& Agrawal and Singh \& Chatterjee suggested the  alternative definitions of the Caputo fractional derivative \cite{die10}. The first approach is based on the introduction of the auxiliary bivariate function
+	$\phi: (0, \infty) \times [a, b] \rightarrow \mathcal{R}$ as
+	\begin{equation*}
+		\phi (w, x) = (- 1)^{\lfloor n \rfloor} \frac{2 \sin \pi n}{\pi} w^{2 n - 2 \lceil n \rceil + 1} \int_a^x f^{(\lceil n \rceil)} (\tau) e^{- (x - \tau) w^2} d \tau
+	\end{equation*}
+	where $\lceil \quad  \rceil$ denote the ceiling function, and, finally
+	\begin{equation*}
+		D_{\star a}^n f (x) = \int\limits_0^{\infty} \phi (w, x) d w.
+	\end{equation*}
+	
+	The second approach is based on expressing the fractional derivative of the the given function in the form of the integral over $(0, \infty)$ with the integrand that can be obtained as the solution of the first-order initial value problem
+	\begin{equation*}
+		\frac{\partial \phi^{\star} (w, x)}{\partial x} = - w^{\frac{1}{n - \lceil n \rceil - 1}} \phi^{\star} (w, x) + \frac{(- 1)^{\lfloor n \rfloor} \sin \pi n}{\pi (n - \lceil n \rceil - 1)} f^{(\lceil n \rceil)} (x)
+	\end{equation*}
+	with the initial condition $\phi^{\star} (w, a) = 0$. 
+	Thus
+	\begin{equation*}
+		\phi^{\star} (w, x) = \frac{(- 1)^{\lfloor n \rfloor} \sin \pi n}{\pi (n - \lceil n \rceil - 1)} \int\limits_0^x  f^{(\lceil n \rceil)} (\tau) \exp (- (x - \tau)w^{\frac{1}{n - \lceil n \rceil - 1}} ) d \tau	
+	\end{equation*}
+	\begin{equation*}
+		D_{\star a}^n f (x) =
+		\int\limits_0^{\infty} \phi^{\star} (w, x) d w.
+	\end{equation*} 
+	
+	\subsection{Matrix Approach}
+	Operations of the fractional calculus can be expressed by matrix \cite{pod00,pod09}. E.g., the left-sided RL or Caputo derivative can be approximated in the nodes in the equidistant discretization net with the  help of the upper triangular strip matrix $B_n^{(\alpha)}$ as \cite{pod00}
+	\begin{equation*}
+		\left[v_n^{(\alpha)} \; v_{n - 1}^{(\alpha)} \; \dots \; v_1^{(\alpha)} \; v_0^{(\alpha)} \right]^T = B_n^{(\alpha)} \left[v_n \; v_{n - 1} \; \dots \; v_1 \; v_0 \right]^T 
+	\end{equation*}
+	where
+	\begin{equation*}
+		B_n^{(\alpha)}	= \frac{1}{\tau^{\alpha}} \begin{bmatrix}
+			\omega_0^{(\alpha)}& \omega_0^{(\alpha)}& \dots& \dots& \omega_{n - 1}^{(\alpha)}& \omega_{n}^{(\alpha)}&\\
+			0& \omega_0^{(\alpha)}& \omega_0^{(\alpha)}& \dots& \dots& \omega_{n - 1}^{(\alpha)}& \\
+			\dots\\
+			\dots\\
+			0& 0& 0& \dots& \dots&  \omega_{0}^{(\alpha)}&\\
+			
+		\end{bmatrix}
+	\end{equation*}
+	Similarily, the right-hand RL or Caputo fractional derivative can be approximated  with the  help of the corresponding lower triangular strip matrix.
+	
+	\subsection{Caputo \& Fabrizio Fractional Derivatives} 
+	Caputo \& Fabrizio \cite{cf1,cf2} proposed the  fractional derivatives without the singular kernel \cite{los15} by replacing the kernel $(t - \tau)^{- \alpha}$ with the  function $\exp (- \alpha/(1 - \alpha))$ that does not have singularity for $t = \tau$ in the definition of the Caputo derivative and replacing the factor $1/\Gamma (1 - \alpha)$ with $M (\alpha)/(1 - \alpha)$.
+	
+	E.g., the fractional time derivative for $\alpha \in [0, 1]$ and function $f \in L^1 (-\infty,b)$ is
+	\begin{equation*}
+		\mathcal{D}_t^{\alpha} f (t) = \frac{\alpha M (\alpha)}{1 - \alpha} \int\limits_{- \infty}^t (f (t) - f (\tau)) \exp \left[- \frac{\alpha (t - \tau)}{1 - \alpha} \right] d \tau
+	\end{equation*}
+	where $M (\alpha)$ is a normalization function such as $M (0) = M (1) =1 $.
+	
+	\subsection{GC \& GRL derivatives}
+	Zhao \& Luo \cite{zha19a} suggested to divide the fractional derivative with different --- singular and non-singular --- kernels (e.g., RL, Caputo, Caputo-Fabrizio, Atangana-Baleanu \cite{at16}\footnote{
+		The equation with the Atangana-Baleanu operator is related to the derivatives of distributed order \cite{tat17}.
+	} with the kernel
+	\begin{equation*}
+		k (x, \alpha) = E_{\alpha} \left(- \frac{\alpha}{1 - \alpha} x  \right),
+	\end{equation*}
+	Atangana-Gomez \cite{at17} with the kernel
+	\begin{equation*}
+		k (x, \alpha) = \exp  \left(- \frac{\alpha}{1 - \alpha} x^2  \right)
+	\end{equation*}
+	derivative with the stretched exponential kernel \cite{sun17} (that is useful in the study of the water diffusion in the human brain using the magnetic resonance imaging \cite{ben06}) 
+	\begin{equation*}
+		k (x, \alpha) = \exp  \left(- \frac{\alpha}{1 - \alpha} x^{\beta}  \right), \quad \beta > 0, \quad \beta \ne 1)
+	\end{equation*} 
+	into two classes --- GC (general, Caputo sense) and GRL (general, RL) derivatives that obeys the the principles formulated by V. Volterra in his "general laws of heredity" \cite{volt}:  
+	{the linearity principle,}
+	{the invariance principle,}
+	{the fading memory principle,}
+	{the compatibility principle.}
+		The compatibility principle requires the validity of two limits: $D_{\alpha} f (x) \rightarrow f (x)$ when $\alpha \rightarrow 0$ and $D_{\alpha} f (x) \rightarrow f^{\prime} (x)$ when $\alpha \rightarrow 1$.
+	
+	The principle of {\em nonlocality} was suggested by Tarasov \cite{tar18}.
+	
+	\subsubsection{GC derivatives}
+	Zhao \& Luo \cite{zha19a} defined the GC derivative by
+	\begin{equation*}
+		D_{a, \alpha}^{GC} f (x) = N (\alpha) \int\limits_a^x k (x - t, \alpha)\frac{d f (t)}{d t} d t
+	\end{equation*}
+	The fading memory principle requires that the remote time and position has less effect: $k (x - t, \alpha)$ decreases when $x$ increases and $k (x - t, \alpha) \rightarrow 0$ when $x \rightarrow \infty$. 
+	
+	The compatibility principle requires that $N (\alpha) / k (x, \alpha) \rightarrow 1 $ when $\alpha \rightarrow 0$ and $N (\alpha) / k (x, \alpha) \rightarrow \delta(x) $ when $\alpha \rightarrow 1$.
+	
+	\subsubsection{GRL derivatives}		
+	\begin{equation*}
+		D_{a, \alpha}^{RL} f (x) = \frac{d}{d x} N (\alpha) \int\limits_a^x k (x - t, \alpha) f (t) d t.
+	\end{equation*}	
+	
+	The restrictions on $k (x - t, \alpha)$ and $N (\alpha)$ are the same.	
+	
+	\subsection{Marchaud-Hadamard Fractional Derivatives} 
+	Marchaud's approach is based on the analytic coninuation of the fractional integrals to the negative orders using the  Hadamard's finite parts of the divergent integrals (Hadamard's idea is to ignore the unbounded contribution to the integral and to assign the value of the remaining --- finite --- expression \cite{die10}).
+	
+	The Marchaud fractional derivative with the lower limit $a$ is
+	\begin{equation*}
+		(M_{a+}^{\alpha} f) (x) = \frac{f (x)}{\Gamma (1 - \alpha) (x - a)^{\alpha}} + \frac{\alpha}{\Gamma (1 - \alpha)} \int\limits_a^x \frac{f (x) - f(y)}{(x - y)^{\alpha + 1}} d y
+	\end{equation*}
+	and with the upper limit $b$ is
+	\begin{equation*}
+		(M_{b-}^{\alpha} f) (x) = \frac{f (x)}{\Gamma (1 - \alpha) (b - x)^{\alpha}} + \frac{\alpha}{\Gamma (1 - \alpha)} \int\limits_x^b \frac{f (x) - f(y)}{(x - y)^{\alpha + 1}} d y.
+	\end{equation*}
+	
+	Marchard's method is to extend the RL integral  to $\alpha < 0$
+	\begin{equation}
+		\label{283}
+		(J_+^{- \alpha} f) (x) = \frac{1}{\Gamma (- \alpha)} \int\limits_0^{\infty} y^{- \alpha - 1} f (x - y) d y
+	\end{equation}
+	and to substract the divergent part of the integral in (\ref{283})
+	\begin{equation*}
+		\int\limits_{\epsilon}^{\infty} y^{- \alpha - 1} f (x - y) d y	= \frac {f (x)}{\alpha \epsilon^{\epsilon}}
+	\end{equation*}
+	to get finally
+	\begin{equation}
+		\label{285}
+		(M_{+}^{\alpha} f) (x) = \lim_{\epsilon \rightarrow 0 +} \frac{1)}{\Gamma ( - \alpha)}  \int\limits_{\epsilon}^{\infty} \frac{f (x) - f(y)}{y^{\alpha + 1}} d y.	
+	\end{equation}
+	There are two approaches to extend the definition (\ref{285}) to the case $\alpha > 1$ \cite{hil08}:
+	\begin{enumerate}
+		\item {To  apply (\ref{285}) to the $n$th derivative $d^nf/d x^n$ for $n < \alpha < n + 1$.}
+		\item {To consider $f (x - y) - f (x)$ as the first-order difference and to generalize to $n$th order difference (difference quotient)}
+		\begin{equation}
+			\label{dq} 
+			(\Delta_h^n f) (x) = (\mathcal{I} - Th)^n f (x) = \sum_{k = 0}^n (- 1)^k \binom{n}{k} f (x - k h)
+		\end{equation}
+		where $\mathcal{I}$ is the identity operator and $T_h = f (x - h)$ is the translation operator.
+		
+		Thus Marchard fractional derivative for $0 < \alpha < n$ is written as
+		\begin{equation*}
+			(M_{+}^{\alpha} f) (x) = \lim_{\epsilon \rightarrow 0 +} \frac{1}{C_{\alpha,n}}  \int\limits_{\epsilon}^{\infty} \frac{\Delta_y^n f  (x)}{y^{\alpha + 1}} d y	
+		\end{equation*}
+		where
+		\begin{equation*}
+			C_{\alpha,n} = \int\limits_0^{\infty} \frac{(1 - e^{- y})^n}{y^{\alpha + 1}}.	
+		\end{equation*}
+	\end{enumerate}
+	
+	\subsection{Gr\"unwald - Letnikov  Derivative} 
+	The approach suggested independently by Gr\"unwald in 1867 and Letnikov \cite{let} in 1868 is based on the use the limits of the difference quotients (\ref{dq}) similar to the classical definition of the derivatives for $n \in \mathcal{N}, \quad f \in C^n [a, b], \quad a < x \le b$
+	\begin{equation*}
+		\tilde{D}^n f (x) = \lim_{h \rightarrow 0} \frac{\Delta_h^n f) (x)}{h^n}
+	\end{equation*}
+	and extension to the case of the arbitrary $n$.
+	
+	Since $\binom{n}{k} = 0$ if $n \in \mathcal{N}$  and $n < k$   the expression    (\ref{dq}) is equivalent to 
+	\begin{equation}
+		\label{dq1} 
+		(\Delta_h^n f) (x) = \sum_{k = 0}^{\infty} (- 1)^k \binom{n}{k} f (x - k h).
+	\end{equation}
+	The series  (\ref{dq1}) is uniformly convergent for any bounded function if  $n > 0$ \cite{gol10}.
+	
+	
+	The use of (\ref{dq1}) introduce two problems \cite{die10}: {the function $f$ needs to be defined on $(\infty,b]$; the function $f$ should be such that the series converges.
+	
+	These problems are solved by the introduction a new function $f^{\star}$
+	\begin{equation*}
+		f^{\star} = \begin{cases}
+			f (x) & x \in [a,b]\\
+			0 & x \in (- \infty, a)
+		\end{cases}
+	\end{equation*}
+	that is used instead of the original $f$.
+	
+	It is also assumed that in the tending to zero $h$ takes only  the Gr\"unwald-Letnikov fractional derivative of order $n$  defined as 
+	\begin{equation}
+		\label{ll}
+		\tilde{D}_{a}^n = \lim_{N \rightarrow \infty} \frac{\Delta_{h_N}^n f (x)}{h_N^n} = \lim_{N \rightarrow \infty} \sum_{k = 0}^N (- 1)^k \binom{n}{k} f (x - k h_N).
+	\end{equation}
+	
+	The Gr\"unwald-Letnikov derivative is called {\em pointwise} or {\em strong} depending on whether the limit is taken pointwise or in  the norm of a suitable Banach space \cite{hil08}.
+	
+	The binomial coefficient can be generalized to the non-integer arguments
+	\begin{equation*}
+		(- 1)^j \binom{q}{j} = (- 1)^j \frac{\Gamma (q + 1)}{\Gamma (j + 1) \Gamma (q - j + 1)} = \frac{\Gamma (j - q)}{\Gamma (- q) \Gamma (j + 1)}.
+	\end{equation*}
+	
+	The (left-sided) Gr\"unwald-Letnikov derivative could be written as ($nh = x - a$)
+	\begin{equation*}
+		\tilde{D}_{a}^{\alpha} f (x) = \lim_{h \rightarrow 0} \frac{1}{h^{\alpha}} \sum_{k =  0}^{\lfloor n \rfloor} (- 1)^k \frac{\Gamma (\alpha + 1) f (x - k h)}{\Gamma (k + 1) \Gamma (\alpha - k + 1)}	
+	\end{equation*}
+	and right-sided ($nh = b - x$) as
+	\begin{equation*}
+		\tilde{D}_{b}^{\alpha} f (x) =	 \lim_{h \rightarrow 0} \frac{1}{h^{\alpha}} \sum_{k =  0}^{\lfloor n \rfloor} (- 1)^k \frac{\Gamma (\alpha + 1) f (x + k h)}{\Gamma (k + 1) \Gamma (\alpha - k + 1)}.
+	\end{equation*}
+	
+	
+	The Gr\"unwald-Letnikov integral of the order $n$ of the function $f$ is written as
+	\begin{equation*}
+		\tilde{J_a^n} f (x) = \frac{1}{\Gamma (n)} \lim_{N \rightarrow \infty} h_N^n \sum_{k = 0}^N \frac{\Gamma (n + k)}{\Gamma (k + 1)} f (x - k h_N).
+	\end{equation*}
+	
+	\subsection{Riesz  Fractional Operators}
+	The fractional integral of the order $\alpha$ in the Riesz sense (also known as the Riesz potential) is defined by the Fourier convolution product
+	\begin{equation*} 
+		(\mathcal{I}^{\alpha} f) (\vec{x}) = \int\limits_{\mathcal{R}^n} \vec{K}_{\alpha} (\vec{x} - \vec{\xi}) f (\vec{\xi}) d \vec{\xi},
+	\end{equation*}
+	where $Re (\alpha) > 0$.
+	The Riesz kernel
+	\begin{equation*}
+		\vec{K}_{\alpha} = \frac{1}{\gamma_n (\alpha)}
+		\begin{cases}
+			\Vert{\vec{x}}\Vert^{\alpha - n}, & \alpha - n \ne 0, 2, \dots,\\	
+			\Vert{\vec{x}}\Vert^{\alpha - n} \ln \left(\frac{1}{\Vert{\vec{x}\Vert}} \right), & \alpha - n = 0, 2, \dots
+		\end{cases}	
+	\end{equation*}
+	where $\gamma_n (\alpha)$ is defined by
+	\begin{equation*}
+		\frac{\gamma_n (\alpha)}{2^{\alpha} \pi^{\frac{n}{2}} \Gamma(\alpha/2)} = 
+		\begin{cases}
+			\left[\Gamma \left(\frac{n - \alpha}{2}  \right)  \right]^{- 1},	& \alpha - n \ne 0, 2, \dots,\\
+			(- 1)^{\frac{n - \alpha}{2}} 2^{- 1}\Gamma \left(\frac{\alpha - n}{2}  \right), & \alpha - n = 0, 2, \dots.
+		\end{cases}		
+	\end{equation*}
+	
+	The Riesz fractional integral is \cite{gri13}
+	\begin{equation*}
+		(\mathcal{I}^{\alpha} f) (\vec{x}) = \frac{\Gamma \left(\frac{1 - \alpha}{2}  \right) }{2^{\alpha} \pi^{\frac{n}{2}}\Gamma(\alpha/2)}	\int\limits_{- \infty}^{\infty} f (\xi) |x - \xi|^{\alpha - 1} d \xi. 
+	\end{equation*}
+	
+	The Riesz fractional derivative is \cite{oli14}
+	\begin{equation*}
+		D^ {\alpha} [f (x)] = - \frac{1}{2 \cos (\alpha \pi/2)} \frac{1}{\Gamma (\alpha)}
+	\end{equation*}	
+	\begin{equation*}	
+		\frac{d^n}{d x^n} \left[\int\limits_{- \infty}^x (x - \xi)^{n - \alpha_n - 1} f (\xi) d \xi + \int\limits_x^{\infty} (x - \xi)^{n - \alpha_n - 1} f (\xi) d \xi \right].
+	\end{equation*}
+	
+	The Riesz derivative is the generalization of the Laplace operator \cite{zas08} 
+	\begin{equation*}
+		(- \Delta)^{\frac{\alpha}{2}} =   - \frac{1}{2 \cos (\alpha \pi/2)} \left[ \frac{d^{\alpha}}{d x^{\alpha}} + \frac{d^{\alpha}}{d (- x)^{\alpha}} \right], \quad \alpha \ne 1.
+	\end{equation*}
+	
+	
+	
+	
+	The Riesz derivative  could be expressed in terms of the Marchaud derivative
+	\begin{equation*}
+		D^ {\alpha} [f (x)] = - \frac{1}{2 \cos (\alpha \pi/2)} [(M_+^{\alpha} f) (x) + (M_-^{\alpha} f)].	
+	\end{equation*}
+	
+	The related  Riesz-Feller derivative \cite{gor02a} has an additional parameter - "skewness" $\theta$
+	\begin{multline*}
+		D_{\theta}^{\alpha} f (x) = \frac{\Gamma (1 + \alpha)}{\pi} \times\\ \left[\sin \left[(\alpha + \theta) \frac{\pi}{2} \right]  \int\limits_0^{\infty} \frac{f (x + \xi) f (x)}{\xi^{1 + \alpha}} d \xi 
+		+ \sin \left[(\alpha - \theta) \frac{\pi}{2} \right]  \int\limits_0^{\infty} \frac{f (x - \xi) f (x)}{\xi^{1 + \alpha}} d \xi  \right].	
+	\end{multline*}
+	
+	The allowed region of the parameters $\alpha$ and $\theta$ turn out to be a diamond in the plane $\{\alpha, \theta \}$ with the vertices in the points (0,0), (1,1), (2,0), (1, -1) called the "Feller-Takayasu diamond" \cite{gor03,met04}.  
+	
+	\subsection{Weyl  Fractional Derivative}
+	The Weyl  derivative is based on the generalization of the differentiation in the Fourier space \cite{gol10}  --- the integer derivative of the $n$th order $(ik)^n$ of the absolutely integrable function on $[- \pi,\pi]$ presented as the Fourier series is extended to the noninteger  $n$.   
+	
+	
+	The Weyl  fractional derivative is defined as \cite{mai04}
+	\begin{equation*}
+		D_{\pm}^{\alpha} = \begin{cases}
+			\displaystyle{
+				\pm\frac{d}{d x} [I_{\pm}^{1 - \alpha} f (x)]} &0 < \alpha < 1,\\
+			
+			\displaystyle{
+				\frac{d^2}{d x^2} [I_{\pm}^{2 - \alpha} f (x)]} &1 < \alpha < 2,
+		\end{cases}		
+	\end{equation*}
+	where the Weyl fractional integrals are ($\mu > 0$)
+	\begin{equation*}
+		I_+^{\mu} = \frac{1}{\Gamma (\mu)} \int\limits_{- \infty}^x (x - \chi)^{\mu - 1} f (\chi)d \chi.
+	\end{equation*}
+	
+	\subsection{Erd\'elye-Kober  Fractional Operators}
+	The Erd\'elye-Kober integral for a well-behaved function $\phi (t)$ is defined as \cite{luch,pag12}
+	\begin{equation*}
+		I_{\eta}^{\gamma, \mu} \phi (t)	= \frac{\eta}{\Gamma (\mu)}  t^{- \eta (\mu + \gamma)} \int\limits_0^t \tau^{\eta (\gamma + 1) - 1} (t^{\eta} - \tau^{\eta})^{\mu - 1} \phi (\tau) d \tau,
+	\end{equation*}
+	where $\mu > 0, \quad \eta > 0, \quad \gamma \in \mathcal{R}$.
+	
+	In the special case $\gamma = 0, \eta = 1$ the Erd\'elye-Kober  fractional integral is related to the RL fractional integral of the order $\mu$ as
+	\begin{equation*}
+		I_1^{0, \mu} \phi (t) = \frac{t^{- \mu}}{\Gamma (\mu)} \int\limits_0^t (t - \tau)^{\mu - 1} \phi (\tau) d \tau = t^{- \mu} J^{\mu} \phi (t).
+	\end{equation*}
+	
+	The Erd\'elye-Kober  fractional derivative for $n - 1 < \mu <n, \quad n \in \mathcal{N}$ is defined as
+	\begin{equation*}
+		D_{\eta}^{\gamma, \mu} \phi (t)	= \prod_{j = 1}^n \left( \gamma + j + \frac{1}{\eta} t \frac{d}{d t} \right) (I_{\eta}^{\gamma + \mu, n - \mu} \phi (t)).	
+	\end{equation*}
+	
+	The Erd\'elye-Kober  fractional derivative reduces to the identity operator when $\mu = 0$
+	\begin{equation*}
+		D_{\eta}^{\gamma, 0} \phi (t)	= \phi (t)	
+	\end{equation*}
+	and for $\eta = 1$ and $\gamma = - \mu$ is related to the RL fractional  derivative as 
+	\begin{equation*}
+		D_{\eta}^{\gamma, \mu} \phi (t)	= t^{\mu} D_{RL}^{\mu} \phi (t).
+	\end{equation*}
+	
+	
+	
+	\subsection{Interpretation of  Fractional Integral and  Derivatives} 
+	
+	The integer-order  and integrals have a clear physiscal and geometrical interpretation that simplify their use in practice.
+	The numerous different interpretations of the fractional derivatives and integrals have been proposed \cite{hil19}: the probabilistic  \cite{t13, t14a, t15}, geometric \cite{t16, t17, t20, t21}, physical interpretations \cite{t20, t21, t22, t23, t24}.
+	
+	However, as noted Podlubny \cite{pod02}, "since the appearance of the idea of differentiation and  of arbitrary (not necessary integer) order there was not any acceptable  geometric and physical interpretation of these operations for more than 300
+	years". 
+	
+	Teneiro Machado \cite{t15} wrote the G\"unwald-Letnikov derivative of $x (t)$ as
+	\begin{equation*}
+		D^{\alpha} [x (t)] = \lim_{h \rightarrow 0}  \left[\frac{1}{h^{\alpha}} \sum_{k = 0}^{\infty} \gamma (\alpha, k) x (t - k h) \right], \quad
+%	\end{equation*}
+%	\begin{equation*}
+		\gamma (\alpha, k) = (- 1)^k \frac{\Gamma (\alpha + 1)}{k! \Gamma (\alpha -_{} k + 1)}
+	\end{equation*}
+	where $h$ is the time increment.
+		The author noted that
+	\begin{equation*}
+		\gamma (\alpha, 0) = 1, \quad - \sum_{k = 0}^{\infty} \gamma (\alpha, k) =1
+	\end{equation*}
+	thus the "present" (P) is constituted by $x (t)$  the probability 1 while the totality of the "past/future"
+	(PF) is constituted by the samples $x (t), x (t - h), x (t - 2h), \dots$; each sample is weighted with a probability $- \gamma (\alpha, k)$. 
+	
+	Nigmatullin \cite{t22,nig05} interpreted the fractional integral in terms of the fractal Cantor set. The author considered the evolution of the state of the physical system
+	\begin{equation*}
+		J (t) = \int\limits_0^t K (t, \tau) f (t) d \tau
+	\end{equation*}
+	where the memory function $K (t, \tau) f (t)$ accounts for the loss of some states of th system; the fractional index of integration equals the fractal dimension of the Cantor set.
+	
+	
+	Podlubly \cite{pod02} and Podlubny et al. \cite{pod07} suggested the geometrical interpreation of the left-sided (equation (\ref{lrl})) and right-sided (equation (\ref{rrl})) RL integrals and of the RL (equations (\ref{lrld}) - (\ref{rrld})) and the Caputo (equation (\ref{cd})) derivatives, as well as of the Riesz potential that is the sum of the left-sided and right-sided RL fractional integrals
+	\begin{equation*}
+		R_b^{\alpha} f (x) = \frac{1}{\Gamma (\alpha)} \left[ \int\limits_a^x (x - t)^{\alpha - 1} f (t) d t + \int\limits_x^b (t - x)^{\alpha - 1} f (t) d t \right]
+	\end{equation*}
+	and of the Feller potential
+	\begin{equation*}
+		\Phi^{\alpha} f (x) = c J_{a^+}^{\alpha} f (x) + 	d J_{b^-}^{\alpha} f (x).
+	\end{equation*}
+	
+	The geometric interpretation by Podlubny is based on additing the third dimension
+	\begin{equation*}
+		g_x (t) = \frac{1}{\Gamma (\alpha +1)} [x^{\alpha} + (x - t)^{\alpha}]
+	\end{equation*}
+	to the pair (t, f (x)) and considering the three-dimensional line $(t, g_x (t), f (t))$ as the top edge of the "fence" that gives shadow on the wall in the (g,f) plane. 
+	
+	Tarasov \cite{tar17}  proposed the ”informatic” (”computer science”) interpretation of the RL and the Caputo derivatives of the non-integer orders using the reconstructions from the infinite sequence of the derivatives of the integer orders. Such reconstructions atre based on the  Kotel’nikov theorem (also known as the sampling theorem)  proved by Vladimir Kotel’nikov  in 1933 and also  by Claude Shannon 1949:
+	under the certain restrictive conditions, function $f(t)$ can be restored from its samples $f[n] = f(nT)$ according to the Whittaker-Shannon interpolation formula. The author stressed that infinity of the sequences of the integer derivatives plays a fundamental role in representation of the fractional derivatives that describe nonlocality and memory.
+	
+	G\'omez-Aguilar et al. \cite{gom14} analysed the Caputo differentiation using the RC circuit for which the fractional version of the Ohm's law and Kirchhoff's law are written as
+	\begin{equation*}
+		v (t) = \frac{1}{\sigma^{1 - \gamma}} \frac{d^{\gamma} q}{d t^{\gamma}}, \qquad R \frac{d q}{d t} + \frac{1}{C} q (t) = v (t)
+	\end{equation*}
+	where $q$ is the electric charge, $v$ is the voltage, $R$ is the resistance of the conductor, $C$ is the capacitance. The parameter $\sigma$ is introduced in order to be consistent with the dimensionality; it characterizes the fractional structures (the components that show the intermediate behaviour between conservative (capacitor) and dissipative (resistor) \cite{gom14}. The authors derived the fractional differential equation for the RC circuit
+	\begin{equation*}
+		\frac{d^{\gamma}}{d t^{\gamma}} + \frac{1}{\tau_{\gamma}} q (t) = \frac{C}{\tau_{\gamma}} v (t), \qquad
+		\tau_{\gamma} = \frac{R C}{\sigma^{1 - \gamma}}	
+	\end{equation*}
+	where $\tau_{\gamma}$ is the time constant. 
+	G\'omez-Aguilar et al. claimed that the  differentiation is related to the  memory effects that reflect the intrinsic dissipation in the system.
+	
+	Sierociuk et al. \cite{sie15} used the RC network to model the fractional order diffusion based on the analogy between the heat and electrical conduction. The authors 
+	showed that the equations for the capacitor and for the resistor in the transmission line could be used to get the diffusion equation; the loosing of heat was represented by the additional resistors connected parallel to capacitors.
+	
+	
+	Carpinteri et al. \cite{car09} considered the mechanical interpretation of the Marchaud fractional derivative using the body springs connecting the non-adjacent points of the body with the stiffness decaying with the distance between the material points.  
+	
+	
+	\subsection{Local Fractional Derivatives} 
+	The fractional derivatives are nonlocal. Several researches introduced the local variants \cite{zha06} that are useful for study of the pointwise behaviour of the fractal and multifractal functions that describe, e.g., the stress and deformation patterns in materials exhibiting the fractal-like microstructure \cite{car09} or the velocity field of turbulent fluid \cite{kol98}.  
+	
+	Kolwankar \& Gangal \cite{kol97,kol98,kol98a,kol13} defined
+	the derivative via the RL derivative as
+	\begin{equation*}
+		\mathfrak{D}^q f (y) = \lim_{x \rightarrow y} \frac{D^q (f (x) - f (y))}{(x - y)^q}
+	\end{equation*}
+	if the limit exists and  finite.
+	
+	The local fractional Taylor formula is written as \cite{yang12c}  
+	\begin{equation*}
+		f (x) = \sum_{i = 0}^n \frac{f^{(n) (y)}}{\Gamma (1 + n)} (x - y)^n  \frac{\mathfrak{D}^{\alpha}}{\Gamma (n! + \alpha)} (x - y)^{\alpha} + R_{\alpha} (x, y).
+	\end{equation*}
+	
+	Yang et al. \cite{yang16,zha16} used similar definition
+	\begin{equation*}
+		\mathfrak{D}^{(k)} f (\tau) = \lim_{\tau \rightarrow \tau_0}  \frac{f (\tau) - f (\tau_0)}{\tau^k - \tau_0^k}.	
+	\end{equation*} 
+	
+	
+	Chen et al. \cite{che10} proposed the local derivatives based on the integrals of the difference-quotient (IDQ) or the singular  of difference-quotient (SIDQ). For example,  the right SIDQ local derivative is
+	\begin{equation*}
+		\mathfrak{D}^{\alpha} f (y) = \frac{1}{\Gamma (1 - \alpha)} \lim_{h \rightarrow 0_+} \int\limits_0^1 (1 - t)^{- \alpha} \frac{f (t h + y) - f (y)}{h^{\alpha}} d t. 
+	\end{equation*}
+	
+	The local fractional derivative is essentially the {\em fractal} derivative \cite{chen06a,he14}. In contrast to the purely analytical approach of the fractional calculus, the fractal calculus follows the physical-geometric approach; to avoid confusion it is suggested to call the latter the {\em scaled} calculus \cite{ont13}.
+	
+	The fractal ("Hausdorff") derivative on the time fractal is defined as \cite{he18}
+	\begin{equation*}
+		\frac{\partial f}{\partial t^{\sigma}} = \lim_{t_B \rightarrow t_A} \frac{f (t_B) - f (t_A)}{(t_B)^{\sigma} - (t_A)^{\sigma}}
+	\end{equation*}
+	where ${\sigma}$ is the fractal dimension of time.
+	
+	A more general definition is formulated as \cite{h1,h2}
+	\begin{equation*}
+		\frac{\partial^{\tau} f}{\partial t^{\sigma}} = \lim_{t_B \rightarrow t_A} \frac{f^{\tau} (t_B) - f^{\tau} (t_A)}{(t_B)^{\sigma} - (t_A)^{\sigma}}
+	\end{equation*}
+	
+	
+	Since the fractal derivative is the local operator, the  numerical solution of the fractal derivative equations can be performed by the standard numerical techniques for the integer-order differential equations \cite{chen10}. 
+	The similar properties have the so called "conformable"  fractional derivatives.
+	
+	\subsubsection{"Conformable"  Fractional Derivative}
+	Most fractional derivatives do not have the desirable properties \cite{abd14,kha14,kat14}:
+	 {the derivative of a constant is not zero;}
+		{they do not obey the product rule $D^{\alpha} (f g) = f D^{\alpha} (g) + g D^{\alpha} f$ ; }
+		{they do not obey the quotient rule
+		$D^{\alpha} ({f}/{g}) = (g D^{\alpha} (f) - f D^{\alpha} (g)) / g^2$; 		they do not obey 
+		the chain rule $D^{\alpha} (f g) = f^{\alpha} (g (t) g^{\alpha} (t)$;
+		they do not obey in general $D^{\alpha} D^{\beta} f = D^{\alpha + \beta} f$.
+	
+	Khalil et al.\cite{kha14} and Katugampola \cite{kat14,kat14a}
+	suggested the so called "conformable" limit based \cite{and15} derivatives
+	\begin{equation*}
+		D^{\alpha} f (t) = \lim_{\epsilon \rightarrow 0} \frac{f (t + \epsilon t^{1 - \alpha}) - f (t)}{\epsilon}, \qquad 0 < \alpha < 1, 	
+	\end{equation*}
+	and
+	\begin{equation*}
+		D^{\alpha} f (t) = \lim_{\epsilon \rightarrow 0} \frac{f (t e^{\epsilon t^{-\alpha}}) - f (t)}{\epsilon}, \qquad 0 < \alpha < 1. 		
+	\end{equation*}
+	
+	Since the conformable derivative is the extension of the classical derivative definition, this derivative obeys the product rule, the quotient rule, the linearity property, the zero derivative for the constant and are  valid for some extensions of the classical calculus such as the   Rolle's Theorem or Mean Value Theorem \cite{iyi16}.
+	
+	\section{Tempered Fractional Calculus}
+	Sabzikar et al. \cite{temp} suggested a variant of the fractional calculus where power laws are tempered by the exponential factor. The random walks model with the exponentially tempered power law jumps converges to a tempered stable motion \cite{cha11}. This {\em tempered} fractional diffusion is useful in the geophysical \cite{s44,s70} and financial \cite{s11} problems.
+	
+	The authors considered two intervals for the parameter $\alpha$:
+	\begin{itemize}
+		\item {$0 < \alpha < 1$. 			
+			The {\em tempered}	fractional derivative $\partial_x^{\alpha, \lambda}$ is defined as the function with the Fourier transform $[(\lambda + i k)^{\alpha} - \lambda^{\alpha}] \hat{f} (k)$ that in real space is written as
+			\begin{equation*}
+				\partial_x^{\alpha, \lambda} f (x) = \frac{\alpha}{\Gamma (1 - \alpha)}	\int\limits_0^{\infty} (f (x) - f (x - y)) e^{- \lambda y} y^{- \alpha - 1} d y.
+			\end{equation*}
+			
+			The negative {\em tempered}	fractional derivative $\partial_{- x}^{\alpha, \lambda}$ is defined as the function with the Fourier transform $[(\lambda - i k)^{\alpha} - \lambda^{\alpha}] \hat{f} (k)$ that in real space is written as
+			\begin{equation*}
+				\partial_{- x}^{\alpha, \lambda} f (x) = \frac{\alpha}{\Gamma (1 - \alpha)}	\int\limits_0^{\infty} (f (x) - f (x + y)) e^{- \lambda y} y^{- \alpha - 1} d y.
+			\end{equation*}
+		}
+		\item {$1 < \alpha < 2$. 			
+			The {\em tempered}	fractional derivative $\partial_x^{\alpha, \lambda}$ is defined as the function with the Fourier transform $[(\lambda + i k)^{\alpha} - \lambda^{\alpha} - i k \alpha \lambda^{\alpha - 1}] \hat{f} (k)$ that in real space is 
+			\begin{equation*}
+				\partial_x^{\alpha, \lambda} f (x) = \frac{\alpha (1 - \alpha)}{\Gamma (2 - \alpha)}	\int\limits_0^{\infty} (f (x - y) - f (x) + y f^{\prime} (x)) e^{- \lambda y} y^{- \alpha - 1} d y.
+			\end{equation*}
+			
+			The negative {\em tempered}	fractional derivative $\partial_x^{\alpha, \lambda}$ is defined as the function with the Fourier transform $[(\lambda - i k)^{\alpha} - \lambda^{\alpha} + i k \alpha \lambda^{\alpha - 1}] \hat{f} (k)$ that in real space is 
+			\begin{equation*}
+				\partial_{- x}^{\alpha, \lambda} f (x) = \frac{\alpha (1 - \alpha)}{\Gamma (2 - \alpha)}	\int\limits_0^{\infty} (f (x + y) - f (x) - y f^{\prime} (x)) e^{- \lambda y} y^{- \alpha - 1} d y.
+			\end{equation*}
+		}
+	\end{itemize}
+	
+	Sabzikar et al. introduced the positive tempered integral as
+	\begin{equation*}
+		\mathfrak{I}_+^{\alpha, \lambda} f (x) = \frac{1}{\Gamma (\alpha)} \int\limits_{- \infty}^x f (u) (x - u)^{\alpha - 1}e^{- \lambda (x - u)} d u
+	\end{equation*}
+	
+	and the negative tempered integral as
+	\begin{equation*}
+		\mathfrak{I}_-^{\alpha, \lambda} f (x) = \frac{1}{\Gamma (\alpha)} \int\limits_{- \infty}^x f (u) (u - x)^{\alpha - 1}e^{- \lambda (u -x)} d u
+	\end{equation*}
+	called the RL tempered integrals since for $\lambda = 0$ they reduce to the usual RL integrals.
+	
+	The authors defined the RL tempered fractional derivatives $\mathcal{D}_{\pm}^{\alpha, \lambda}$ as functions with the Fourier transform $(\lambda \pm i k)^{\alpha} \hat{f} (k)$ that can be expressed  
+	\begin{equation*}
+		\mathcal{D}_{\pm}^{\alpha, \lambda} f (x )= 
+		\begin{cases}
+			\partial_{\pm x}^{\alpha, \lambda} f (x) + \lambda^{\alpha} f (x) & 0 < \alpha < 1 \\
+			\partial_{\pm x}^{\alpha, \lambda} f (x) + \lambda^{\alpha} f (x) \pm \alpha \lambda^{\alpha - 1} f^{\prime} (x)\ &1 < \alpha  < 2.
+		\end{cases}
+	\end{equation*}
+	
+	Evidently, integration and differentiation are the inverse operators: $$\mathcal{D}_{\pm}^{\alpha, \lambda} \mathfrak{I}_{\pm}^{\alpha, \lambda} f (x) = f (x), \quad  \mathfrak{I}_{\pm}^{\alpha, \lambda} \mathcal{D}_{\pm}^{\alpha, \lambda} f (x) = f (x).$$
+	
+	The integration and differentiation operators have the semigroup property
+	\begin{equation*}
+		\mathfrak{I}_{\pm}^{\alpha, \lambda} \mathfrak{I}_{\pm}^{\beta, \lambda} f = \mathfrak{I}_{\pm}^{\alpha + \beta, \lambda} f, \quad 
+		\mathcal{D}_{\pm}^{\alpha, \lambda} \mathcal{D}_{\pm}^{\beta, \lambda} f = \mathcal{D}_{\pm}^{\alpha + \beta, \lambda} f.
+	\end{equation*}
+	
+	
+	\section{Fractional Differential Equations}
+	\index{fractal}\index{fractional}
+	Generally, the fractal media could not be considered as continuous media.
+	The use of the non-integer dimensional spaces \cite{old74} is necessary to describe a fractal medium by the continuous models \cite{tar16}.
+	The fractional differential equations \cite{duan,nakh06,kilb06,die10}  are non-local (i.e. could incorporate the effects of the memory and the spatial correlations) and  could be formulated in the  distinct but mathematically equivalent forms. Mainardi et al. \cite{main07} compared the fractional extensions of the standard Cauchy problem 
+	\begin{equation}
+		\label{m21}
+		\frac{\partial u (x, t)}{\partial t} = \frac{\partial^2 u (x, t)}{\partial x^2}, \qquad x \in \bf{R}, \qquad t \in R_0^+, \qquad 
+		u (x, 0^+) = u_0 (x).
+	\end{equation}
+		
+	The fundamental solution (or Green function) of  (\ref{m21}), i.e. the solution subjected to the initial condition $u_0 (x) = \delta (x)$, is the Gaussian probability density function
+	\begin{equation*}
+		u (x, t) = \frac{1}{2 \sqrt{\pi}} t^{- 1/2}e^{- x^2 / (4 t)}.
+	\end{equation*}
+	
+	The Green function has the scaling property
+	$u (x, t) = t^{{1}/{2}} U ({x}/t^{1/2})$,	
+	$U (x)$ is the reduced Green function.
+	
+	The Cauchy problem (\ref{m21}) is equivalent to the integro-differential equation
+		\begin{equation*}
+			u (x, t) = u_0 (x) + \int\limits_0^t \left[\frac{\partial^2 u (x,\tau)}{\partial x^2} \right] d \tau	
+		\end{equation*} 
+		where the initial condition is incorporated.
+		
+		The fractional diffusion equation could be written with the use of the RL derivative  $D^{1 - \beta}$ ($\beta$ is the real number $0 < \beta < 1$)
+		\begin{equation}
+			\label{m27}
+			\frac{\partial u (x, t)}{\partial t} = D^{1 - \beta} \frac{\partial^2 u (x, t)}{\partial x^2}
+		\end{equation}
+		or the Caputo derivative $D_{\star}^{\beta}$
+		\begin{equation}
+			\label{m28}
+			D_{\star}^{\beta} u (x, t) = \frac{\partial^2 u (x, t)}{\partial x^2}.	
+		\end{equation}
+		
+		The equations (\ref{m27}) and (\ref{m28}) are equivalent to the equation based on the use of the RL fractional integral of the order $\beta$
+		\begin{equation}
+			\label{m29}
+			u (x, t) = u_0 (x) + J^{\beta} \left[\frac{\partial^2 u (x,\tau)}{\partial x^2} \right].
+		\end{equation}
+		
+		Note that the equation (\ref{m27}) could be obtained by differentiating (\ref{m29}), the equation (\ref{m29}) can be derived by the fractional integration of (\ref{m28}).
+		
+		The equation (\ref{m27}) was studied by Metzler et al. \cite{met94} and by Saichev \& Zaslavsky \cite{sai97}, the equation (\ref{m29}) by Gorenflo et al. \cite{gor95,gor98} and by Mainardi \cite{m96,m97},
+		the integrodifferential equation (\ref{m29}) by Schneider \& Wyss \cite{sch89} using the Mellin transform.
+		
+		Mainardi et al. \cite{main07} search for  the  fundamental solution 
+		of the equation (\ref{m28}) by applying the sequence of the 
+		Fourier 
+		\begin{equation*}
+			\mathcal{F} \{v (x); k\}	= \hat{v} (k) = \int\limits_{- \infty}^{\infty} e^{i k x} v (x) d x, \qquad k \in \bf{R}
+		\end{equation*}
+		and the Laplace  
+		\begin{equation*} 
+			\mathcal{L}	\{w (t); s \} =  \tilde{w} (s) = \int\limits_0^{\infty} e^{- s t} w (t) d t, \qquad s \in \bf{C}
+		\end{equation*}
+		transforms.
+				Thus the Green function in the Fourier-Laplace domain is determined by
+		\begin{equation}
+			\label{m212}
+			\hat{\tilde{u}} (k, s) = \frac{s^{\beta - 1}}{s^{\beta} + k^2}, \qquad 0 < \beta \le 1, \qquad \mathcal {R} (s) > 0, \qquad k \in \bf{R}.	
+		\end{equation}
+		
+		There are two strategies to determine the Green function in the space-time domain $u (x,t)$ related to the order in performing inversions in the expression (\ref{m212}) \cite{main07}:
+		1) {Invert the Fourier transform to get $\tilde{u} (x, s)$ and then invert the Laplace transform \cite{m96,m97}} or 2) invert the Laplace transform to get $\hat{u} (k,t)$ and then invert the Fourier transform \cite{gor00,main01}.
+		
+		Nieto \cite{nie10} studied the linear fractional differential equation with the spatial RL derivative for initial or periodic boundary conditions and derived the maximum principle using the properties of the Mittag-Leffler functions. 
+				Compte \cite{com96} and West et al. \cite{wes97} studied  
+		the equation for the hyperdiffusion (L\'evy-flight diffusion)
+		\begin{equation*}
+			\frac{\partial P}{\partial t} = D (- \Delta)^{\frac{\gamma}{2}}	
+		\end{equation*}
+		where the fractional $n$-dimensional Laplace operator $(- \Delta)^{\frac{\gamma}{2}}$ is defined by its Fourier transform with respect to the spatial variable \cite{duan}
+		\begin{equation*}
+			\mathcal{F}[(- \Delta)^{\frac{\gamma}{2}} g (x)] = |\omega|^{\gamma} \mathcal{F} [g (x)].
+		\end{equation*}
+		
+		
+		Luchko \cite{luc09} derived the maximum principle for the initial-boundary-value problem for the time-fractional diffusion equation with Caputo derivative over the open bounded domain $G \times (0. T), G \subset R^n$.
+		
+		The  equation could subjected to the  complex transformation \cite{y16,he12,li12b}
+		$s = {x^S}/{\Gamma (1 + \alpha)}$ 
+		to convert to a partial differential equation\footnote{
+			Such transformation is possible in the multidimensional case if the variables $t, x, y, z$ obey the following constraint \cite{he12} ($q, p, k, l$ are constants)
+			\begin{equation*}
+				\xi = \frac{q t^{\alpha}}{\Gamma (1 + \alpha)} + \frac{p x^{\beta}}{\Gamma (1 + \beta)} + \frac{k y^{\gamma}}{\Gamma (1 + \gamma)} + \frac{l z^{\lambda}}{\Gamma (1 + \lambda)}. 
+			\end{equation*} }
+		For example, the heat conduction equation ($\alpha$ is the fractal dimension of the fractal medium)
+		\begin{equation*}
+			\frac{\partial T}{\partial t} = \frac{\partial^{\alpha}}{\partial x^{\alpha}} \left(\lambda \frac{\partial^{\alpha} T}{\partial x^{\alpha}} \right)
+		\end{equation*}
+		is converted into the equation
+		\begin{equation*}
+			\frac{\partial T}{\partial t} = \frac{\partial}{\partial s} \left(\lambda \frac{\partial T}{\partial s} \right).
+		\end{equation*}
+		That could be further transformed by introduction of the Boltzmann variable \cite{liu15a}
+		$\chi = {s}/{\sqrt{t}} = {x^{\alpha}}/{\sqrt{t} \Gamma (1 + \alpha)}$ 
+		into the ordinary differential equation
+		\begin{equation*}
+			\frac{d}{d \chi}  \left(\lambda \frac{d T}{d \chi} \right)	+ \frac{\chi}{2} \frac{d T}{d \chi}.
+		\end{equation*}
+		
+		For the general fractional differential equation in the Jumarie's modification of the RL derivatives $$
+			f (u, u_t^{\alpha}, u_x^{\beta}, u_y^{\gamma}, u_z^{\lambda},  u_t^{2 \alpha}, u_x^{2 \beta}, u_y^{2 \gamma}, u_z^{2 \lambda}, \dots) = 0$$
+			He \& Li \cite{he13} suggested the following transforms
+		\begin{equation*}
+			s = \frac{q t^{\alpha}}{\Gamma (1 + \alpha)}, \quad X = \frac{p x^{\beta}}{\Gamma (1 + \beta)}, \quad Y = \frac{k y^{\gamma}}{\Gamma (1 + \gamma)}, \quad Z =  \frac{l z^{\lambda}}{\Gamma (1 + \lambda)} 	
+		\end{equation*}
+		thus converting the fractional derivatives into classical derivatives
+		\begin{equation*}
+			\frac{\partial^{\alpha} u}{\partial t^{\alpha}} = q \frac{\partial u}{\partial s}, \quad
+			\frac{\partial^{\beta} u}{\partial x^{\beta}} = p \frac{\partial u}{\partial X}, \quad
+			\frac{\partial^{\gamma} u}{\partial y^{\gamma}} = k \frac{\partial u}{\partial Y}, \quad
+			\frac{\partial^{\lambda} u}{\partial z^{\lambda}} = l \frac{\partial u}{\partial Z}.
+		\end{equation*}
+		
+		Babusci et al. \cite{bab} discussed relations between the differential equations and the theories of the pseudo-operators \cite{po1,po2} and the generalized integral transforms.
+		
+		
+		\subsection{Distributed order differential equations}
+		\label{dofe_}
+		The distributed order differential equations (DODE) are a special class of the fractional differential equations \cite{do1,do2,do3a,do3b,do3,do4,do5,gor05,main07a}.
+		Chechkin et al. \cite{chech} discussed the natural and the modifies forms of DODEs and noted that the latter in combination with the continuity equation and the retarded linear response equation for the flux exhibiting memory of the processes at the previous times admits a thermodynamic interpretation. DODEs are used to describe 	the accelerating subdiffusion,   decelerating superdiffusion or transformation of the anomalous behaviour at the short times into the normal behaviour at the long times. For example, Metzler \& Klafter  \cite{met04} considered the DODE for the description of the ultraslow diffusion with the logarithmic time dependence $\left< x^2 (t) \right> \propto \log^k t$ including the so called Sinai diffusion ($k = 4$).
+		
+		The concept of the distributed order differentiation is close to the variable order fractional operators that are useful for the study of the viscoelasticity, the reaction kinetics of proteins, the electrorheological fluids, the damage modelling \cite{gor02,var1,var2}.
+		
+		There are two approaches to the formulation of the distributed order differential equations: 
+		1)  {direct  --- a new variable does not assigned;} 2) {Independent variable approach --- the order is considered as a function of some independent variable.}
+		
+		Mainardi et al. \cite{main07} studied the fractional diffusion equation of distributed order
+		\begin{equation}
+			\label{m31}
+			\int\limits_0^1 b (\beta) [D^{\beta} u (x,t)] d \beta = \frac{\partial^2 u (x,t)}{\partial x^2}, \quad b(\beta) \ge 0, \quad \int\limits_0^1 b(\beta) d \beta = 1
+		\end{equation}
+		with $x \in \bf{R}$, $t \ge 0$ and the initial condition
+		$u (x,0^+) = \delta (x)$.
+		The weight function $b (\beta)$ is called the order-density. 
+			The authors used the Fourier and Laplace transforms to get the fundamental solution  similar to a single-order case (\ref{m212})
+		\begin{equation*}
+			\left[\int\limits_0^1 b (\beta) s^{\beta} d \beta \right] \hat{\tilde{u}} (k, s) - \int\limits_0^1 b (\beta) s^{\beta - 1} d \beta = - k^2 \hat{\tilde{u}} (k, s)
+		\end{equation*}
+		and
+		\begin{equation}
+			\label{m32}
+			\hat{\tilde{u}} (k, s) = \frac{B (s)/s}{B (s) + k^2},   \qquad k \in \bf{R}, \qquad	
+		B (s) = \int\limits_0^1 b (\beta) s^{\beta} d \beta.
+		\end{equation}
+		
+		In the case of small $k$ the equation (\ref{m32}) can be approximated as
+		\begin{equation*}
+			\hat{\tilde{u}} (k, s) = \frac{1}{s} \left( 1 - \frac{k^2}{B (s)} +  \dots \right)	
+		\end{equation*}
+		and the second moment is written as
+		\begin{equation}\label{m34}
+			\tilde{\mu_2} (s) = - \frac{\partial^2}{\partial k^2}	\hat{\tilde{u}} (k=0, s) = \frac{2}{B (s)}.	
+		\end{equation}
+		
+		The special case of DODEs are the double-order fractional equations \cite{chech}
+		\begin{equation*}
+			b (\beta) = b_1 \delta(\beta - \beta_1) + b_2 \delta(\beta - \beta_2), \quad 0 < \beta_1 < \beta_2 \le 1, \quad \beta_1 > 0,  \beta_2 >  0, \quad \beta_1 + \beta_2 = 1.
+		\end{equation*}
+		
+		Asymptotic behaviour of $\mu_2 (t)$ follows from (\ref{m34}) for cases of {the slow diffusion (the power-law growth, $b (\beta) = b_1 \delta(\beta - \beta_1) + b_2 \delta(\beta - \beta_2) $) where $	\tilde{\mu_2} (s) =	{2}/({b_1 s^{\beta_1 + 1} + b_2 s^{\beta_2 + 1})}$ and 			}
+			 {the ultra-slow diffusion (the logarithmic growth, $b (\beta)  =1$) with 
+			$\tilde{\mu_2} (s) =	2 {\ln s}/{s (s - 1)}$.
+			}
+		
+		
+		The distributed order equations allow to describe the more complex media.
+		The time-fractional diffusion equation of the distributed order (\ref{m31}) is potentially more flexible to represent the local phenomena while the space-fractional diffusion equation of the distributive order is more suited to represent the variations in space \cite{cap03}.
+		
+	
+		\subsection{Special Functions}
+		There are special functions related to the differential equation similar to the classical case (such as e.g., the Bessel and the cylindrical functions, the classical orthogonal polynomials, Airy functions etc.) \cite{leb}. 
+		The most important functions in  the fractional calculus are the Mittag-Leffler function \cite{hau11},
+		the H-functions \cite{hil0,hf,kir2}, the Wright functions \cite{wf,wf1}, the generalized Lommel-Write functions \cite{lwf}.
+		The Mittag-Leffler function  is even called the "Queen"-function of the fractional calculus \cite{kir2}.
+		\subsubsection{Mittag-Leffler Functions}
+		\label{ml}
+		The eigenfunction  of the RL derivatives are the solutions of the equation \cite{hil08}
+		\begin{equation*}
+			D_{0+}^{\alpha} [ f (x)] = \lambda f (x)	
+		\end{equation*}
+		where $\lambda$ is the eigenvalue.
+		The eigenfunctions are $
+			f (x) = x^{1 - \alpha} E_{\alpha, \alpha} (\lambda x^{\alpha})$ 	where
+		\begin{equation}
+			\label{ml2}
+			E_{\alpha, \beta} = \sum_{k = 0}^{\infty} \frac{x^K}{\Gamma (\alpha k + \beta)}
+		\end{equation}
+		is the generalized  Mittag-Leffler function (also called the Wiman's function \cite{shu07}).
+		
+		The more general eigenvalue equation for derivatives of the orders $\alpha$ and $\beta$ is
+		\begin{equation*}
+			D_{0+}^{\alpha, \beta} [ f (x)] = \lambda f (x)		
+		\end{equation*}
+		The solution is \cite{hil08} $	f (x) = x^{(1 - \beta)(1 - \alpha)} E_{\alpha, \alpha + \beta} (\lambda x^{\alpha})$. 
+		
+		The special case is the equation $D_{0+}^{\alpha, 1} [ f (x)] = \lambda f (x)$ 
+		with eigenfunction $f (x) = E_{\alpha} (\lambda x^{\alpha})$. 
+		
+		The one-parameter Mittag-Lefler function is the particular case of (\ref{ml2}) for $\beta = \alpha$. 
+	
+		Evidently \cite{die10},
+		\begin{equation*}
+			E_{0, 1} (x) = \sum_{k = 0}^{\infty} \frac{1}{\Gamma (1)} = \sum_{k = 0}^{\infty} x^k = \frac{1}{1 - x}, \qquad 	
+		E_1 (x) = \sum_{k = 0}^{\infty} \frac{x^k}{k!} = \exp (x). 	
+		\end{equation*}
+		
+		There are other special cases such as \cite{hau11} $E_2 (- x^2) = E_{2, 1} (- x^2) = \cos (x)$; $E_2 (x^2) = E_{2, 1} (x^2) = \cosh (x)$; for $x > 0 \quad E_{1/2} (x^{1/2}) = E_{1/2} (x^{1/2}) = (1 + erf (x) ) \exp (x^2)$;
+			for $x \in \mathcal{C}$ and $r \in \mathcal{N}$
+				\begin{equation*}
+					E_{1, r} = \frac{1}{x^{r - 1}} \left(\exp (x) - \sum_{k = 0}^{r - 2} \frac{x^k}{k!}  \right);
+				\end{equation*}	
+			$E_3 (x) = {1}/{2} [e^{x^{1/3}} + 2 e^{- 1/2 x^{1/3}} \cos ({\sqrt{3}}/{2} x^{1/3})]$;
+			$E_4 (x) = {1}/{2} [\cos(x^{1/4}) + \cosh(x^{1/4})]$ 
+		where $	erf (x) = {2}/{\sqrt{\pi}} \int_0^x \exp(-t^2) d t$.
+				
+		The Mittag-Leffler function $E_1$ satisfies the functional relation \cite{die10,hau11}
+		$E_1 (x-y) = {E_1 (x)}/{E_1 (y)}$
+		and the relation between two Mittag-Leffler functions with different parameters
+		$E_{n_1,n_2} (x) = x E_{n_1, n_1 + n_2} (x) + {1}/{\Gamma (n_2)}$. 
+		Note that the frequently used relation $
+			E_{\alpha} (a(t + s)^{\alpha}) = E_{\alpha} (a t^{\alpha}) E_{\alpha} (a s^{\alpha}), \quad t, s \ge 1$ 
+		is valid only if $\alpha = 0$ or $\alpha = 1$ \cite{pen10}.
+		
+		Asymptotic expansions and integral representations of the Mittag-Leffler functions could be found in the papers \cite{gor97,gor02,hau11}.
+		
+		Prabhakar \cite{pra71} suggested the extension
+		\begin{equation*}
+			E_{\alpha, \beta}^{\gamma} (x) = \sum_{n = 0}^{\infty} \frac{(\gamma)_n}{\Gamma (\alpha n + \beta)} \frac{x^n}{n!}, \qquad Re (\alpha) > 0, Re (\beta) > 0
+		\end{equation*}
+		$(\gamma)_n$ is the Pochhammer symbol \cite{shu07} $(\gamma)_0 =1, (\gamma)_n = \gamma (\gamma + 1) (\gamma + 2) \dots (\gamma + n - 1)$. 		
+		
+		The extension to the multi-index Mittag-Leffler functions \cite{kir1,kir2} 
+		\begin{equation*}
+			E_{(\frac{1}{\rho_i}),(\mu_i)} (x) = \sum_{k = 0}^{\infty} \frac{x^k}{\Gamma (\mu_1 + k/\rho_1) \dots \Gamma (\mu_m + k/\rho_m)}
+		\end{equation*}
+		is performed by replacing of the indices $\alpha = 1/\rho$ and $\beta = \mu$ by two sets of multi-indices $\alpha \rightarrow (1/\rho_1, 1/\rho_2, \dots, 1/\rho_m)$ and $\beta \rightarrow (\mu_1, \mu_2, \dots, \mu_m)$. 
+		
+		There are a couple of related functions \cite{nakh03}
+		\begin{itemize}
+			\item {Barret's function
+				\begin{equation*}
+					U (x, \lambda) = \sum_{k = 1}^{\infty} \frac{\lambda^{k - 1} x^{k \alpha i}}{\Gamma (k \alpha - i +1);}
+				\end{equation*}	
+			}
+			\item {Rabotnov's (fractional exponential) function \cite{rab97,rab1}}
+			\begin{equation*}
+				\mathcal{E}_{\alpha} (\beta, x) = x^{\alpha} \sum_{n = 0}^{\infty} \frac{\beta^n x^{n (\alpha + 1)}}{\Gamma ((n + 1)(1 + \alpha))}.
+			\end{equation*}
+		\end{itemize}
+		
+		
+		\subsubsection{H Functions}
+		The H-function of order $(m, n, p, q) \in \mathcal{N}^4$  is defined via the Mellin-Barnes type contour integral \cite{duan,hf}
+		\begin{equation*}
+			H_{p, q}^{m, n} (z) = \frac{1}{2 \pi i} \int\limits_{\mathcal{L}} \mathcal{H}_{p, q}^{m, n} z^s d s	
+		\end{equation*}
+		where $z^s = exp[s (ln |z| + i arg z)]$,
+		\begin{equation*}
+			\mathcal{H}_{p, q}^{m, n} = \frac{A (s) B (s)}{C (s) D (s)}, \qquad	
+			A (s) = \prod_{j = 1}^m \Gamma(b_j - \beta_j s),\quad B (s) = \prod_{j = 1}^n \Gamma (1 - a_j + \alpha_j s),	
+		\end{equation*}
+		\begin{equation*}
+			C (s)  = \prod_{j = m + 1}^q \Gamma(1 - b_j + \beta_j s),\quad  D (s) = \prod_{j = n + 1}^p \Gamma (a_j - \alpha_j s).	
+		\end{equation*}
+		Here $m,n,p,q$ are integers satisfying 
+		$0 \le n \le p, \quad 1 \le m \le q, m^2 + n^2 \ne 0$,
+		$a_j (j = 1, \dots, p), b_j (j = 1, \dots, q)$ are complex numbers.
+		
+		The integration contour $\mathcal{L}$ could be chosen in different ways:
+		\begin{itemize}
+			\item {$\mathcal{L} = \mathcal{L}_{- i \infty, i \infty}$ chosen to go from $- i \infty \quad$ to $\quad i \infty$} leaving to the right all poles of $\mathcal{P} (A)$  of the functions $\Gamma$ in $A (s)$ and to the left all poles of $\mathcal{P} (B)$  of the functions $\Gamma$ in $B (s)$;
+			\item {$\mathcal{L} = \mathcal{L}_{i \infty}$ is a loop beginning and ending at $+ \infty$ and encircling in the negative direction all the poles of $\mathcal{P} (A)$;}
+			\item {$\mathcal{L} = \mathcal{L}_{- i \infty}$ is a loop beginning and ending at $- \infty$ and encircling in the negative direction all the poles of $\mathcal{P} B)$.}
+		\end{itemize}
+		
+		
+		
+		
+		
+		\subsubsection{Wright Functions}
+		The Write function  is defined by the series representation that is convergent in the whole $z$-complex plane \cite{wf1,gor99,gor0,kil02}
+		\begin{equation*}
+			W_{\lambda, \mu} (z) = \sum_{n = 0}^{\infty} \frac{z^n}{n! \Gamma (\lambda n + \mu)}, \quad \lambda > - 1, \mu \in \mathcal{C}.
+		\end{equation*}
+		
+		The integral representation of the Write function is written as 
+		\begin{equation*}
+			W_{\lambda, \mu} (z) = \frac{1}{2 \pi i} \int\limits_{Ha} e^{\sigma + z \sigma^{- \lambda}} \frac{d \sigma}{\sigma^{\mu}}
+		\end{equation*}
+		where $Ha$ is the Hankel path (a loop that starts from $- \infty$ along the lower side of the negative real axis, encircles the circular area the origin with radius $\epsilon \rightarrow 0$ in the positive sense, and ends at $- \infty$ along the upper side of the negative real axis).  
+		
+		There are Write-type {\em auxiliary} functions $	F_{\nu} (z) = W_{- \nu,0} (z)$, $ M_{\nu} (z) = W_{- \nu, 1 -\nu} (z)$,
+		where $0 < \nu <1$; these functions are related $F_{\nu} (z) = \nu z M_{\nu} (z)$.  
+		
+		The series representations of the {\em auxiliary} functions are
+		\begin{equation*}
+			F_{\nu} (z) = \sum_{n = 1}^{\infty} \frac{(- z)^n}{n! \Gamma (- \nu n)} = \frac{1}{\pi} \sum_{n = 1}^{\infty} \frac{(- z)^{n - 1}}{n!} \Gamma (\nu n + 1) \sin (\pi \nu n)
+		\end{equation*}
+		and 
+		\begin{equation*}
+			M_{\nu} (z) = F_{\nu} (z) = \sum_{n = 0}^{\infty} \frac{(- z)^n}{n! \Gamma [- \nu n + (1 - \nu))]} = \frac{1}{\pi} \sum_{n = 1}^{\infty} \frac{(- z)^{n - 1}}{(n - 1)!} \Gamma (\nu n) \sin (\pi \nu n).
+		\end{equation*}
+		
+		
+		
+		\section{Solution  of Fractional Differential Equations}
+		\subsection{Analytical Methods}
+		Numerous approximate analytical methods  are known:
+		\begin{itemize}
+			\item {the Adomian decomposition method (ADM) \cite{zha1};}
+			\item {the combined Laplace-Adomian method (CLAM) \cite{waz10};}
+			\item {the variational iteration method (VIM) \cite{y11,wu10,far11,yan13,yan13b}\footnote{
+					VIM includes three steps to determine the variational iteration formula:
+					\begin{enumerate}
+						\item {establishing the correction functional;}
+						\item {identifying the Lagrange multipliers;}
+						\item {determining the initial iteration.}
+					\end{enumerate} 	
+					
+					The second step is the crucial one \cite{zha9}.
+					
+				} and its local (LVIM) \cite{yang12a,yan13b,zha9,yang15} and fractional (using the fractional order Lagrange multipliers) \cite{khan,zha15b}  variants; }
+			\item {the homotopy perturbation method (HPM)\cite{abb06,zha6,yil10,sin11a,raf12,wei17} and its modification \cite{yan13c} and local fractional variant (LFHPM) \cite{yang15a};}
+			\item {the differential transformation method \cite{jon09,all09,gha15a};}
+			\item {the heat-balance integral method (HBIM)\cite{chr10,hr11,chr11};}
+			\item {the fractional complex transform method (FCTM) \cite{yang,y16,y16a,he12a,su13};}
+			\item {the local fractional Fourier series method (FSM) \cite{yang13,zha14a}; }
+			\item {the modified simple equation method \cite{jaw10,you14};}
+			\item {the method of images (limited to special spatial symmetries);}
+			\item {the Mellin integral transform method \cite{luc13};}
+			\item {the local fractional decomposition method (LFDM) \cite{ahm15};}
+			\item {the fractional sub-equation method \cite{y19,guo12};} 
+			\item {the Sumudu transform methods \cite{wat02a,dem15} and its variant --- the local fractional homotopy perturbation Sumudu transform mehod \cite{zhao17};}
+			\item {the theta-method \cite{asl14};}
+			\item {the Picard succesive approximation method (PSAM) \cite{yang12b,yan14};}
+			\item {the local Laplace transforms.}
+		\end{itemize}
+		
+		Frequently analytical methods are variants of perturbation methods \cite{vd}).
+		For example, He \cite{he1,he2,he3} based his  method to solve the general equation 
+		$A (u) - f (r) = 0 $ 
+		with the general differential operator $A$ divided into linear $L$ and nonlinear $N$ parts 
+		$L (u) + N (u) - f (r) =0$ 	on the approach of Liao \cite{liao} (who used the two-parameter family of  equations) by considering the one-parameter family
+		$(1 - p) L (u) +  p N (u) = 0$.
+		
+		He constructed the homotopy $v(r, p): \Omega \times [0, 1] \rightarrow R $ that satisfies
+		\begin{equation*}
+			H(v, p) = (1 - p) [L (v) - L (v_0)] + p [A (v) - f (r)] = 0
+		\end{equation*}
+		where the homotopy parameter $p \in [0, 1]$, 
+		$v_0$ is the initial approximation.
+		
+		Evidently, $H (v, 0) = L (v) - L (v_0) =0$ 	and 
+		$H (v, 1) = [A (v) - f (r)] = 0$. 
+		
+		In topology, $L (v) - L (v_0)$ is called deformation.
+		The  homotopy parameter $p$ is considered as a small parameter and the solution is written as a series
+		\begin{equation*}
+			v = v_0 + p v_1 + p^2 v_2 + p^3 v_3 + \dots
+		\end{equation*}
+		and when $p \rightarrow 1$
+		\begin{equation*}
+			u = \lim_{p \rightarrow 1}v = v_0 + v_1 + v_2 + v_3 + \dots.
+		\end{equation*}
+		
+		The Adomian decomposition method (ADM) \cite{ad1,ad2} does not use linearization, perturbation or the Green's functions. The accuracy of the approximate analytical solutions can be verified by the direct substitution.   
+		
+		The initial value is written as $L u + R u + N u = g$ 	where $L$ is the linear operator to be inverted, $R$ is the linear remainder operator and $N$ is the nonlinear operator.
+		Thus $L^{- 1} L u = u - \Phi$, $\Phi$ incorporates the initial values.
+		
+		The solution and nonlinear term are decomposed into series
+		\begin{equation*}
+			u = \sum_{n = 0}^{\infty} u_n, \qquad
+			N u = \sum_{n = 0}^{\infty} A_n
+		\end{equation*}
+		where $A_n$ are the Adomian polynomials for $N u = f (u)$ are \cite{ad2}
+		\begin{equation*}
+			A_n = \frac{1}{n!} \frac{\partial^n}{\partial \lambda^n} f \left(\sum_{k = 0}^{\infty} u_k \lambda^k  \right), \qquad n = 0, 1, 2, \dots.
+		\end{equation*}
+		
+		Finally 
+		\begin{equation*}
+			\sum_{n = 0}^{\infty} u_n	= \Phi + L^{- 1} g - L^{- 1} \left[R  \sum_{n = 0}^{\infty} u_n + \sum_{n = 0}^{\infty} A_n \right].
+		\end{equation*}
+		
+		The nonlinear term $Nu (x, t)$ can be also decomposed 
+		\cite{yan13c} as
+		\begin{equation*}
+			N u = \sum_{n = 0}^{\infty} p^n H_n	 
+		\end{equation*}
+		where  He's polynomials are \cite{noor,gho09}
+		\begin{equation*}
+			H_n (u_0, u_1, \dots, u_n)	= \frac{1}{n!} \frac{\partial^n}{\partial p^n} \left[N \left( \sum_{i= 0}^n p^i u_i\right)  \right].
+		\end{equation*}
+		
+		The fractional sub-equation method includes several steps 
+		\cite{guo12}:
+		\begin{itemize}
+			\item {Transformation of the nonlinear fractional equation in two variables $x$ and $t$ $\quad  D_t^{\alpha} u,  D_x^{\alpha} u, \dots) = 0, \quad 0 < \alpha \le 1$,
+			$D_t^{\alpha} u$ and $D_x^{\alpha} u$ are Jumarie modification of the RL derivtives,
+			using the travelling wave transformation 
+			$u (x, t) = u (\xi), \xi = x + c t$,
+			where $c$ is a constant to be determined, to the equation 				\begin{equation}
+					\label{g9}
+					P (u, c u^{\prime}, u^{\prime}, c D_{\xi}^{\alpha} u,  D_{\xi}^{\alpha} u, \dots) = 0.
+				\end{equation}	
+			}
+			\item {The solution of the equation (\ref{g9}) is assumed to have the form
+				\begin{equation*}
+					u (\xi) = \sum_{i = - n}^{- 1} a_i \phi^i + a_0 + \sum_{i = 1}^{n} a_i \phi^i,
+				\end{equation*}
+				where $a_i (i =  - n, - n + 1, \dots, n - 1, n)$ are constants to be determined, $\phi = \phi (\xi)$ are functions that satisfy the following Riccati equation $D_{\xi}^{\alpha} \phi (\xi) = \sigma \phi^2 (\xi)$,
+				$\sigma$ is a constant.
+			} 
+			\item {Formulation of a set of overdetermined nonlinear algebraic equations for $c$ and $a_i (i =  - n, - n + 1, \dots, n - 1, n)$ \cite{guo12}. }
+		\end{itemize}
+		
+		
+		\subsection{Numerical Methods}
+		Diethelm et al. \cite{die06} listed the requirement to the numerical methods that should be 
+		{convergent,} {consistent of some reasonable order $h^p$,} {stable,} {reasonably inexpensive to run,} {reasonably easy to program.}
+			
+		Numerous methods are used in practice: finite difference, finite elements, radial basis functions, spectral methods, meshfree  methods.
+		The numerical methods for the fractional differential equations usually are constructed by the modification of the methods for the ordinary differential equations but require significantly more computation time and storage. The approximation of the fractional derivative needs the computation of the convolution integral that requires to sample and multiply the behaviour of two functions over the whole of the interval of integration leading to the operation count of $O (n^2)$ where $n$ is number of sampling points \cite{ford}.
+		
+		The reduction of the computational efforts is related to the fading memory property of the fractional derivatives that allows to restrict the integration interval --- using the {\em short memory principle} \cite{den07a,den15} (also {\em fixed memory principle}  \cite{ford} and {\em logarithmic memory principle} \cite{han11}), and using adaptive time stepping and basis selection \cite{bru10}.
+		
+		Numerous methods are used to solve the fractional differential equations in practice: the finite difference \cite{fd1,fd2} (both the explicit, e.g. Euler \cite{odi08} and the implicit \cite{impl1,impl2}, e.g., the Crank-Nicolson \cite{cn1,cn2} or the  alternating direction implicit \cite{zha16a,zha19b}  schemes, compact schemes \cite{cfd1,cfd2,cfd3,cfd4}), the finite elements \cite{hua08,jia11,zeng15,fem1,fem2} (including least squres FEM \cite{fix}, Galerkin FEM \cite{sin06b,jin15}, discontinuous Galerkin FEM \cite{mus13}),  the spectral methods \cite{can06,esm11,doha11,zay14}, the meshfree  methods \cite{dua08,shi12} (including the radial basis functions methods that exploit cubic $\phi = r^3$, Gaussian $\phi = exp (- r^2 / c^2)$,  multiquadrics $\phi = \sqrt{c^2 + r^2}$  or inverse  multiquadrics $\phi =1 / \sqrt{c^2 + r^2}$ functions \cite{rb1,rb2,rb3}), Legendre wavelet collocation method \cite{hey14}.
+		
+		Bahuguna et al. \cite{bah09}, Hanert \cite{ha10}, Deng et al. \cite{den04} and Deng \& Li \cite{deng12}, Ford \& Simpson \cite{ford}, Ford \& Connolly \cite{ford1}, Momani et al. \cite{mom} reported the results of the comparison of several numerical methods.
+
+\begin{thebibliography}{100}
+	
+	\bibitem{abb06}
+	{\sc Abbaasbandy, S.}
+	\newblock The application of homotopy analysis method to nonlinear equations
+	arising in heat transfer.
+	\newblock {\em Phys. Lett. A 360\/} (2006), 109--113.
+	
+	\bibitem{abd14}
+	{\sc Abdeljawad, T.}
+	\newblock On conformable fractional calculus.
+	\newblock arXiv: 1402.6892 [math.DS], 2014.
+	
+	\bibitem{ad1}
+	{\sc Adomian, G.}
+	\newblock {\em Solving Frontier Problems of Physics: The Decomposition Method}.
+	\newblock Kluver Academic Publishers, Boston, 1994.
+	
+	\bibitem{agu14}
+	{\sc Aguilar, J. F.~G., and Hern\'andez}.
+	\newblock Space-time farctional diffusion-advection equation with {C}aputo
+	derivative.
+	\newblock {\em Abstr. Appl. Anal. 2014\/} (2014), 283019.
+	
+	\bibitem{ahm15}
+	{\sc Ahmad, J., Mohyud-Din, S.~T., Srivastava, H.~M., and Yang, X.-J.}
+	\newblock Analytic solutions of the {H}elmholtz and {L}aplace equations by
+	using local fractional derivative operators.
+	\newblock {\em Wave Wavelets Fractals Adv. Anal. 1\/} (2015), 22--26.
+	
+	\bibitem{all09}
+	{\sc Allahviranloo, T., Kiani, N.~A., and Motamedi, N.}
+	\newblock Solving fuzzy differential equations by differential transformation
+	method.
+	\newblock {\em Inform. Sci. 170\/} (2009), 956--966.
+	
+	\bibitem{and15}
+	{\sc Anderson, D.~R., and Ulness, D.~J.}
+	\newblock Properties of the {K}atugampola fractional derivative with potential
+	applications n quantum mechanics.
+	\newblock {\em J. Math. Phys. 56\/} (2015).
+	
+	\bibitem{asl14}
+	{\sc Aslefallah, M., Rostamy, D., and Hosseinkhani, K.}
+	\newblock Solving time-fractional differential diffusion equation by
+	theta-method.
+	\newblock {\em Int. J. Adv. Appl. Math. Mech. 2\/} (2014), 1--8.
+	
+	\bibitem{rb3}
+	{\sc Aslefallah, M., and Shivanian, E.}
+	\newblock Nonlinear fractional integro-differential reaction-diffusion equation
+	via radial basis functions.
+	\newblock {\em Eur. Phys. J. Phys. 130\/} (2015), 47.
+	
+	\bibitem{h2}
+	{\sc Atangana, A.}
+	\newblock Fractal-fractional differentiation and integration: connecting
+	fractal calculus and fractional calculus to predict complex systems.
+	\newblock {\em Chaos, Solit. Fract. 102\/} (2017), 396--406.
+	
+	\bibitem{at16}
+	{\sc Atangana, A., and Baleanu, D.}
+	\newblock New fractional derivatives with nonlocal and non-singular kernel:
+	theory and application to heat transfer model.
+	\newblock {\em Thermal Sci. 20\/} (2016), 763--769.
+	
+	\bibitem{at17}
+	{\sc Atangana, A., and Gomez-Aguilar, J.}
+	\newblock A new derivative with normal distribution kernel: theory, methods and
+	applications.
+	\newblock {\em Phys. A Stat. Mech. Appl. 476\/} (2017), 1--14.
+	
+	\bibitem{atang13}
+	{\sc Atangana, A., and Secer, A.}
+	\newblock A note on fractional derivatives of some special functions.
+	\newblock {\em Abstr. Appl. Anal. 2013\/} (2013), 279681.
+	
+	\bibitem{bab}
+	{\sc Babusci, D., Dattoli, G., and Quattromini, M.}
+	\newblock Relativistic equations with fractional and pseudodifferential
+	operators.
+	\newblock {\em Phys. Rev. A 83\/} (2011), 062109.
+	
+	\bibitem{bah09}
+	{\sc Bahuguna, D., Ujlayan, A., and Pandey, D.~N.}
+	\newblock A comparative study of numerical methods for solving an
+	integro-differential equation.
+	\newblock {\em Comput. Math. Appl. 57\/} (2009), 1485--1493.
+	
+	\bibitem{bal19}
+	{\sc Baleanu, D., and Fernandez, A.}
+	\newblock On fractional operators and their classifications.
+	\newblock {\em Mathematics 7\/} (2019), 830.
+	
+	\bibitem{t17}
+	{\sc Ben~Adda, F.}
+	\newblock Geometric interpretation of the differentiability and gradient of
+	real order.
+	\newblock {\em Compt. Rend. - Series I - Math. 326\/} (1997), 931--934.
+	
+	\bibitem{t16}
+	{\sc Ben~Adda, F.}
+	\newblock Geometric interpretation of the fractional derivative.
+	\newblock {\em J. Fract. Calc. 11\/} (1997), 21--51.
+	
+	\bibitem{ben06}
+	{\sc Bennett, K.~M., Hyde, J.~S., and Schmainda, K.~M.}
+	\newblock Water diffusion heterogeneity index in the human brain is insensitive
+	to the orientation of applied magnetic field gradient.
+	\newblock {\em Magn. Resonan. Med. 56\/} (2006), 235--239.
+	
+	\bibitem{ben13}
+	{\sc Benson, D.~A., Meerschaert, M.~M., and Revielle, J.}
+	\newblock Fractional calculus in hydrological modelling: {A} numerical
+	perspective.
+	\newblock {\em Adv. Water Resour. 51\/} (2013), 479--497.
+	
+	\bibitem{rab1}
+	{\sc Bosiakov, S., and Rogosin, S.}
+	\newblock Analytical modeling of the viscoelastic behavior of periodontal
+	ligament with using {R}abotnov's fractional exponential function.
+	\newblock In {\em Lect. Notes Electr. Eng.\/} (2015), pp.~156--167.
+	
+	\bibitem{bru10}
+	{\sc Brunner, H., Ling, L., and Yamamoto, M.}
+	\newblock Numerical simulation of 2{D} fractional subdiffusion problems.
+	\newblock {\em J. Comput. Phys. 229\/} (2010), 6613--6622.
+	
+	\bibitem{can06}
+	{\sc Canoto, C., Hussaini, M.~Y., Quarteroni, A., and Zang, T.~A.}
+	\newblock {\em Spectral Methods. {F}undamentals in Single Domains}.
+	\newblock Springer, Berlin, 2006.
+	
+	\bibitem{do5}
+	{\sc Caputo, M.}
+	\newblock Distributed order differential equations modelling dielectric
+	induction and diffusion.
+	\newblock {\em Fract. Calc. Appl. Anal. 4\/} (2001), 421--442.
+	
+	\bibitem{cap03}
+	{\sc Caputo, M.}
+	\newblock Diffusion with space memory modelle with distributed order space
+	fractional differential equations.
+	\newblock {\em Ann. Geophys. 46\/} (2003), 223--234.
+	
+	\bibitem{cf1}
+	{\sc Caputo, M., and Fabrizio, M.}
+	\newblock A new definition of fractional derivative without singular kernel.
+	\newblock {\em Progr. Fract. Differ. Appl. 1\/} (2015), 73--85.
+	
+	\bibitem{cf2}
+	{\sc Caputo, M., and Fabrizio, M.}
+	\newblock Applications of new time and spatial fractional derivatives with
+	exponential kernels.
+	\newblock {\em Progr. Fract. Differ. Appl.\/} (2016).
+	
+	\bibitem{car97}
+	{\sc Carpin, A., and Mainardi, F.}
+	\newblock {\em Fractals and Fractional Calcuus in Continuum Mechanics}.
+	\newblock Springer, Wien, N. Y., 1997.
+	
+	\bibitem{car09}
+	{\sc Carpinteri, A., Cornetti, P., Sapora, A., Di~Paola, M., and Zingales, M.}
+	\newblock Fractional calculis in solid mechanics: local versus non-local
+	approach.
+	\newblock {\em Phys. Scr. T136\/} (2009), 014003.
+	
+	\bibitem{s11}
+	{\sc Carr, P., Geman, H., Madan, D.~B., and Yor, M.}
+	\newblock Stochastic volatility for {L}\'evy processes.
+	\newblock {\em Math. Finance 13\/} (2003), 345--382.
+	
+	\bibitem{cha11}
+	{\sc Chakrabarty, A., and Meerschaert, M.~M.}
+	\newblock Tempered stable laws as random walk limits.
+	\newblock {\em Stat. Probab. Lett. 81\/} (2011).
+	
+	\bibitem{chech}
+	{\sc Chechkin, A.~V., Gonchar, V.~Y., Gorenflo, R., Korabel, N., and Sokolov,
+		I.~M.}
+	\newblock Generalized fractional diffusion equations for accelerating
+	subdiffusion and truncated {L}\'evy flights.
+	\newblock {\em Phys. Rev. E 78\/} (2008), 021111.
+	
+	\bibitem{do3a}
+	{\sc Chechkin, A.~V., Gorenflo, R., and Sokolov, I.~M.}
+	\newblock Retarding subdiffusion and accelerating superdiffusion governed by
+	distributed-order fractional diffusion equation.
+	\newblock {\em Phys. Rev. E 66\/} (2002), 046129.
+	
+	\bibitem{do3b}
+	{\sc Chechkin, A.~V., Gorenflo, R., and Sokolov, I.~M.}
+	\newblock Fractional diffusion in inhomogeneous media.
+	\newblock {\em Phys. Rev. E 38\/} (2005), L679--L684.
+	
+	\bibitem{do3}
+	{\sc Chechkin, A.~V., Gorenflo, R., Sokolov, I.~M., and Gonchchar, V.~Y.}
+	\newblock Distributed order time fractional diffusion equation.
+	\newblock {\em Fract. Calc. Appl. Anal. 6\/} (2003), 259--279.
+	
+	\bibitem{chen06a}
+	{\sc Chen, W.}
+	\newblock Time-space fabric underlying anomalous diffusion.
+	\newblock {\em Chaos, Soltons, Fractals 28\/} (2006), 923--929.
+	
+	\bibitem{h1}
+	{\sc Chen, W., and Liang, Y.}
+	\newblock New methodologies in fractional and fractal derivatives modeling.
+	\newblock {\em Chaos, Solitons Fract. 102\/} (2017), 72--77.
+	
+	\bibitem{chen10}
+	{\sc Chen, W., Sun, H., Zhang, X., and Koro\^sak, D.}
+	\newblock Anomalous diffusion by fractal and fractional derivatives.
+	\newblock {\em Comput. Math. Appl. 59\/} (2010), 1754--1758.
+	
+	\bibitem{che10}
+	{\sc Chen, Y., Yan, Y., and Zhang, K.}
+	\newblock On the local fractional derivative.
+	\newblock {\em J. Math. Anal. Appl. 362\/} (2010), 17--33.
+	
+	\bibitem{t21}
+	{\sc Cioc, R.}
+	\newblock Physical and geometrical interpretation of {G}runwald-{L}etnikov
+	differintegrals: {M}easurement of path and acceleration.
+	\newblock {\em Fract. Calcul. Appl. Anal. 19\/} (2016), 161--172.
+	
+	\bibitem{var1}
+	{\sc Coimbra, C. F.~M.}
+	\newblock Mechanics wuth variable-order differential operators.
+	\newblock {\em Ann. Phys. 12\/} (2003), 692--703.
+	
+	\bibitem{com96}
+	{\sc Compte, A.}
+	\newblock Stochastic foundations of fractional dynamics.
+	\newblock {\em Phys. Rev. E 53\/} (1996), 4191--4193.
+	
+	\bibitem{oli14}
+	{\sc de~Oliveira, E.~C., and Teneiro~Machado, J.~A.}
+	\newblock A review of definitions for fractional derivatives and integral.
+	\newblock {\em Math. Probl. Eng. 2014\/} (2014), 238459.
+	
+	\bibitem{del13}
+	{\sc Delkhosh, M.}
+	\newblock Introduction of derivatives and integrals of fractional order and its
+	applications.
+	\newblock {\em Appl. Math. Phys. 1\/} (2013), 103--119.
+	
+	\bibitem{dem15}
+	{\sc Demiray, S.~T., Bulut, H., and Belgasem, F.}
+	\newblock Sumudu transform methods for analytical solution of fractional type
+	ordinary differential equations.
+	\newblock {\em Math. Probl. Eng. 2015\/} (2015), 131690.
+	
+	\bibitem{den07a}
+	{\sc Deng, W.}
+	\newblock Short memory principle and predicor-corrector approach for fractional
+	differential equations.
+	\newblock {\em J. Comp. Appl. Math. 206\/} (2007), 1774--188.
+	
+	\bibitem{deng12}
+	{\sc Deng, W., and Li, C.}
+	\newblock Numerical schemes for fractional ordinary differential euations.
+	\newblock In {\em Numerical Modelling\/} (2012), P.~Miidla, Ed., pp.~356--34.
+	
+	\bibitem{den04}
+	{\sc Deng, W., Singe, V.~P., and Bengtsson, L.}
+	\newblock Numerical solution of fractional advection-dispersion equation.
+	\newblock {\em J. Hydraulic Eng. 130\/} (2004), 422--431.
+	
+	\bibitem{den15}
+	{\sc Deng, W., Zhao, L.~J., and Wu, Y.~J.}
+	\newblock Efficient algorithm for solving the fractional ordinary differential
+	equations.
+	\newblock {\em Appl. Math. Comp. 269\/} (2015), 196--216.
+	
+	\bibitem{die10}
+	{\sc Diethelm, K.}
+	\newblock {\em The Analysis of Fractional Differential Equations. An
+		Application-Oriented Exposition Using Differential Operators of Caputo Type}.
+	\newblock Springer, Berlin-Helderberg, 2010.
+	
+	\bibitem{doha11}
+	{\sc Doha, E.~H., Bhrawy, A.~H., and Ezz-Eldien, S.~S.}
+	\newblock A {C}hebyshev spectral method based on operational matrix fr initial
+	and boundary vale problems of fractional order.
+	\newblock {\em Comput. Math. Appl. 62\/} (2011), 2364--2373.
+	
+	\bibitem{cfd4}
+	{\sc Du, R., Gao, G., and Sun, Z.}
+	\newblock A compact difference scheme for the fractional diffusion-wave
+	equations.
+	\newblock {\em Appl. Math. Model. 34\/} (2010), 2998--3007.
+	
+	\bibitem{duan}
+	{\sc Duan, J.-S.}
+	\newblock Time- and space-fractional partial differential equations.
+	\newblock {\em J. Math. Phys. 46\/} (2005), 013504.
+	
+	\bibitem{ad2}
+	{\sc Duan, J.-S., Rach, R., Baleunu, D., and Wazwaz, A.-M.}
+	\newblock A review of the {A}domian decomposition method and its applications
+	to fractional differential equations.
+	\newblock {\em Commun. Frac. Calc. 3\/} (2012), 73--99.
+	
+	\bibitem{dua08}
+	{\sc Duan, Y.}
+	\newblock A note on the meshless method using radial basis functions.
+	\newblock {\em Comp. Math. Appl. 55\/} (2008), 66--75.
+	
+	\bibitem{dzh}
+	{\sc Dzherbashyan, M.~M., and Nersesian, A.~D.}
+	\newblock Fractional derivatives and the {C}auchy problem for differential
+	equations of fractional order (in {R}ussian).
+	\newblock {\em Izv. Acad. Nauk Armjanskoy SSR, Matematika 3\/} (1968), 3--29.
+	
+	\bibitem{tar17}
+	{\sc E., T.~V.}
+	\newblock Interpretation of fractional derivatives as reconstruction from
+	sequence of integer derivatives.
+	\newblock {\em Fundamenta Informat. 151\/} (2017), 431--442.
+	
+	\bibitem{esm11}
+	{\sc Esmaeli, S., and Shamsi, M.}
+	\newblock A pseudo-spectral scheme for the approximate solution of a family of
+	fractional differential equations.
+	\newblock {\em Commun. Nonlinear Sci. Numer. Simulat. 16\/} (2011), 3646--3654.
+	
+	\bibitem{far11}
+	{\sc Faraz, N., Khan, Y., Jafari, H., Yildrim, A., and Madani, M.}
+	\newblock Fractional variational iteration method via modified
+	{R}iemann-{L}iouville derivaive.
+	\newblock {\em J. King Saud Univ. - Sci. 23\/} (2011), 413--417.
+	
+	\bibitem{fer19}
+	{\sc Fernandez, A., \"Ozarslan, M.~A., and Baleanu, D.}
+	\newblock On fractional calculus with general analytic kernels.
+	\newblock {\em Appl. Math. Comput. 354\/} (2019), 248--265.
+	
+	\bibitem{fix}
+	{\sc Fix, G.~J., and Roop, J.~P.}
+	\newblock Least squire finite-element solution of a fractional order two-point
+	boundary value problem.
+	\newblock {\em Comput. Math. Appl. 48\/} (2004), 1017--1033.
+	
+	\bibitem{ford1}
+	{\sc Ford, N.~J., and Connolly, J.~A.}
+	\newblock Comparison of numerical methods for fractional differential
+	equations.
+	\newblock {\em Comm. Pure Appl. Anal. 5\/} (2006), 289--307.
+	
+	\bibitem{ford}
+	{\sc Ford, N.~J., and Simpson, A.~C.}
+	\newblock The numerical solution of fractional differential equations: speed
+	versus accuracy.
+	\newblock {\em Numer. Algor. 26\/} (2001), 333--346.
+	
+	\bibitem{cfd3}
+	{\sc Gao, G., and Sun, Z.}
+	\newblock A compact difference scheme for the fractional sub-diffusion
+	equations.
+	\newblock {\em J. Comput. Phys. 230\/} (2011), 586--595.
+	
+	\bibitem{ger}
+	{\sc Gerasimov, A.~N.}
+	\newblock Generalization of the linear deformation laws and applications to the
+	problems of inner friction (in {R}ussian).
+	\newblock {\em Appl. Math. Mech. 12\/} (1948), 529--539.
+	
+	\bibitem{gha15a}
+	{\sc Ghazanfari, B., and Ebrahimi, P.}
+	\newblock Differential transformation method for solving fuzzy fractonal heat
+	equations.
+	\newblock {\em Int. J. Math. Model. Comput. 5\/} (2015), 81--89.
+	
+	\bibitem{impl2}
+	{\sc Ghazizadeh, H.~R., Maerefat, M., and Azimi, A.}
+	\newblock Explicit and implicit finite difference schemes for factional
+	{C}attaneo equation.
+	\newblock {\em J. Comput. Phys. 229\/} (2010), 7042--7057.
+	
+	\bibitem{gho09}
+	{\sc Ghorbani, A.}
+	\newblock Beyond ({A})domian polynomials: {H}e polynomials.
+	\newblock {\em Chaos Soliton. Fract. 39\/} (2009), 1486--1492.
+	
+	\bibitem{gol10}
+	{\sc Goloviznin, V.~M., Kondratenko, P.~S., Matveev, L.~V., Korotkin, I.~A.,
+		and Dranikov, I.~L.}
+	\newblock {\em Anomalous Diffusion of Radionuclides in Strongly Nonuniform
+		Geological Formations (in Russian)}.
+	\newblock Nauka, Moscow, 2010.
+	
+	\bibitem{gom14}
+	{\sc G\'omez-Aguilar, J.~F., Razo-Hernandez, R., and Granados-Lieberma, D.}
+	\newblock A physical interpretation of fractional calculus in observables
+	terms: analysis of fracional time constant and the transtory response.
+	\newblock {\em Revista Mexicana de Fisica 60\/} (2014), 32--38.
+	
+	\bibitem{gor02}
+	{\sc Gorenflo, R., Loutschko, J., and Luchko, Y.}
+	\newblock Computation of the {M}ittag-{L}effler function and its derivatives.
+	\newblock {\em Fract. Calcul. Appl. Anal. 5\/} (2002), 491--518.
+	
+	\bibitem{gor99}
+	{\sc Gorenflo, R., Luchko, Y., and Mainardi, F.}
+	\newblock Analytical properties and applications of the {W}right function.
+	\newblock {\em Fract. Calcul. Appl. Anal. 2\/} (1999), 383--414.
+	
+	\bibitem{gor0}
+	{\sc Gorenflo, R., Luchko, Y., and Mainardi, F.}
+	\newblock Wright functions as scale-invariant solutions of diffusion-wave
+	equation.
+	\newblock {\em J. Comput. Appl. Math. 118\/} (2000), 175--191.
+	
+	\bibitem{gor97}
+	{\sc Gorenflo, R., Luchko, Y., and Rogosin, S.~V.}
+	\newblock Mittag-{L}effler type functions, notes on growth properties and
+	distribution of zeros.
+	\newblock Tech. Rep. A04-97, Freie Universit\"at Berlin, 1997.
+	
+	\bibitem{gor97a}
+	{\sc Gorenflo, R., and Mainardi, F.}
+	\newblock Integral and differential equations of fractional order.
+	\newblock In {\em Fractals and Fractional Calculus in Continuum Mechanics\/}
+	(Wien, New York, 1997), A.~Carpinteri and F.~Mainardi, Eds., Springer.
+	
+	\bibitem{gor03}
+	{\sc Gorenflo, R., and Mainardi, F.}
+	\newblock Fractional diffusion processes: probability distributions and
+	continuos time random walk.
+	\newblock In {\em Processes with Long Range Correlations\/} (Berlin, 2003),
+	G.~Rangarajan and M.~Ding, Eds., Springer, pp.~148--166.
+	
+	\bibitem{gor05}
+	{\sc Gorenflo, R., and Mainardi, F.}
+	\newblock Simply and multiply scaled diffusion limits for continuous time
+	random walks.
+	\newblock {\em J. Phys. Conf. Series 7\/} (2005), 1--16.
+	
+	\bibitem{gor02a}
+	{\sc Gorenflo, R., Mainardi, F., Moretti, D., Pagnini, G., and Paradisi, P.}
+	\newblock Fractional diffusion: probability disributions and random walk
+	models.
+	\newblock {\em Physica A 305\/} (2002), 106--112.
+	
+	\bibitem{gor98}
+	{\sc Gorenflo, R., Mainardi, F., and Srivastava, H.~M.}
+	\newblock Special functions in fractional relaxation-oscillation and fractional
+	diffusion-wave phenomena.
+	\newblock In {\em Proc. VIII Int. Colloq. Differ. Equat.\/} (1997), D.~Bainov,
+	Ed., pp.~195--202.
+	
+	\bibitem{gor95}
+	{\sc Gorenflo, R., and Rutman, R.}
+	\newblock On ultraslow and intermediate processes.
+	\newblock In {\em Transform Metods and Special Functions\/} (Singapore, 1995),
+	D.~Rusev, I.~Dimovski, and V.~Kiryakova, Eds., pp.~171--183.
+	
+	\bibitem{gor00}
+	{\sc Gorenfo, R., Iskenderov, A., and Luchko, Y.}
+	\newblock Mapping between soltions of fractional diffusion-wave equations.
+	\newblock {\em Fract. Calc. Appl. Anal. 3\/} (2000), 75.
+	
+	\bibitem{gri13}
+	{\sc Grigoletto, E.~C., and de~Oliveira, E.~C.}
+	\newblock Fractional versions of the fundamental theorem of calculus.
+	\newblock {\em Appl. Math. 4\/} (2013), 23--33.
+	
+	\bibitem{guo12}
+	{\sc Guo, S., Mei, L., Li, Y., and Sun, Y.}
+	\newblock The improved fractional sub-equation method and its applications to
+	the space-time fractional differential equations in fluid mechanics.
+	\newblock {\em Phys. Lett. A 376\/} (2012), 407--411.
+	
+	\bibitem{ha10}
+	{\sc Hanert, E.}
+	\newblock A comparison of three {E}ulerian numerical methods for
+	fractional-order transport models.
+	\newblock {\em Environ. Fluid Mech. 10\/} (2010), 7--20.
+	
+	\bibitem{han11}
+	{\sc Hanert, E.}
+	\newblock On the numerical solution of space-time fractional diffusion models.
+	\newblock {\em Comput. Fluids 46\/} (2011), 33--39.
+	
+	\bibitem{hau11}
+	{\sc Haubold, H.~J., Mathai, A.~M., and Saxena, R.~K.}
+	\newblock Mittag-{L}efler functions and their applications.
+	\newblock {\em J. Appl. Math. 2011\/} (2011), 298628.
+	
+	\bibitem{y11}
+	{\sc He, J.-H.}
+	\newblock Variational iteration approach to nonlinear problems and its
+	applications.
+	\newblock {\em Int. J. Non-Linear Mech. 20\/} (1998), 30--31.
+	
+	\bibitem{he1}
+	{\sc He, J.-H.}
+	\newblock Homotopy perturbation technique.
+	\newblock {\em Comp. Meth. Appl. Mech. 178\/} (1999), 257--262.
+	
+	\bibitem{he2}
+	{\sc He, J.-H.}
+	\newblock New interpretation of homotopy perturbation method.
+	\newblock {\em Int. J. Modern Phys. B 20\/} (2006), 2561--2568.
+	
+	\bibitem{he14}
+	{\sc He, J.-H.}
+	\newblock A tutorial feview on fractal spacetime and fractional calculus.
+	\newblock {\em Int. J. Theor. Phys. 53\/} (2014), 3698--3718.
+	
+	\bibitem{he3}
+	{\sc He, J.-H.}
+	\newblock Recent development of the homotopy perturbation method.
+	\newblock {\em Topolog. Meth. Nonlinear Anal. 31\/} (2016), 205--209.
+	
+	\bibitem{he18}
+	{\sc He, J.-H.}
+	\newblock Fractal calculus and its geometrical explanation.
+	\newblock {\em Results Phys. 10\/} (2018), 272--276.
+	
+	\bibitem{he12a}
+	{\sc He, J.-H., Elagan, S.~K., and Li, Z.~B.}
+	\newblock Geometrical explanation of the fractional complex transform and
+	derivative chain rule for fractional calculus.
+	\newblock {\em Phys. Lett. A 376\/} (2012), 257--259.
+	
+	\bibitem{he12}
+	{\sc He, J.-H., and Li, Z.-B.}
+	\newblock Converting fractional differential equations into partial
+	differential equations.
+	\newblock {\em Thermal Sci. 16\/} (2012), 331--334.
+	
+	\bibitem{he13}
+	{\sc He, J.~H., and Liu, F.}
+	\newblock Local fractional iterative method for fractal heat transfer in silk
+	cocoon hierarchy.
+	\newblock {\em Nonlinear Sci. Lett. 4\/} (2013), 15--20.
+	
+	\bibitem{hey14}
+	{\sc Heydari, M.~H., Maalek~Ghaini, F.~M., and Hooshmandasl, M.~R.}
+	\newblock Legendre wavelet method for numerical solution of time-fractional
+	heat equation.
+	\newblock {\em Wavelets Lin. Algeb. 1\/} (2014), 15--24.
+	
+	\bibitem{t24}
+	{\sc Heymans, N., and Podlubny, I.}
+	\newblock Physical interpretation of initial conditions for fractional
+	differential equations with {R}iemann-{L}iouville fractional derivatives.
+	\newblock {\em Rheolog. Acta 45\/} (2006), 765--772.
+	
+	\bibitem{hil0}
+	{\sc Hilfer, R.}
+	\newblock Fractional diffusion based on {R}iemann-{L}iouville fractional
+	derivatives.
+	\newblock arXiv:cond-mat/0006427 [cond-mat.stat-mech], 2000.
+	
+	\bibitem{hil08}
+	{\sc Hilfer, R.}
+	\newblock Threefold introduction to fractional derivatives.
+	\newblock In {\em Anomalous Transport. Foundations and Applications\/} (2008),
+	R.~Klages, G.~Radons, and I.~M. Sokolov, Eds., Wiley-VCH, pp.~17--74.
+	
+	\bibitem{hil19}
+	{\sc Hilfer, R.}
+	\newblock Mathematical and physical interpretations of fractional derivatives
+	and integrals.
+	\newblock In {\em In Handbook of Fractional Calculus with Applications\/}
+	(Berlin, 2019), A.~Kochubei and Y.~Luchko, Eds., vol.~1, de Gruyter,
+	pp.~47--85.
+	
+	\bibitem{chr10}
+	{\sc Hristov, J.}
+	\newblock Heat-balance integral to fractional (half-time) heat diffusion
+	sub-model.
+	\newblock {\em Thermal Sci. 14\/} (2010), 291--316.
+	
+	\bibitem{chr11}
+	{\sc Hristov, J.}
+	\newblock Approximate solutions to fractional sub-diffusion equations: {T}he
+	heat-balance integral method.
+	\newblock {\em Europ. Phys. J. --- Special Topics 193\/} (2011), 229--243.
+	
+	\bibitem{hr11}
+	{\sc Hristov, J.}
+	\newblock Transient flow of a generalized second grade fluid due to a constant
+	surface shear stress: an approximate integral-balance solution.
+	\newblock {\em Int. Rev. Chem. Eng. 3\/} (2011), 802--809.
+	
+	\bibitem{hua08}
+	{\sc Huang, Q., Huang, G., and Zhan, H.}
+	\newblock A finite elements solution for the fractional advection-dispersion
+	equation.
+	\newblock {\em Adv. Water Res. 31\/} (2008), 1578--1589.
+	
+	\bibitem{iyi16}
+	{\sc Iyiola, O.~S., and Nwaeze, E.~R.}
+	\newblock Some new results on the new conformable fractional calculus with
+	application using {D}'{A}lambert approach.
+	\newblock {\em Progr. Fract. Differ. Appl. 2\/} (2016), 1--7.
+	
+	\bibitem{jaw10}
+	{\sc Jawad, A. J.~W., Petcovic, M.~D., and Biswas, A.}
+	\newblock Modified simple equation method for nonlinear evolution equations.
+	\newblock {\em Appl. Math. Comput. 217\/} (2010), 869--877.
+	
+	\bibitem{jia11}
+	{\sc Jiang, Y., and Ma, J.}
+	\newblock High-order finite element methods fr time-fractional partial
+	differential equations.
+	\newblock {\em J. Comp. Appl. Math. 235\/} (2011), 3285--3290.
+	
+	\bibitem{jin15}
+	{\sc Jin, B., Lazarov, R., Liu, Y., and Zhou, Z.}
+	\newblock the {G}alerkin finite element method for a multi-term time-fractional
+	diffusion equation.
+	\newblock {\em J. Comput. Phys 281\/} (2015), 825--843.
+	
+	\bibitem{jon09}
+	{\sc Joneidi, A.~A., Ganji, D.~D., and Babaelahi, M.}
+	\newblock Differential transformation method to detrmine the efficiency of
+	convective straight fins with temperature dependent thermal conductivity.
+	\newblock {\em Int. Comm. Heat Mass Transfer 36\/} (2009), 757--762.
+	
+	\bibitem{jum}
+	{\sc Jumarie, G.}
+	\newblock Modified {R}iemann-{L}iouville derivative and fractional {T}aylor
+	series of nondifferentiable functions further results.
+	\newblock {\em Comput. Math. Appl. 51\/} (2006), 1376--1376.
+	
+	\bibitem{jum07a}
+	{\sc Jumarie, G.}
+	\newblock Lagrangian mechanics of farctional order, {H}amilton-{J}acobi
+	fractional {P}{D}{E} and {T}aylor's series of nondifferentialable functions.
+	\newblock {\em Chaos Soltons Fractals 32\/} (2007), 969--987.
+	
+	\bibitem{jum07}
+	{\sc Jumarie, G.}
+	\newblock The {M}inlowski's space-time is consistent with differential geometry
+	of fractional order.
+	\newblock {\em Phys. Lett. 363\/} (2007).
+	
+	\bibitem{jum13}
+	{\sc Jumarie, G.}
+	\newblock The {L}eibniz rule for fractional derivatives holds with
+	non-differentiable functions.
+	\newblock {\em Math. Stat. 1\/} (2013), 50--52.
+	
+	\bibitem{jum13a}
+	{\sc Jumarie, G.}
+	\newblock On the derivative chain-rules in fractional calculus via fractional
+	difference and their application to systems modelling.
+	\newblock {\em Open. Phys. 11\/} (2013), 617--633.
+	
+	\bibitem{die06}
+	{\sc K., D., Ford, J.~M., Ford, N.~J., and Weilbeer, M.}
+	\newblock Pitfalls in fast solvers for fractional differential equations.
+	\newblock {\em J. Comp. Appl. Math. 186\/} (2006), 482--503.
+	
+	\bibitem{kat14a}
+	{\sc Katugampola, U.~N.}
+	\newblock New approach to a generalized fractional derivative.
+	\newblock {\em Math. Anal. Appl. 6\/} (2014), 1--15.
+	
+	\bibitem{kat14}
+	{\sc Katugampola, U.~N.}
+	\newblock A new fractional derivative with classical properties.
+	\newblock arXiv: 1410.6535 [math.CA], 2014.
+	
+	\bibitem{kha14}
+	{\sc Khalil, R., Al~Horani, M., Yousef, A., and Sababheh, M.}
+	\newblock A new definition of fractional derivative.
+	\newblock {\em J. Comput. Appl. Math. 264\/} (2014), 65--70.
+	
+	\bibitem{khan}
+	{\sc Khan, Y., Faraz, N., Yildirim, A., and Wu, Q.}
+	\newblock Fractional varoational iteration method for fractional
+	initial-boundary value problems arising in the application of nonlinear
+	science.
+	\newblock {\em Comput. Math. Appl. 62\/} (2011), 2273--2278.
+	
+	\bibitem{kil02}
+	{\sc Kilbas, A.~A., Saigo, M., and Trujillo, J.~J.}
+	\newblock On the generalized {W}right function.
+	\newblock {\em Fract. Calcul. Appl. Anal. 5\/} (2002), 437--460.
+	
+	\bibitem{kilb06}
+	{\sc Kilbas, A.~A., Srivastave, H.~M., and Trujillo, J.~J.}
+	\newblock {\em Theory and Applications of Fractional Differential Equations}.
+	\newblock North Holland, 2006.
+	
+	\bibitem{kir94}
+	{\sc Kiryakova, V.}
+	\newblock {\em Generalized fractional calculus and applications}.
+	\newblock Longman, Harlow, 1994.
+	
+	\bibitem{kir1}
+	{\sc Kiryakova, V.}
+	\newblock Multiple (multiindex) {M}ittag-{L}effler functions and relations to
+	generalized fractional calculus.
+	\newblock {\em J. Comput. Appl. Math. 118\/} (2000), 241--259.
+	
+	\bibitem{kir2}
+	{\sc Kiryakova, V.}
+	\newblock Multiindex {M}ittag-{L}effler functions as an important class of
+	special functions of fractional calculus.
+	\newblock {\em Comput. Math. Appl. 59\/} (2010), 1885--1895.
+	
+	\bibitem{do4}
+	{\sc Kochubei, A.~I.}
+	\newblock Distributed order calculus and equations of ultraslow diffusion.
+	\newblock {\em J. Math. Anal. Appl. 340\/} (2008), 252--281.
+	
+	\bibitem{kol13}
+	{\sc Kolwankar, K.~M.}
+	\newblock Local fractional calculus: a review.
+	\newblock arXiv:1307.0739, 2013.
+	
+	\bibitem{kol97}
+	{\sc Kolwankar, K.~M., and Gangal, A.~D.}
+	\newblock H\"older exponents of irregular functions and local fractional
+	derivatives.
+	\newblock {\em Pramana J. Phys. 48\/} (1997), 49--68.
+	
+	\bibitem{kol98}
+	{\sc Kolwankar, K.~M., and Gangal, A.~D.}
+	\newblock Local fractional derivatives and fractal functions of several
+	variables.
+	\newblock arXiv: physics/9801010 [math-ph], 1998.
+	
+	\bibitem{kol98a}
+	{\sc Kolwankar, K.~M., and Gangal, A.~D.}
+	\newblock Local fractional {F}okker-{P}lank equation.
+	\newblock {\em Phys. Rev. Lett. 80\/} (1998), 214--217.
+	
+	\bibitem{leb}
+	{\sc Lebedev, N.~N.}
+	\newblock {\em Special Functions and their Aplications}.
+	\newblock Prentice-Hall, 1965.
+	
+	\bibitem{zha1}
+	{\sc Lesnic, D., and Elliot, L.}
+	\newblock The decomposition approach to inverse heat conduction.
+	\newblock {\em J. Math. Anal. Appl. 232\/} (1999), 82--98.
+	
+	\bibitem{let}
+	{\sc Letnikov, A.~V.}
+	\newblock Theory of differentiation of fractional order.
+	\newblock {\em Math. Sb. 3\/} (1868), 1--7.
+	
+	\bibitem{li07}
+	{\sc Li, C., and Deng, W.}
+	\newblock Remarks on fractional derivatives.
+	\newblock {\em Appl. Math. Comput. 187\/} (2007), 777--784.
+	
+	\bibitem{li11}
+	{\sc Li, C., Qian, D., and Chwn, Y.~Q.}
+	\newblock On {R}iemann-{L}iouville and {C}aputo derivatives.
+	\newblock {\em Discr. Dynam. Nature Soc. 2011\/} (2011), 562494.
+	
+	\bibitem{fd1}
+	{\sc Li, C., and Zeng, F.}
+	\newblock Finite difference methods for fractional differential rquations.
+	\newblock {\em Int. J. Bifurc. Chaos 22\/} (2012), 1230014.
+	
+	\bibitem{y16a}
+	{\sc Li, Z.-B.}
+	\newblock An extended fractional complex transform.
+	\newblock {\em J. Nonlinear Sci. Numer. Simul. 11\/} (2010), S0335--S0337.
+	
+	\bibitem{y16}
+	{\sc Li, Z.-B., and He, J.-H.}
+	\newblock Fractional complex transform for fracional differential equations.
+	\newblock {\em Math. Comput. Appl. 15\/} (2010), 970--973.
+	
+	\bibitem{li12b}
+	{\sc Li, Z.-B., Zhu, W.-H., and He, J.-H.}
+	\newblock Exact solutions of time-fractional heat conduction equation by the
+	extended fractional complex transform.
+	\newblock {\em Thermal Sci 16\/} (2012), 335--338.
+	
+	\bibitem{liao}
+	{\sc Liao, S.~J.}
+	\newblock Numerically solving nonlinear problems by the homotopy analysis
+	method.
+	\newblock {\em Comp. Mech. 20\/} (1997), 530--540.
+	
+	\bibitem{liu15a}
+	{\sc Liu, F.-J., Li, Z.-B., Zhang, S., and Liu, H.-Y.}
+	\newblock He's fractional derivative for heat conduction in a fractal medium
+	arising in silkworm coocon hierarchy.
+	\newblock {\em Thermal Sci. 19\/} (2015), 1155--1159.
+	
+	\bibitem{lor98}
+	{\sc Lorenzo, C.~F., and Hartley, T.~T.}
+	\newblock Initialization, conceptualization, and application in the generalized
+	fractional calculus.
+	\newblock NASA/TP-1998-208415, 1998.
+	
+	\bibitem{los15}
+	{\sc Losada, J., and Nieto, J.~J.}
+	\newblock Properties of a new fractionalmderivative withou singular kernel.
+	\newblock {\em Prog. Fract. Differ. Appl. 1\/} (2015), 87--92.
+	
+	\bibitem{luch}
+	{\sc Luchko, Y.}
+	\newblock Operational rules for a mixed operator of the {E}rd\'elye-{K}ober
+	type.
+	\newblock {\em Frac. Calc. Appl. Anal. 7\/} (2004), 339--364.
+	
+	\bibitem{luc09}
+	{\sc Luchko, Y.}
+	\newblock Maximum principle for the generalized time-fractional diffusion
+	equation.
+	\newblock {\em J. Math. Anal. Appl. 351\/} (2009), 218--223.
+	
+	\bibitem{luc13}
+	{\sc Luchko, Y., and Kiryakova, V.}
+	\newblock The {M}ellin integral transform in fractional calculus.
+	\newblock {\em Fract. Calc. Appl. Anal. 16\/} (2013), 405--430.
+	
+	\bibitem{m96}
+	{\sc Mainardi, F.}
+	\newblock Fractional relaxation-oscillation and fractional diffusion-wave
+	phenomena.
+	\newblock {\em Chaos Solitons Fract. 7\/} (1996), 1461--1477.
+	
+	\bibitem{m97}
+	{\sc Mainardi, F.}
+	\newblock Fractional calculus: some basic problems in continuum and statistical
+	mechanics.
+	\newblock In {\em Fractals and Fractional Calculus in Continuum Mechanics\/}
+	(Wien and N.Y., 1997), A.~Carpinteri and F.~Mainardi, Eds., Springer,
+	pp.~231--248.
+	
+	\bibitem{mai04}
+	{\sc Mainardi, F.}
+	\newblock Application of integral transforms in fractional diffusion processes.
+	\newblock {\em Integral Transf. Special Funct. 15\/} (2004), 477--484.
+	
+	\bibitem{mai00}
+	{\sc Mainardi, F., and Gorenflo, R.}
+	\newblock On mittag-leffler function in fractional evaluation processes.
+	\newblock {\em J. Comput. Appl. Math. 118\/} (2000), 283--299.
+	
+	\bibitem{mai07}
+	{\sc Mainardi, F., and Gorenflo, R.}
+	\newblock Time-fractional derivatives in relaxation processes: a tutorial
+	survey.
+	\newblock {\em Int. J. Theor. Appl. 10\/} (2007), 269--308.
+	
+	\bibitem{main01}
+	{\sc Mainardi, F., Luchko, Y., and Pagnini, G.}
+	\newblock The fundamental solution of the space-time fractional diffusion
+	equation.
+	\newblock {\em Fract. Calc. Appl. Anal. 4\/} (2001), 153--192.
+	
+	\bibitem{wf1}
+	{\sc Mainardi, F., Mura, A., and Pagnini, G.}
+	\newblock The {M}-{W}right function in time-fractional diffusion processes: a
+	tutorial survey.
+	\newblock {\em Int. J. Differ. Equations 2010\/} (2010), 104505.
+	
+	\bibitem{main07a}
+	{\sc Mainardi, F., Mura, A., Pagnini, G., and Gorenflo, R.}
+	\newblock Time-fractional diffusion of distributed order.
+	\newblock arXiv: 0701132 [cond-mat.stat-mech, 2007.
+	
+	\bibitem{wf}
+	{\sc Mainardi, F., and Pagnini, G.}
+	\newblock The {W}right functions as soluition of the time-fractional diffusion
+	equation.
+	\newblock {\em Appl.Math. Comput. 141\/} (2003), 51--62.
+	
+	\bibitem{main07}
+	{\sc Mainardi, F., Pagnini, G., and Gorenflo, R.}
+	\newblock Some aspects of fractional diffusion equatins of single and
+	distributed order.
+	\newblock {\em Appl. Math. Comput. 187\/} (2007), 295--305.
+	
+	\bibitem{hf}
+	{\sc Mainardi, F., Pagnini, G., and Saxena, R.~K.}
+	\newblock The {F}ox {H} functions in fractional diffusion.
+	\newblock {\em J. Comput. Appl. Math. 178\/} (2005), 321--331.
+	
+	\bibitem{s44}
+	{\sc Meerschaert, M.~M., Zhang, Y., and Baeumer, B.}
+	\newblock Tempered anomalous diffusions in heterogeneous systems.
+	\newblock {\em Geophys. Res. Lett. 35\/} (2008), L17403--L17407.
+	
+	\bibitem{met94}
+	{\sc Metzler, R., Gl\"ockle, W.~G., and Nonnenmacher, T.~F.}
+	\newblock Fractional model equation for anomalous diffusion.
+	\newblock {\em Physica A 211\/} (1994), 13--24.
+	
+	\bibitem{met04}
+	{\sc Metzler, R., and Klafter, J.}
+	\newblock The restaurant at the end of the random walk: recent developments in
+	the description of anomalous transport by fractional dynamics.
+	\newblock {\em J. Phys. A: Math. Gen. 37\/} (2004), R161--R208.
+	
+	\bibitem{mil93}
+	{\sc Miller, K., and Ross, B.}
+	\newblock {\em An introduction to the fractional calculus and fractional
+		differential equations}.
+	\newblock John Wiley and Sons, New York, 1993.
+	
+	\bibitem{mom}
+	{\sc Momani, S., Odibat, Z., and Hashim, I.}
+	\newblock Algorithms for nonlonear fractional partial differentialequations: a
+	selection of numerical methods.
+	\newblock {\em Topol. Meth. Nonlin. Anal. 31\/} (2008), 211--226.
+	
+	\bibitem{t20}
+	{\sc Moshrefi-Torbati, M., and Hammond, J.~K.}
+	\newblock Physical and geometrical interpretation of fractional operators.
+	\newblock {\em J. Franklin Institute 335\/} (1998), 1077--1086.
+	
+	\bibitem{impl1}
+	{\sc Murio, D.~A.}
+	\newblock Implicit finite difference approximation for time fractional
+	diffusion equations.
+	\newblock {\em Comput. Math. Appl. 56\/} (2008), 1138--1145.
+	
+	\bibitem{mus13}
+	{\sc Mustapha, K.~A.}
+	\newblock Superconvergent discontinuous {G}alerkin method for {V}olterra
+	integro-differential equations.
+	\newblock {\em Math. Comput. 82\/} (2013), 1987--2005.
+	
+	\bibitem{do1}
+	{\sc Naber, M.}
+	\newblock Distributed order fractional sub-diffusion.
+	\newblock {\em Fractals 12\/} (2004), 23--32.
+	
+	\bibitem{nakh03}
+	{\sc Nakhushev, A.~M.}
+	\newblock {\em Fractional Calculus and Applications}.
+	\newblock Fismatlit, Moscow, 2003.
+	
+	\bibitem{nakh06}
+	{\sc Nakhusheva, V.~A.}
+	\newblock {\em Differential Euations of Mathematical Models of Nonlocal
+		Processes (in Russian)}.
+	\newblock Nauka, Moscow, 2006.
+	
+	\bibitem{nie10}
+	{\sc Nieto, J.~J.}
+	\newblock Maximum principle for fractional differential equations derived from
+	{M}ittag-{L}effler functions.
+	\newblock {\em Appl. Math. Lett. 23\/} (2010), 1248--1251.
+	
+	\bibitem{t22}
+	{\sc Nigmatullin, R.~R.}
+	\newblock A fractional integral and its physical interpretation.
+	\newblock {\em Theor. Math. Phys. 90\/} (1992), 242--251.
+	
+	\bibitem{nig05}
+	{\sc Nigmatullin, R.~R., and Le~Mehaute, A.}
+	\newblock Is there geometrical/physical meaning of the fractional integral with
+	complex exponent.
+	\newblock {\em J. Non-Crystalline Solids 351\/} (2005), 2888--2899.
+	
+	\bibitem{noor}
+	{\sc Noor, M.~A., and Mohyud-Din, S.~T.}
+	\newblock Variational iteration method for solving higher-order nonlinear
+	boundary value problems using {H}e's polynomials.
+	\newblock {\em Int. J. Nonlinear Sci. Numer. Simul. 9\/} (2008), 141--156.
+	
+	\bibitem{odi08}
+	{\sc Odibat, Z.~M., and Momani, S.}
+	\newblock an algoritm for the numerical solution of differential equations of
+	fractional order.
+	\newblock {\em J. Appl. Math. Informatics 26\/} (2008), 15--27.
+	
+	\bibitem{odi07}
+	{\sc Odibat, Z.~M., and Shawagfeh, N.~T.}
+	\newblock Generized {T}aylor's formula.
+	\newblock {\em Appl. Math. Comput. 186\/} (2007), 285--294.
+	
+	\bibitem{old74}
+	{\sc Oldham, K., and Spanier, J.}
+	\newblock {\em The fractional calculus; theory and applications of
+		differentiation and integration to arbitrary order}.
+	\newblock Academic Press, New York, 1974.
+	
+	\bibitem{ont13}
+	{\sc Ontololan, J., Borres, M., Patac, A., and Maglasang, G.}
+	\newblock Review of fractal and fractal derivatives in relation to the physics
+	of fractals.
+	\newblock {\em UV j. Res.\/} (2013), 219--228.
+	
+	\bibitem{osl1}
+	{\sc Osler, T.~J.}
+	\newblock Leibniz rule for fractional derivatives generalized and application
+	to infinite series.
+	\newblock {\em SIAM J. Appl. Math 18\/} (1970), 658--674.
+	
+	\bibitem{osl2}
+	{\sc Osler, T.~J.}
+	\newblock A correction to {L}eibniz rule for fractional derivatives.
+	\newblock {\em SIAM J. Math. Anal. 4\/} (1973), 456--459.
+	
+	\bibitem{pag12}
+	{\sc Pagnini, G.}
+	\newblock Erd\'elye-{K}ober fractional diffusion.
+	\newblock {\em Frac. Calc. Appl. Anal. 15\/} (2012), 117--127.
+	
+	\bibitem{pen10}
+	{\sc Peng, J., and Li, K.}
+	\newblock A note on property of the {M}ittag-{L}effler function.
+	\newblock {\em J. Math. Anal. Appl. 370\/} (2010), 635--638.
+	
+	\bibitem{rb2}
+	{\sc Piret, C., and Hanert, E.}
+	\newblock A radial basis function method for fractional diffusion.
+	\newblock {\em J. Comput. Phys 238\/} (2013), 71--78.
+	
+	\bibitem{pod98}
+	{\sc Podlubny, I.}
+	\newblock {\em Fractional Differential Equations}.
+	\newblock Academic Press, 1998.
+	
+	\bibitem{pod00}
+	{\sc Podlubny, I.}
+	\newblock Matrix approach to discrete fractional calaculus.
+	\newblock {\em Frac. Calc. Appl. Anal. 3\/} (2000), 359--386.
+	
+	\bibitem{pod02}
+	{\sc Podlubny, I.}
+	\newblock Geometric and physical interpretation of fractional integration and
+	fractional differentiation.
+	\newblock {\em Frac. Calc. Appl. Anal. 5\/} (2002), 36--386.
+	
+	\bibitem{pod09}
+	{\sc Podlubny, I., Chechkin, A., Chen, Y.~Q., and Vinagre, B. M.~J.}
+	\newblock Matrix approach to discrete fractional calaculus {I}{I}: {P}artial
+	differential equations.
+	\newblock {\em J. Comput. Phys. 228\/} (2009), 3137--3153.
+	
+	\bibitem{pod07}
+	{\sc Podlubny, I., Despotovic, V., Skovranek, T., and McNaughton, B.~H.}
+	\newblock Shadows on the walls: Geometric interpretation of fractional
+	integration.
+	\newblock {\em The J. Online Math. Appl. 7\/} (2007), 1664.
+	
+	\bibitem{pra71}
+	{\sc Prabhakar, T.~R.}
+	\newblock A singular integral equation with a generalized {M}ittag-{L}effler
+	function in the kernel.
+	\newblock {\em Yokohama Math. 19\/} (1971), 7--15.
+	
+	\bibitem{lwf}
+	{\sc Prieto, A.~I., de~Romero, S.~S., and Srivastava, H.~M.}
+	\newblock Some fractional-calculus results involving the generalized
+	{L}ommel-{W}right and related functions.
+	\newblock {\em Appl. Math. Lett. 20\/} (2007), 17--22.
+	
+	\bibitem{qi13}
+	{\sc Qi, H.~T., Xu, H.~Y., and Guo, X.~W.}
+	\newblock The generalized {T}aylor's formula.
+	\newblock {\em Appl. Math. Comput. 186\/} (2007), 286--293.
+	
+	\bibitem{rab97}
+	{\sc Rabotnov, Y.~N.}
+	\newblock {\em Elements of Hereditary Mechanics of Solids (in Russian)}.
+	\newblock Nauka, Moscow, 1977.
+	
+	\bibitem{raf12}
+	{\sc Raftari, B., and Vajravelu, K.}
+	\newblock Homotopy analysis method for {M}{H}{D} viscoelastic fluid flow and
+	heat transfer in a channel with a stretching wall.
+	\newblock {\em Comm. Nonlin. Sci. Numer. Simul. 17\/} (2012), 4149--4162.
+	
+	\bibitem{rah10}
+	{\sc Rahimy, M.}
+	\newblock Applications of fractional diferential equations.
+	\newblock {\em Appl. Math. Sci. 4\/} (2010), 2453--2461.
+	
+	\bibitem{fem2}
+	{\sc Roop, J.~P.}
+	\newblock Computational aspects of {F}{E}{M} approximation of fractional
+	advection diffusion equations on bounded domains in $\mathbb{R}^2$.
+	\newblock {\em J. Comput. appl. Math. 193\/} (2006), 243--268.
+	
+	\bibitem{ross97}
+	{\sc Ross, B.}
+	\newblock The development of fractional calculus 1695-1990.
+	\newblock {\em Historia Math. 4\/} (1977), 75--89.
+	
+	\bibitem{t23}
+	{\sc Rutman, R.~S.}
+	\newblock On physical interpretations of fractional integration and
+	differentiation.
+	\newblock {\em Theor. Math. Phys. 105\/} (1995), 1509--1519.
+	
+	\bibitem{temp}
+	{\sc Sabzikara, F., Meerschaerta, M.~M., and Chen, J.}
+	\newblock Tempered fractional calculus.
+	\newblock {\em J. Comp. Phys. 293\/} (2015), 14--28.
+	
+	\bibitem{sai97}
+	{\sc Saichev, A., and Zaslavsky, G.}
+	\newblock Fractional kinetic equations: solutions and applications.
+	\newblock {\em Chaos 7\/} (1997), 753--764.
+	
+	\bibitem{var2}
+	{\sc Samko, A.~G.}
+	\newblock Fractional integration and differentiatin of variable order.
+	\newblock {\em Anal. Math. 21\/} (1995), 213--236.
+	
+	\bibitem{sam87}
+	{\sc Samko, S.~G., Kilbas, A.~A., and Marichev, O.~I.}
+	\newblock {\em Fractional integrals and derivatives. Theory and applications}.
+	\newblock Gordon and Breach Science Publishers, 1993.
+	
+	\bibitem{fd2}
+	{\sc Scherer, R., Kalla, S.~L., Tang, Y., and Huang, J.}
+	\newblock The {G}r\"unwald-{L}etnikov method for fractional differential
+	equations.
+	\newblock {\em Comput. Math. Appl. 62\/} (2011), 902--917.
+	
+	\bibitem{sch89}
+	{\sc Schneider, W.~R., and Wyss, W.}
+	\newblock Fractional diffusion and wave equations.
+	\newblock {\em J. Math. Phys. 30\/} (1989), 134--144.
+	
+	\bibitem{shi12}
+	{\sc Shirzadi, A., Ling, L., and Abbasbandy, S.}
+	\newblock Meshless simulations of the two-dimensional fractional-time
+	convection-diffusion-reaction equations.
+	\newblock {\em Eng. Anal. Boundar. Elem. 36\/} (2012), 1522--1527.
+	
+	\bibitem{po2}
+	{\sc Shubin, M.~A.}
+	\newblock {\em Pseudo Differential Operators and Spectral Theory}.
+	\newblock Springer, Berlin, 1987.
+	
+	\bibitem{shu07}
+	{\sc Shukla, A.~K., and Prajapati, J.~C.}
+	\newblock On a generalization of {M}ittag-{L}efler function and its
+	application.
+	\newblock {\em J. Math. Anal. Appl. 336\/} (2007), 797--811.
+	
+	\bibitem{sie15}
+	{\sc Sierociuk, D., Skovranek, T., Macias, M., Podlubny, I., Petra, I.,
+		Dzielinski, A., and Ziubinsky, P.}
+	\newblock Diffusion process modeling by using fractional-order models.
+	\newblock {\em Appl. Math. Comp. 257\/} (2015), 2--11.
+	
+	\bibitem{sin11a}
+	{\sc Singh, J., Gupta, P.~K., and Rai, K.~N.}
+	\newblock Homotopy perturbation method to space-time fractional solidification
+	in a finite slab.
+	\newblock {\em Appl. Math. Model. 35\/} (2011), 1937--1945.
+	
+	\bibitem{sin06b}
+	{\sc Singh, S.~J., and Chatterjee, A.}
+	\newblock Galerkin projections and finite elements for fractional order
+	derivatives.
+	\newblock {\em Nonlinear Dyn. 45\/} (2006), 183--206.
+	
+	\bibitem{sok02}
+	{\sc Sokolov, I.~M., Klafter, J., and Blumen, A.}
+	\newblock Fractional kinetics.
+	\newblock {\em Phys. Todsay\/} (2002), 48--54.
+	
+	\bibitem{t13}
+	{\sc Stanislavsky, A.~A.}
+	\newblock Probabilistic interpretation of the integral of fractional order.
+	\newblock {\em Theor. Math. Phys. 138\/} (2004), 418--431.
+	
+	\bibitem{su13}
+	{\sc Su, W.-H., Yang, X.-J., Jafan, H., and Baleanu, D.}
+	\newblock Fractional complex transform method for wave equations on {C}antor
+	sets within local fractional differential operator.
+	\newblock {\em Adv. Diff. Equat. 2013\/} (2013), 97.
+	
+	\bibitem{sun17}
+	{\sc Sun, X.~G., Hao, X., Zhang, Y., and Baleanu, D.}
+	\newblock Relaxation and diffusion models with non-singular kernels.
+	\newblock {\em Phys. A Stat. Mech. Appl. 468\/} (2017), 590--596.
+	
+	\bibitem{cn1}
+	{\sc Tadjeran, C., and Meerschaert, M.~M.}
+	\newblock A second-order accrate numerical method for the two-dimensional
+	fractional diffusion equation.
+	\newblock {\em J. Comput. Phys 220\/} (2007), 813--823.
+	
+	\bibitem{cn2}
+	{\sc Tadjeran, C., Meerschaert, M.~M., and Scheeffler, H.-P.}
+	\newblock A second-order accrate numerical approximation for the fractional
+	diffusion equation.
+	\newblock {\em J. Comput. Phys 213\/} (2006), 205--213.
+	
+	\bibitem{tar18}
+	{\sc Tarasov, V.}
+	\newblock No nonlocality, no farctional derivative.
+	\newblock {\em Nonlinear Sci. Numer. Simulat. 62\/} (2018), 157--163.
+	
+	\bibitem{tar11}
+	{\sc Tarasov, V.~E.}
+	\newblock {\em Fractional Dynamics: Applications of Fractional Calculus to
+		Dynamics of Particles, Fields and Media (Nonlinear Physical Science)}.
+	\newblock Springer, 2011.
+	
+	\bibitem{tar1}
+	{\sc Tarasov, V.~E.}
+	\newblock No violation of the {L}ebniz rule.
+	\newblock {\em Commun. Nonlinear Sci. Numer. Simul. 18\/} (2013), 2945--2948.
+	
+	\bibitem{tar16}
+	{\sc Tarasov, V.~E.}
+	\newblock Heat transfer in fractal materials.
+	\newblock {\em Int. J. Heat Mass Transfer 93\/} (2016), 427--430.
+	
+	\bibitem{tar2}
+	{\sc Tarasov, V.~E.}
+	\newblock Leibniz rule and fractional derivative of power functions.
+	\newblock {\em J. Comput. Nonlinear. Dynam. 11\/} (2016), 031014.
+	
+	\bibitem{tar16a}
+	{\sc Tarasov, V.~E.}
+	\newblock On chain rule for fractional derivatives.
+	\newblock {\em Comm. Nonlin. Sci. Num. Simul. 30\/} (2016), 1--4.
+	
+	\bibitem{tat17}
+	{\sc Tateishi, A.~A., Ribeiro, H.~V., and Lenzi, E.~K.}
+	\newblock The role of fractional time-derivative operators on anomalous
+	diffusion.
+	\newblock {\em Front. Phys. 5\/} (2017), 52.
+	
+	\bibitem{po1}
+	{\sc Taylor, M.~E.}
+	\newblock {\em Pseudo Differential Operators}.
+	\newblock Princeton University Press, Princeton, 1981.
+	
+	\bibitem{t15}
+	{\sc Teneiro~Machado, J.~A.}
+	\newblock Fractional derivatives: Probability interpretation and frequency
+	response of rational approximations.
+	\newblock {\em Comm. Nonlin. Sci. Num. Sim. 14\/} (2009), 3492--3497.
+	
+	\bibitem{t14a}
+	{\sc Teneiro~Machado, J.~A.}
+	\newblock A probabilistic interpretation of the fractional-order
+	differentiation.
+	\newblock {\em Fract. Calcul. Appl. Anal. 6\/} (2009), 73--80.
+	
+	\bibitem{kir10}
+	{\sc Teneiro~Machado, J.~A., Kiryakova, V., and Mainardi, F.}
+	\newblock A poster about the recent history of fractional calculis.
+	\newblock {\em Fract. Calculus Appl. Anal. 13\/} (2010), 329--334.
+	
+	\bibitem{kir14}
+	{\sc Teneiro~Machado, J.~A., Kiryakova, V., and Mainardi, F.}
+	\newblock Recent history of fractional calculis.
+	\newblock {\em Commun. Nonlin. Sci. Numer. Simul. 16\/} (2011), 1140--1153.
+	
+	\bibitem{kir11}
+	{\sc Valerio, D., Machado, J.~T., and Kiryakova, V.}
+	\newblock Some pioneers of the applicatoons of fractional calculus.
+	\newblock {\em Fract. Calculus Appl. Anal. 17\/} (2011), 552--578.
+	
+	\bibitem{vd}
+	{\sc Van~Dyke, M.}
+	\newblock {\em Perturbation Methods in Fluid Mechanics}.
+	\newblock Parabolic Press, Standford, 1975.
+	
+	\bibitem{ver14}
+	{\sc Vermeersch, B., and Shakouri, A.}
+	\newblock Spatiotemporal flux memory to nondiffusive transport.
+	\newblock arXiv: 1412.8571 [cond-mat.stat-mech], 2014.
+	
+	\bibitem{volt}
+	{\sc Volterra, V.}
+	\newblock {\em Theory of Functional and of Integral and Integro-Differential
+		Equations}.
+	\newblock Blackie and Son Ltd., London and Glasgow, 1930.
+	
+	\bibitem{cfd1}
+	{\sc Vong, S., Lyu, P., Chen, X., and Lei, S, L.}
+	\newblock High order finite difference method for time-space fractional
+	differential equations with {C}aputo and {R}iemann-{L}iouville derivatives.
+	\newblock {\em Numer. Algor. 72\/} (2016), 195--210.
+	
+	\bibitem{cfd2}
+	{\sc Vong, S., and Wang, Z.}
+	\newblock A high order compact scheme for the fractional {F}okker-{P}lanck
+	equation.
+	\newblock {\em Appl. Math. Lett. 43\/} (2015), 38--43.
+	
+	\bibitem{wat02a}
+	{\sc Watugala, G.~K.}
+	\newblock The {S}umudu transform for functions of two variables.
+	\newblock {\em Math. Eng. Industr. 8\/} (2002), 293--302.
+	
+	\bibitem{waz10}
+	{\sc Wazwaz, A.-M., and Mehanna, M.~S.}
+	\newblock The combined {L}aplace-{A}domian method for handling singular
+	integral equation of heat transfer.
+	\newblock {\em Int. J. Nonlinear Sci. 10\/} (2010), 248--252.
+	
+	\bibitem{wei17}
+	{\sc Wei, C., and Wang, H.}
+	\newblock Solutions of the heat-conduction model described by fractional
+	{E}mden-{F}owler type equation.
+	\newblock {\em Thermal Sci. 21\/} (2017), S113--S120.
+	
+	\bibitem{rb1}
+	{\sc Wei, S., Chen, W., and Hon, Y.-C.}
+	\newblock Implicit local radial basis function method for solving
+	two-dimensional time fractional diffusion equations.
+	\newblock {\em Thermal Sci. 19\/} (2015), S59--S67.
+	
+	\bibitem{wes97}
+	{\sc West, B.~J., Grigolini, P., Metzler, R., and Nonnenmacher, T.~F.}
+	\newblock Fractional diffusion and {L}\'evy stable processes.
+	\newblock {\em Phys. Rev. E 55\/} (1997), 99--106.
+	
+	\bibitem{zha9}
+	{\sc Wu, G.~C.}
+	\newblock Applications of the variational iteration method to fractional
+	diffusion equation: local versus nonlocal ones.
+	\newblock {\em Int. Rev. Chem. Eng. 4\/} (2012), 505--510.
+	
+	\bibitem{wu10}
+	{\sc Wu, G.~C., and Lee, E. W.~M.}
+	\newblock Fractional variational iteration method and its applications.
+	\newblock {\em Phys. Lett. A 374\/} (2010), 2506--2509.
+	
+	\bibitem{yan13c}
+	{\sc Yan, L.-M.}
+	\newblock Modified homotopy perturbation method coupled with {L}aplace
+	transform for fractional heat transfer and porous media equations.
+	\newblock {\em Thermal Sci. 17\/} (2013), 1409--1414.
+	
+	\bibitem{yan13}
+	{\sc Yang, A.~M., Cattani, C., Jafari, H., and Yang, X.~J.}
+	\newblock Analytical solutions of the one-dimensional heat equations arising in
+	fractal transient conduction with local fractional derivatives.
+	\newblock {\em Abstract Appl. Anal. 2013\/} (2013), 462535.
+	
+	\bibitem{yan14}
+	{\sc Yang, A.-M., Zhang, C., Jafari, H., Cattani, C., and Jiao, Y.}
+	\newblock Picard successsive approximation method for solving differential
+	equations in fractal heat transfer with local fractional derivative.
+	\newblock {\em Abstr. Appl. Anal. 2014\/} (2014), 395710.
+	
+	\bibitem{zha6}
+	{\sc Yang, X.~J.}
+	\newblock {\em Advanced Local Fractional Calculus and its Applications}.
+	\newblock World Science Publisher, N. Y., 2012.
+	
+	\bibitem{yang12c}
+	{\sc Yang, X.-J.}
+	\newblock Generalized local fractional {T}aylor's formula with local farctional
+	derivative.
+	\newblock {\em J. Expert Systems 1\/} (2012), 1--5.
+	
+	\bibitem{yang12b}
+	{\sc Yang, X.~J.}
+	\newblock Picard's approximation method for solving a class of local fractional
+	{V}olterra integral equations.
+	\newblock {\em Adv. Intell. Transport. Syst. 1\/} (2012), 67--70.
+	
+	\bibitem{yan13b}
+	{\sc Yang, X.~J., and Baleanu, D.}
+	\newblock Fractal heat conduction problem solved by local fractional variation
+	method.
+	\newblock {\em Thermal Sci. 17\/} (2013), 625--628.
+	
+	\bibitem{yang}
+	{\sc Yang, X.-J., Baleanu, D., and He, J.-H.}
+	\newblock Transport equations in fractal porous media within fractional complex
+	transform method.
+	\newblock {\em Proc. Romanian Acad. 14\/} (2013), 287--292.
+	
+	\bibitem{yang15}
+	{\sc Yang, X.-J., Baleanu, D., and Srivastava, H.~M.}
+	\newblock {\em Local Fractional Integral Transforms and their Applications}.
+	\newblock Academic Press, 2015.
+	
+	\bibitem{yang15a}
+	{\sc Yang, X.-J., Srivastava, H.~M., and Cattani, C.}
+	\newblock Local fractional homotopy perturbation method for solving fractal
+	partial differential equations arising in mathematical physics.
+	\newblock {\em Rom. Rep. Phys. 67\/} (2015), 752--761.
+	
+	\bibitem{yang12a}
+	{\sc Yang, X.-J., and Zhang, F.~R.}
+	\newblock Local fractional variational iteration method and its algorithms.
+	\newblock {\em Adv. Comput. Math. Appl. 1\/} (2012), 139--145.
+	
+	\bibitem{yang16}
+	{\sc Yang, X.-J., Zhang, Z.-Z., Teneiro~Machado, J.~A., and Baleanu, D.}
+	\newblock On local fractional operators view of computational complexity.
+	{D}iffusion and relaxation defined on {C}antor sets.
+	\newblock {\em Thermal Sci. 20\/} (2016), S755--S767.
+	
+	\bibitem{yang13}
+	{\sc Yang, Y.-J., Baleanu, D., and Yang, X.-J.}
+	\newblock Analysis of fractal wave equations by local fractional {F}ourier
+	series method.
+	\newblock {\em Adv. Math. Phys. 2013\/} (2013), 632309.
+	
+	\bibitem{yil10}
+	{\sc Yildrim, A., and S., M.}
+	\newblock Series solutions of a fractional oscillator by means of the homotopy
+	perturbation method.
+	\newblock {\em Int. J. Comp. Math. 87\/} (2010), 1072--1082.
+	
+	\bibitem{you14}
+	{\sc Younis, M.}
+	\newblock A new approach for the exact solution of nonlinear equations of
+	fractional order via modified simple equation method.
+	\newblock {\em Appl. Math. 5\/} (2014), 1927--1932.
+	
+	\bibitem{do2}
+	{\sc Zaslavsky, G.~M.}
+	\newblock Chaos, fractional kinetics and anomalous transport.
+	\newblock {\em Phys. Reports 371\/} (2002), 461--580.
+	
+	\bibitem{zas08}
+	{\sc Zaslavsky, G.~M.}
+	\newblock {\em Hamiltonian Chaos and Fractional Dynamics}.
+	\newblock OUP, 2008.
+	
+	\bibitem{zay14}
+	{\sc Zayernouri, M., and Karniadakis, G.~M.}
+	\newblock Exponentially accurate spectral and spectral element methods for
+	fractional {O}{D}{E}s.
+	\newblock {\em J. Comput. Phys. 257\/} (2014), 460--480.
+	
+	\bibitem{zeng15}
+	{\sc Zeng, F., Li, C., Liu, F., and Turner, I.}
+	\newblock Numerical algorithms for time-fractional subdiffusion equations with
+	second-order accuracy.
+	\newblock {\em SIAM J. SCi. Comp. 37\/} (2015), A55--A78.
+	
+	\bibitem{zha16a}
+	{\sc Zhai, S., and Feng, X.}
+	\newblock Investigations on several compact {A}{D}{I} methods for the 2{D} time
+	fractional diffusion equation.
+	\newblock {\em Numer. Heat Transfer Fundam. 69\/} (2016), 364--376.
+	
+	\bibitem{zha19b}
+	{\sc Zhai, S., Weng, Z., Feng, X., and Yuan, J.}
+	\newblock Investigations on several high-order adi methods for time-space
+	fractional diffusion equation.
+	\newblock {\em Numer. Algor. 82\/} (2019), 69--106.
+	
+	\bibitem{zha06}
+	{\sc Zhang, G., and Li, B.}
+	\newblock Thermal conductivity of nanotubes revisited: {E}ffects of chirality,
+	isotope impurity, tube length, and temperature.
+	\newblock arXiv:cond-mat/0501194[cond-mat.mtrl-sci], 2006.
+	
+	\bibitem{y19}
+	{\sc Zhang, S., and Zhang, H.~Q.}
+	\newblock Fractional sub-equation method and its applications to nonlinear
+	fractional {P}{D}{E}.
+	\newblock {\em Phys. Lett. A 375\/} (2011), 1069--1073.
+	
+	\bibitem{zha14a}
+	{\sc Zhang, Y.}
+	\newblock Solving initial-boundary value problems for local fractional
+	differential equation by local fractional {F}ourier series method.
+	\newblock {\em Abstr. Appl. Anal. 2014\/} (2014), 912464.
+	
+	\bibitem{zha15b}
+	{\sc Zhang, Y., Cattani, C., and Yang, X.-J.}
+	\newblock Local fractional homotopy perturbation method for solving
+	non-homogeneous heat conduction equations in fractal domains.
+	\newblock {\em Entropy 17\/} (2015), 6753--6764.
+	
+	\bibitem{s70}
+	{\sc Zhang, Y., Meerschaert, M.~M., and Packman, A.~I.}
+	\newblock Linking fluvial bed sediment transport across scales.
+	\newblock {\em Geophys. Res. Lett. 39\/} (2012), L20404--L20406.
+	
+	\bibitem{zha19a}
+	{\sc Zhao, D., and Luo, M.}
+	\newblock Representations of acting processes and memory effects: general
+	fractional derivative and its application to theory of heat conduction with
+	finite wave speeds.
+	\newblock {\em Appl. Math. Comput. 346\/} (2019), 531--544.
+	
+	\bibitem{zhao17}
+	{\sc Zhao, D., Singh, J., Kumar, D., Rathore, S., and Yang, X.-J.}
+	\newblock An effucient computational technique for local fractional heat
+	conduction equations in fractal media.
+	\newblock {\em J. Nonlin. Sci. Appl. 10\/} (2017), 1478--1486.
+	
+	\bibitem{zha16}
+	{\sc Zhao, Y., Cai, Y.-G., and Yang, X.-J.}
+	\newblock A local fractional derivative with applications to fractal relaxation
+	and diffusion phenomena.
+	\newblock {\em Thermal Sci. 20\/} (2016), S723--S727.
+	
+	\bibitem{fem1}
+	{\sc Zhu, P., and Xie, S.}
+	\newblock A{D}{I} finite element method for 2{D} nonlinear time fractional
+	reaction-subdiffusion equation.
+	\newblock {\em Am. J. Comput. Math. 6\/} (2016), 336--356.
+	
+\end{thebibliography}
+
+
+
+
+%\bibliographystyle{acm}
+%\bibliographystyle{spmpsci}
+%\bibliography{zhm_22}
+\end{document}

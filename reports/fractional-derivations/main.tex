@@ -1,0 +1,246 @@
+\documentclass[onecolumn,aps,showpacs,superscriptaddress,footinbib,citeautoscript]{revtex4-1}
+%%% General
+%\documentclass[twocolumn,aps]{revtex4-1}
+
+\bibliographystyle{apsrev4-1}
+\usepackage{graphicx}
+%%% Typo
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[american]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+\usepackage{mdwlist}
+%usepackage[activate=normal]{pdfcprot}
+%usepackage{bbding}
+\usepackage{color}
+\usepackage{dsfont}
+\frenchspacing
+
+%%% Math
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+
+%%% Layout
+\usepackage{bm}
+\usepackage{dcolumn}
+\usepackage{color}
+%
+\usepackage[colorlinks=true,citecolor=blue]{hyperref}
+\hypersetup{colorlinks=true,citecolor=blue,linkcolor=red
+,urlcolor=blue}
+
+%%% Definitions
+\newcommand{\order}[1]{\mathcal{O}\left({#1}\right)}
+\newcommand* {\vek}[1]{{\ensuremath{\bm{\mathrm{#1}}}}}
+\newcommand* {\vekc}[1]{{\ensuremath{\bm{\mathcal{#1}}}}}
+\newcommand* {\co}[1]{\hat{c}_{#1}}
+\newcommand* {\codag}[1]{\hat{c}^\dag_{#1}}
+\newcommand* {\n}[1]{(\hat{n}_{#1}-1)}
+\newcommand* {\dd}[1]{{\ensuremath{\bm{\mathcal{#1}}}}}
+\newcommand* {\kk}{\vek{k}}
+\newcommand* {\rr}{\vek{r}}
+\newcommand* {\dt}{\delta \tau}
+\newcommand* {\bra}[1]{\ensuremath{\langle {#1} |}}
+\newcommand* {\ket}[1]{\ensuremath{| {#1} \rangle}}
+\newcommand* {\braket}[1]{\ensuremath{\langle {#1} \rangle}}
+\newcommand* {\ham}{\mathsf{H}}
+\newcommand*{\ee}{\ensuremath{\mathrm{e}}}
+\DeclareRobustCommand{\clarify}[1]{\rule{1.8ex}{1.8ex} \emph{#1}}
+\newcommand*{\BZR}{\color[rgb]{0.,.5,0.}}
+\newcommand{\change}[1]{\textcolor{red}{#1}}
+\usepackage{amsmath,amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+%usepackage{bbold}
+%\usepackage{feynmf}
+\usepackage{natbib}
+
+\newcommand{\citen}[1]{%
+  \begingroup
+    \romannumeral-`\x % remove space at the beginning of \setcitestyle
+    \setcitestyle{numbers}%
+    \cite{#1}%
+  \endgroup
+}
+
+%%% BEGIN DOCUMENT
+\def\k{{\bf k}}
+\def\T{{\bf T}}
+\def\G{{{\bf G}}}
+\def\Sig{{{\bf \Sigma}}}
+\def\D{{\bf D}}
+\def\F{{\bf F}}
+\def\I{{\bf I}}
+\def\it{{_a{\bf I}_t}}
+\begin{document}
+\title{A survay about Fractional Order Calculus.}
+\date{\today}
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %=========================================================================
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+Here we will review derivations of fractional calculus.
+\end{abstract}
+
+\pacs{ 73.63.-b, 75.70.Cn, 85.75.-d, 73.43.Qt}
+\maketitle
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %=========================================================================
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+ %======================================================
+\section{Fractional order integration}\label{method}
+%
+\subsection{Cachy formula}
+\begin{equation}
+  _a\I_t^n[F] = \int_a^t d\tau_1 \int_a^{\tau_1} d\tau_2 \int_a^{\tau_2} d\tau_3 \cdots d\tau_{n-1}\int_a^{\tau_{n-1}} F(\tau_n) d\tau_n 
+\end{equation}
+
+\begin{eqnarray}
+ _a\I_t^n[F] &=& \int_a^t \underbrace{d\tau_1}_{d\nu} \underbrace{_a\I_{\tau_1}^{n-1}[F]}_{u}  
+            = \tau_1 {_aI_{\tau_1}^{n-1}[F]}|_a^t- \int_a^t \tau_1 d\tau_1 {_a\I_{\tau_1}^{n-2}[F]} \nonumber \\
+            &=& t \times {_a\I_t^{n-1}[F]} - \int_a^t \tau_1 d\tau_1  {_a\I_{\tau_1}^{n-2}[F]} 
+            = \int_a^t t d\tau_1 {_a\I_{\tau_1}^{n-2}[F]} - \int_a^t \tau_1 d\tau_1  {_a\I_{\tau_1}^{n-2}[F]} \nonumber \\
+            &=& \int_a^t \underbrace{d\tau_1 (t-\tau_1)}_{d\nu} \underbrace{_a\I_{\tau_1}^{n-2}[F]}_u
+\end{eqnarray}
+  
+\begin{eqnarray}
+  _a\I_t^n[F] &=& \underbrace{-\frac{1}{2}(t-\tau_1)^2 {_aI_{\tau_1}^{n-2}[F]}|_a^t}_{=0} + \frac{1}{2}\int_a^t (t-\tau_1)^2 d\tau_1 {_a\I_{\tau_1}^{n-3}[F]} \nonumber \\
+  &=& \frac{1}{2}\int_a^t (t-\tau_1)^2 d\tau_1 {_a\I_{\tau_1}^{n-3}[F]} \nonumber\\
+  &\vdots& \nonumber \\
+  &=& \frac{1}{(n-1)!} \int_a^t (t-\tau_1)^{n-1}F(\tau_1)d\tau_1
+\end{eqnarray}
+\begin{equation}
+  _a\I_t^n[F] = \frac{1}{\Gamma(n)} \int_a^t (t-\tau_1)^{n-1}F(\tau_1)d\tau_1
+\end{equation}
+\subsection{Arbitrary order integration}
+Based on Cachy integration formula for repeated integrations one may extend the integer order integration to arbitrary order integration as follows,
+\begin{equation}
+ _a\I_t^\alpha[F] = \frac{1}{\Gamma(\alpha)} \int_a^t (t-\tau)^{\alpha-1} F(\tau)d\tau
+\end{equation}
+
+\subsection{General relations}
+\begin{equation}
+ \Gamma(\alpha) = \int_0^\infty t^{\alpha-1}e^{-t}dt
+\end{equation}
+%
+\begin{equation}
+ B(\alpha,\beta) = \int_0^1 t^{\alpha-1}(1-t)^{\beta-1}dt
+\end{equation}
+%
+\begin{equation}
+ B(\alpha,\beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}
+\end{equation}
+\begin{equation}
+ \alpha\Gamma(\alpha)=\Gamma(\alpha+1), \Gamma(0)=\infty, \Gamma(1)=1
+\end{equation}
+\begin{equation}
+ (\alpha+n)\cdots\alpha\Gamma(\alpha)=\Gamma(\alpha+n+1)
+\end{equation}
+\section{Fractional order Differentation}\label{FOD}
+%
+\subsection{Reimann-Liouvile FOD}
+%
+\begin{eqnarray}
+ ^{\bf RL}_a\D_t^\alpha \F(t) =  \frac{d^m}{dt^m} {_a\I_t^{m-\alpha}[\F]}
+                              = \frac{1}{\Gamma(m-\alpha)}\int_a^t(t-\tau)^{m-\alpha-1}\F(\tau)d\tau
+\end{eqnarray}
+where $m-1\preceq\alpha\preceq m$.
+\subsection{Caputo FOD}
+%
+\begin{eqnarray}
+^{\bf C}_a\D_t^\alpha \F(t) =  _a\I_t^{m-\alpha}[\F]
+                              = \frac{1}{\Gamma(m-\alpha)}\int_a^t(t-\tau)^{m-\alpha-1}\frac{d^m}{d\tau^m}\F(\tau)d\tau
+\end{eqnarray}
+where $m-1\preceq\alpha\preceq m$.
+\subsection{Gronvald-Letnikov FOD and FOI}
+%
+\begin{eqnarray}
+^{\bf GL}_a\D_t^\alpha \F(t) = \lim_{h\rightarrow 0} \frac{(1-\hat{\T}_h)^\alpha}{h^\alpha}\F(t)
+\end{eqnarray}
+Using Tylor expansion of $(1-x)^\alpha$,
+\begin{eqnarray}
+ (1-\hat{\T}_h)^\alpha &=& \sum_{n=0}^\infty \frac{(-1)^n}{n!} \times \prod_{i=1}^{i=k}(\alpha-i+1) \hat{\T}_h^n \nonumber \\
+                       &=&   \sum_{n=0}^\infty \frac{(-1)^n}{n!}  \underbrace{\Gamma(\alpha-n+1)\prod_{i=1}^{i=k}(\alpha-i+1)}_{\Gamma(\alpha+1)}\times\frac{1}{\Gamma(\alpha-n+1)} \hat{\T}_h^n \nonumber\\
+                       &=& \sum_{n=0}^\infty (-1)^n \frac{\Gamma(\alpha+1)}{\Gamma(\alpha-n+1)\Gamma(n+1)} \hat{\T}_h^n   =  \sum_{n=0}^\infty (-1)^n 
+                       \begin{pmatrix} \alpha  \\ n \end{pmatrix} \hat{\T}_h^n\nonumber  
+\end{eqnarray}
+Thus the GL FOD becomes,
+\begin{equation}
+ ^{\bf GL}_a\D_t^\alpha \F(t) =  \frac{1}{h^\alpha}\lim_{h\rightarrow 0} \sum_{n=0}^N (-1)^n 
+                       \begin{pmatrix} \alpha  \\ n \end{pmatrix} \F(t-nh)
+\end{equation}
+with $h=t/N$.
+One may define GL integration by just $\alpha\rightarrow -\alpha$,
+\begin{eqnarray}
+ (1-\hat{\T}_h)^{-\alpha} &=& \sum_{n=0}^\infty \frac{(-1)^n}{n!} \times \prod_{i=1}^{i=k}(-\alpha-i+1) \hat{\T}_h^n \nonumber \\
+                       &=&   \sum_{n=0}^\infty \frac{(-1)^n}{n!}  \underbrace{\Gamma(\alpha)\prod_{i=1}^{i=k}(\alpha+i-1)}_{\Gamma(\alpha+n)}\times\frac{1}{\Gamma(\alpha)} \hat{\T}_h^n \nonumber\\
+                       &=& \sum_{n=0}^\infty (-1)^n\times(-1)^n \frac{\Gamma(\alpha+1)}{\Gamma(\alpha-n+1)\Gamma(n+1)} \hat{\T}_h^n   \nonumber \\
+                       &=&  \sum_{n=0}^\infty (-1)^n 
+                       \begin{pmatrix} \alpha+n-1  \\ n \end{pmatrix} \hat{\T}_h^n\nonumber  
+\end{eqnarray}
+Thus GL FOI becomes,
+\begin{equation}
+ ^{\bf GL}_a\I_t^\alpha =^{\bf GL}_a\D_t^{-\alpha} \F(t) = \lim_{h\rightarrow 0}h^\alpha\sum_{n=0}^N (-1)^n 
+                       \begin{pmatrix} \alpha  \\ n \end{pmatrix} \F(t-nh)
+\end{equation}
+with $h=t/N$.
+\subsection{The relation between RL, GL, and Caputo FOD}
+%
+\section{Fourier and Laplace transformations}
+%
+\section{Numerical Methods of solutions of Ordinary Differential Equations}
+%
+\subsection{Multi linear methods for the solutions of ODEs}
+%
+\subsection{Runge-Cutta}
+%
+\section{Numerical Methods for solving Fractional Order Differential Equations(FODE)}
+%
+\subsection{Multi linear methods for the solutions of FODEs}
+%
+\subsection{Runge-Cutta}
+%
+\section{Higher order finite difference FOD}
+%
+\subsection{Higher order finite difference for integer order derivatives}
+%
+\subsection{Higher order finite difference for FOD}
+%
+\section{Numerical implementation}
+%
+\section{Transient simulation of electrical circuits(passive parts only)}
+%
+\subsection{Simulation of parts without FO components}
+%
+\subsection{Simulation of parts with FO components}
+%
+\subsection{Implementation of transient algorithem}
+%
+\subsection{Inclusion of SPICE net lists}
+\section{Some applications of FOC in the electrochemistry}
+
+\section{Possible integration into QUCS}
+
+\begin{acknowledgments}
+\end{acknowledgments}
+\section{Appendix}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %=========================================================================
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \newpage
+\nocite{apsrev41Control}
+\bibliographystyle{apsrev4-1}
+\bibliography{draft1.bib}
+
+\end{document}
+
+
+
