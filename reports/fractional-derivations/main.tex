@@ -97,6 +97,24 @@ Here we will review derivations of fractional calculus.
 \section{Introduction}
  %======================================================
 \section{Fractional order integration}\label{method}
+\subsection{Useful relations}
+\begin{equation}
+ \Gamma(\alpha) = \int_0^\infty t^{\alpha-1}e^{-t}dt
+\end{equation}
+%
+\begin{equation}
+ B(\alpha,\beta) = \int_0^1 t^{\alpha-1}(1-t)^{\beta-1}dt
+\end{equation}
+%
+\begin{equation}
+ B(\alpha,\beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}
+\end{equation}
+\begin{equation}
+ \alpha\Gamma(\alpha)=\Gamma(\alpha+1), \Gamma(0)=\infty, \Gamma(1)=1
+\end{equation}
+\begin{equation}
+ (\alpha+n)\cdots\alpha\Gamma(\alpha)=\Gamma(\alpha+n+1)
+\end{equation}
 %
 \subsection{Cachy formula}
 \begin{equation}
@@ -125,38 +143,19 @@ Based on Cachy integration formula for repeated integrations one may extend the 
 \begin{equation}
  _a\I_t^\alpha[F] = \frac{1}{\Gamma(\alpha)} \int_a^t (t-\tau)^{\alpha-1} F(\tau)d\tau
 \end{equation}
-
-\subsection{General relations}
-\begin{equation}
- \Gamma(\alpha) = \int_0^\infty t^{\alpha-1}e^{-t}dt
-\end{equation}
-%
-\begin{equation}
- B(\alpha,\beta) = \int_0^1 t^{\alpha-1}(1-t)^{\beta-1}dt
-\end{equation}
-%
-\begin{equation}
- B(\alpha,\beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}
-\end{equation}
-\begin{equation}
- \alpha\Gamma(\alpha)=\Gamma(\alpha+1), \Gamma(0)=\infty, \Gamma(1)=1
-\end{equation}
-\begin{equation}
- (\alpha+n)\cdots\alpha\Gamma(\alpha)=\Gamma(\alpha+n+1)
-\end{equation}
 \section{Fractional order Differentation}\label{FOD}
 %
 \subsection{Reimann-Liouvile FOD}
 %
 \begin{eqnarray}
  ^{\bf RL}_a\D_t^\alpha \F(t) =  \frac{d^m}{dt^m} {_a\I_t^{m-\alpha}[\F]}
-                              = \frac{1}{\Gamma(m-\alpha)}\int_a^t(t-\tau)^{m-\alpha-1}\F(\tau)d\tau
+                              = \frac{1}{\Gamma(m-\alpha)}\frac{d^m}{dt^m} \int_a^t(t-\tau)^{m-\alpha-1}\F(\tau)d\tau
 \end{eqnarray}
 where $m-1\preceq\alpha\preceq m$.
 \subsection{Caputo FOD}
 %
 \begin{eqnarray}
-^{\bf C}_a\D_t^\alpha \F(t) =  _a\I_t^{m-\alpha}[\F]
+^{\bf C}_a\D_t^\alpha \F(t) =  _a\I_t^{m-\alpha}\frac{d^m}{dt^m}[\F]
                               = \frac{1}{\Gamma(m-\alpha)}\int_a^t(t-\tau)^{m-\alpha-1}\frac{d^m}{d\tau^m}\F(\tau)d\tau
 \end{eqnarray}
 where $m-1\preceq\alpha\preceq m$.
@@ -192,8 +191,52 @@ Thus GL FOI becomes,
                        \begin{pmatrix} \alpha  \\ n \end{pmatrix} \F(t-nh)
 \end{equation}
 with $h=t/N$.
-\subsection{The relation between RL, GL, and Caputo FOD}
+\subsection{The relation between RL, Caputo  and GL FOD}
 %
+It is instructive to compare \textbf{Caputo} and {\textbf RL}, for $\F(t)=t^\nu$.\\
+\textit{\textbf Reimann-Liouvile}:\\
+\begin{eqnarray}
+ ^{\bf RL}_a\D_t^\alpha t^\nu &=& \frac{1}{\Gamma(m-\alpha)}\frac{d^m}{dt^m} \int_a^t(t-\tau)^{m-\alpha-1}\tau^\nu d\tau\nonumber \\
+                             &=& \frac{1}{\Gamma(m-\alpha)}\underbrace{\int_0^1(1-x)^{m-\alpha-1}x^{\nu+1-1} dx}_{{\bf B}(m-\alpha,\nu+1)} \frac{d^m}{dt^m} t^{m+\nu-\alpha}\nonumber \\ 
+                             &=& \frac{1}{\Gamma(m-\alpha)}\frac{\Gamma(m-\alpha)\Gamma(\nu+1)}{\Gamma(m-\alpha+v+1)} \frac{d^m}{dt^m} t^{m+\nu-\alpha}\nonumber \\
+                             &=&\frac{\overbrace{\prod_{i=1}^m(i+\nu-\alpha)\Gamma(\nu-\alpha+1)}^{\Gamma(m-\alpha+v+1)}\Gamma(\nu+1)}{\Gamma(\nu-\alpha+1)\Gamma(m-\alpha+v+1)}  t^{\nu-\alpha}\nonumber \\
+                             &=& \frac{\Gamma(\nu+1)}{\Gamma(\nu-\alpha+1)}t^{\nu-\alpha}
+\end{eqnarray}
+\textit{\textbf Caputo}:\\
+\begin{eqnarray}
+^{\bf C}_a\D_t^\alpha t^\nu &=& \frac{1}{\Gamma(m-\alpha)} \int_a^t(t-\tau)^{m-\alpha-1}\frac{d^m}{d\tau^m}\tau^\nu d\tau {~~\bf \Rightarrow\frac{d^m}{d\tau^m}\tau^\nu=0, ~ if ~ \nu\in N, ~ and ~  \nu<m }\nonumber \\
+                            &=& \frac{1}{\Gamma(m-\alpha)} \int_a^t(t-\tau)^{m-\alpha-1}\tau^{\nu-m} d\tau \times \prod_{i=0}^{m-1}(\nu-i) \nonumber \\
+                            &=& \frac{1}{\Gamma(m-\alpha)}\underbrace{\int_0^1(1-x)^{m-\alpha-1}x^{\nu-m+1-1} dx}_{{\bf B}(m-\alpha,\nu-m+1)}\times \prod_{i=0}^{m-1}(\nu-i) \times t^{\nu-\alpha}\nonumber \\ 
+                            &=& \frac{1}{\Gamma(m-\alpha)}\frac{\Gamma(m-\alpha)\overbrace{{\Gamma(\nu-m+1)\prod_{i=0}^{m-1}(\nu-i)}}^{\Gamma(\alpha+1)}}{\Gamma(\nu-\alpha+1)} \times t^{\nu-\alpha} \nonumber \\
+                            &=& \frac{\Gamma(\nu+1)}{\Gamma(\nu-\alpha+1)}t^{\nu-\alpha} \\
+\end{eqnarray}
+Therefore for \textbf{Caputo} FOD we have,
+\begin{equation}
+ ^{\bf C}_a\D_t^\alpha t^\nu =\begin{cases}
+      0 & \text{if $\nu \in N$ and $\nu<m$}\\
+       \frac{\Gamma(\nu+1)}{\Gamma(\nu-\alpha+1)}t^{\nu-\alpha} & \text{otherwise}\\
+    \end{cases}  
+\end{equation}
+with $m-1<\nu<m$.\\
+\begin{eqnarray}
+ ^{\bf C}_a\D_t^\alpha \F(t) &=& \sum_{\nu=0}^\infty \frac{\F^{(\nu)}(0)}{\nu!}\times ^{\bf C}_a\D_t^\alpha t^\nu \nonumber \\
+                             &=& \sum_{\nu=m}^\infty \frac{\F^{(\nu)}(0)}{\nu!}\times \frac{\Gamma(\nu+1)}{\Gamma(\nu-\alpha+1)}t^{\nu-\alpha}\nonumber \\
+                             &=& \sum_{\nu=m}^\infty \frac{\F^{(\nu)}(0)}{\Gamma(\nu-\alpha+1)}t^{\nu-\alpha}
+\end{eqnarray}
+and for \textbf{RL} we have,
+\begin{eqnarray}
+ ^{\bf RL}_a\D_t^\alpha \F(t) = \sum_{\nu=0}^\infty \frac{\F^{(\nu)}(0)}{\Gamma(\nu-\alpha+1)}t^{\nu-\alpha}
+\end{eqnarray}
+Finally we have,
+\begin{equation}\label{RLvsC1}
+ ^{\bf RL}_a\D_t^\alpha \F(t)-^{\bf C}_a\D_t^\alpha \F(t) = \sum_{\nu=0}^{m-1} \frac{\F^{(\nu)}(0)}{\Gamma(\nu-\alpha+1)}t^{\nu-\alpha}
+\end{equation}
+Taking fractional integration on both sides of Eq.~\ref{RLvsC1}, 
+\begin{eqnarray}\label{RLvsC2}
+ _a\I_t^\alpha\left[^{\bf RL}_a\D_t^\alpha \F(t)-^{\bf C}_a\D_t^\alpha \F(t)\right] &=& \sum_{\nu=0}^{m-1} \frac{\F^{(\nu)}(0)}{\Gamma(\nu-\alpha+1)} {_a\I_t}^\alpha[t^{\nu-\alpha}] \nonumber \\
+ &=& \sum_{\nu=0}^{m-1} \frac{\F^{(\nu)}(0)}{\Gamma(\nu-\alpha+1)} \frac{\Gamma(\nu-\alpha+1)}{\Gamma(\nu+1)} t^\nu \nonumber \\
+ &=& \sum_{\nu=0}^{m-1} \frac{\F^{(\nu)}(0)}{\Gamma(\nu+1)} t^\nu
+\end{eqnarray}
 \section{Fourier and Laplace transformations}
 %
 \section{Numerical Methods of solutions of Ordinary Differential Equations}
