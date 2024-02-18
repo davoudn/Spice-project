@@ -67,13 +67,14 @@
 }
 
 %%% BEGIN DOCUMENT
-\def\k{{\bf k}}
+\def\U{{\bf U}}
 \def\T{{\bf T}}
 \def\G{{{\bf G}}}
 \def\Sig{{{\bf \Sigma}}}
 \def\D{{\bf D}}
 \def\F{{\bf F}}
 \def\I{{\bf I}}
+\def\B{{\bf B}}
 \def\it{{_a{\bf I}_t}}
 \begin{document}
 \title{A survay about Fractional Order Calculus.}
@@ -238,6 +239,27 @@ Taking fractional integration on both sides of Eq.~\ref{RLvsC1},
  &=& \sum_{\nu=0}^{m-1} \frac{\F^{(\nu)}(0)}{\Gamma(\nu+1)} t^\nu
 \end{eqnarray}
 \section{Fourier and Laplace transformations}
+\begin{eqnarray}
+ \mathscr{L}\{ {^{\bf RL}_a\D_t^\alpha}\F \}&=&\int_{0}^{\infty} {^{\bf RL}_a\D_t^\alpha} \F(t)e^{-st}dt \nonumber\\
+                  &=&\frac{1}{\Gamma(m-\alpha)}\int_{0}^{\infty} e^{-st}dt \overbrace{\frac{d^m}{dt^m}\int_a^t (t-\tau)^{m-\alpha-1}\F(\tau)d\tau}^{\U^{(n)}(t)} \nonumber\\
+                  &=& \frac{1}{\Gamma(m-\alpha)}\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(n)}(t)dt}_{du} \nonumber\\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \U^{(n-1)}(0) + s\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(n-1)}(t)dt}_{du} \right] \nonumber\\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \U^{(n-1)}(0) + s\U^{(n-2)}(0) + s^2\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(n-2)}(t)dt}_{du} \right] \nonumber\\
+                  \vdots \nonumber \\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{i=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^n\sum_{i=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} e^{-st}\int_a^t (t-\tau)^{m-\alpha-1}\tau^\nu d\tau \right] \nonumber  \\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{i=0}^{n-1}\U^{(i)}(0)s^{m-i-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} e^{-st}t^{m-\alpha+\nu}dt\underbrace{\int_0^1 (1-x)^{m-\alpha-1}x^{\nu+1-1}dx}_{\B(m-\alpha,\nu+1)} \right] \nonumber  \\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\B(m-\alpha,\nu+1)\underbrace{\int_{0}^{\infty} e^{-st}  (st)^{m-\alpha+\nu}d(st)}_{\Gamma(m-\alpha+\nu+1)}\times s^{\alpha-m-\nu-1} \right] \nonumber  \\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\frac{\Gamma(\nu+1)\Gamma(m-\alpha)}{\Gamma(m-\alpha+\nu+1)}\Gamma(m-\alpha+\nu+1) s^{\alpha-m-\nu-1} \right] \nonumber\\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\sum_{\nu=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^\alpha\underbrace{\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{ s^{\nu+1}}}_{\F(s)} \nonumber
+\end{eqnarray}
+%
+\begin{eqnarray}
+ \mathscr{L}\{{^{\bf C}_a\D_t^\alpha}\F\}&=&\int_{0}^{\infty} {^{\bf C}_a\D_t^\alpha} \F(t)e^{-st}dt \nonumber\\
+                                         &=&\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} {^{\bf C}_a\D_t^\alpha} t^\nu e^{-st}dt \nonumber\\
+                                         &=&\sum_{\nu=m}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\frac{\Gamma(\nu+1)}{\Gamma(\nu-\alpha+1)}\underbrace{\int_{0}^{\infty} (st)^{\nu-\alpha} e^{-st}d(st)}_{\Gamma(\nu-\alpha+1)}\times s^{\alpha-\nu-1} \nonumber\\
+                                         &=&s^\alpha\sum_{\nu=m}^\infty \frac{\F^{(\nu)}(a)}{s^{\nu+1}}\nonumber\\
+                                         &=&s^\alpha\underbrace{\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{s^{\nu+1}}}_{\F(s)}- s^\alpha\sum_{\nu=0}^{m-1} \frac{\F^{(\nu)}(a)}{s^{\nu+1}} \nonumber
+\end{eqnarray}
 %
 \section{Numerical Methods of solutions of Ordinary Differential Equations}
 %
