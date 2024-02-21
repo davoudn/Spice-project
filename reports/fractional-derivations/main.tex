@@ -188,8 +188,8 @@ One may define GL integration by just $\alpha\rightarrow -\alpha$,
 \end{eqnarray}
 Thus GL FOI becomes,
 \begin{equation}
- ^{\bf GL}_a\I_t^\alpha =^{\bf GL}_a\D_t^{-\alpha} \F(t) = \lim_{h\rightarrow 0}h^\alpha\sum_{n=0}^N (-1)^n 
-                       \begin{pmatrix} \alpha  \\ n \end{pmatrix} \F(t-nh)
+ ^{\bf GL}_a\I_t^\alpha =^{\bf GL}_a\D_t^{-\alpha} \F(t) = \lim_{h\rightarrow 0}h^\alpha\sum_{n=0}^N 
+                       \begin{pmatrix} \alpha+n-1  \\ n   \end{pmatrix} \F(t-nh)
 \end{equation}
 with $h=t/N$.
 \subsection{The relation between RL, Caputo  and GL FOD}
@@ -258,13 +258,68 @@ Taking fractional integration on both sides of Eq.~\ref{RLvsC1},
                                          &=&\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} {^{\bf C}_a\D_t^\alpha} t^\nu e^{-st}dt \nonumber\\
                                          &=&\sum_{\nu=m}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\frac{\Gamma(\nu+1)}{\Gamma(\nu-\alpha+1)}\underbrace{\int_{0}^{\infty} (st)^{\nu-\alpha} e^{-st}d(st)}_{\Gamma(\nu-\alpha+1)}\times s^{\alpha-\nu-1} \nonumber\\
                                          &=&s^\alpha\sum_{\nu=m}^\infty \frac{\F^{(\nu)}(a)}{s^{\nu+1}}\nonumber\\
-                                         &=&s^\alpha\underbrace{\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{s^{\nu+1}}}_{\F(s)}- s^\alpha\sum_{\nu=0}^{m-1} \frac{\F^{(\nu)}(a)}{s^{\nu+1}} \nonumber
+                                         &=&\underbrace{\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{s^{\nu+1}}}_{\F(s)}- \sum_{\nu=0}^{m-1} \F^{(\nu)}(a) s^{\alpha-\nu-1} \nonumber
 \end{eqnarray}
 %
 \section{Numerical Methods of solutions of Ordinary Differential Equations}
 %
-\subsection{Multi linear methods for the solutions of ODEs}
+\begin{equation}\label{nonlin}
+ \dot{y}(t) = \F(y(t),t)
+\end{equation}
+\subsection{Multi-Linear methods for the solutions of ODEs}
 %
+To solve Eq.~\ref{nonlin}, by assuming we have the values of $y(t)$ for $t<t_0$, one may integrate both sides of Eq.~\ref{nonlin}, over $t$ from $t_0$ to $t_0+h$. To perform, numerically, the integration $y(t)$  and $\F(t)$ could be approximated by a suitable interpolation function. Obviously, the larger the order of the interpolation will allow a larger choose of $h$. For the interpolation of the right hand side of Eq.~\ref{nonlin}, there is two option for the choose of the 
+ interpolation point: (1) $y(t_0+h)$ being expluded from the interpolation reference points (predictor). (2) $y(t_0+h)$ being included in the interpolation reference points (corrector). For the later, the solution of the resulting discrete equations must be proceed by iteration. The best starategy for solving Eq.~\ref{nonlin} is to get an estimation of the $y(t_0+h)$ through a predictor equation, then correcting the estimation through corrector. Thus a general form of the discritized equation proceeds as:
+ The predictor equation,
+ \begin{equation}
+  \sum_{r=0}^{N} a_r y_{n+1-r} = \sum_{r=0}^{N} b_r \F_{n-r}
+ \end{equation}
+ And for the corrector equation, we have:
+ \begin{equation}
+  \sum_{r=0}^{N} a_r y_{n+1-r} = \sum_{r=0}^{N} b_r \F_{n+1-r}
+ \end{equation}
+where $y_i=y(t_i)$ and $\F_i= \F(y(t_i),t_i)$.
+%
+\begin{equation}
+\int_{t_n}^{t_{n+1}} y(\tau)\tau =  \int_{t_n}^{t_{n+1}}\tilde{\F}_s(\tau)d\tau, \textbf {with~s=Pr~or~Corr}
+\end{equation}
+where 
+\begin{equation}
+\tilde{\F}_{Pr}(\tau)=\sum_{i=0}^N\F(t_{n-i}) L_{N-i}(\tau)
+\end{equation}
+and
+\begin{equation}
+\tilde{\F}_{Corr}(\tau)=\sum_{i=0}^N\F(t_{n+1-i}) L_{N-i}(\tau)
+\end{equation}
+\begin{equation}
+L_i(t)=\frac{\prod_{k=0,k\neq i}^{N}(t - t_k)}{\prod_{k=0,k\neq i}^{N}(t_i - t_k)}
+\end{equation}
+For the left hand side the simplest case is the Reiman integration, thus Predictor and Corrector equations reads,
+\begin{itemize}
+\item [Predictor:]
+\begin{equation}
+y^{(P)}(t_{n+1}) = y(t_n)+\sum_{i=0}^N \F(t_{n-i},y_{n-i})\int_{t_n}^{t_{n+1}} L_{N-i}(\tau)d\tau
+\end{equation}
+\item [Predictor:]
+\begin{equation}
+y(t_{n+1}) = y(t_n)+\sum_{i=0}^N \F(t_{n+1-i},y^{(P)}_{n+1-i})\int_{t_n}^{t_{n+1}} L_{N-i}(\tau)d\tau
+\end{equation}
+\end{itemize}
+For a four point approximation, without loss of generality, we may consider $t_{3-i}=-ih$. Thus we have,
+\begin{eqnarray} 
+L_0(t)&=&\frac{(t+h)(t+2h)(t+3h)}{(0+h)(0+2h)(0+3h)} = \frac{1}{6h^3}(t^3+6ht^2+11h^2t+6h^3) \nonumber \\
+L_1(t)&=&\frac{(t-0)(t+2h)(t+3h)}{(-h+0)(-h+2h)(-h+3h)} = -\frac{1}{2h^3}(t^3+5ht^2+6h^2t) \nonumber \\
+L_2(t)&=&\frac{(t-0)(t+h)(t+3h)}{(-2h+0)(-2h+h)(-2h+3h)} = \frac{1}{2h^3}(t^3+4ht^2+3h^2t) \nonumber \\
+L_3(t)&=&\frac{(t-0)(t+h)(t+2h)}{(-3h+0)(-3h+h)(-3h+2h)} = -\frac{1}{6h^3}(t^3+3ht^2+2h^2t) \nonumber
+\end{eqnarray}
+ For the corrector,  the integration must be performed  in the domain of $(-h,0)$. Performing the integrations we have,
+\begin{equation}
+{_{-h}\I_0}\left[ L_0\right] = \frac{3h}{8}~,{_{-h}\I_0}\left[ L_1\right] = \frac{19h}{24}~,{_{-h}\I_0}\left[ L_2\right] = \frac{-5h}{24}~,{_{-h}\I_0}\left[ L_3\right] = \frac{h}{24} 
+\end{equation}
+For the predictor the integration must performed in the domain $(0,h)$,
+\begin{equation}
+{_0\I_h}\left[ L_0\right] = \frac{3h}{8}~,{_0\I_h}\left[ L_1\right] = \frac{19h}{24}~,{_0\I_h}\left[ L_2\right] = \frac{-5h}{24}~,{_0\I_h}\left[ L_3\right] = \frac{h}{24} 
+\end{equation}
 \subsection{Runge-Cutta}
 %
 \section{Numerical Methods for solving Fractional Order Differential Equations(FODE)}
