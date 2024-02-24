@@ -14,7 +14,7 @@ class Weights<DIETHELM>{
     public:
       double m_alpha;
       Weights(double _alpha):m_alpha(_alpha){}
-       operator() (int k, int j){
+       double corrector (int k, int j){
             auto tmp=0.0;
             if(j==0)
                tmp = std::pow(k,m_alpha+1.0) - (k-m_apha) * std::pow(k+1.0,m_alpha);
@@ -24,6 +24,9 @@ class Weights<DIETHELM>{
                tmp = 1.0;
         return tmp;                    
        }
+       double predictor (int k, int j){
+           return  ( std::pow(k+1-j,m_alpha) - std::pow(k-j,m_alpha) )/m_alpha;
+       }
 };
 
 
@@ -32,40 +35,41 @@ class Weights<DIETHELM>{
 template <typename METHOD, typename FUNC>
 class SolveFracPC{        
       std::vector<double> m_y, m_t;
-      double m_h, m_NSteps, m_y0, m_yPredictor;
+      double m_h, m_NSteps, m_y0, m_k,m_j, m_gamma;
       int m_iSteps;
       FUNC m_Func;
+      METHOD m_weights;
       public:
-      void SolvePredictorCorrector(double _h, int _NSteps, double _y0):m_h(_h), m_NSteps(_NSteps), m_y0(_y0){  
+      void SolvePredictorCorrector(double _h, int _NSteps, double _alpha, double _y0):m_h(_h), m_NSteps(_NSteps),
+       m_y0(_y0), m_alpha(_alpha), m_weights(_alpha), m_k(1){  
           int n{0};
            m_t.resize(m_NSteps);
            std::generate(m_t.begin(), m_t.end(), [n = 0, &m_h]() mutable { return n++ * m_h;});    
            m_y.resize(m_NSteps);
            m_y[0] = m_y0;
-           m_iSteps = 1;
+           m_k = 0;
+           m_gammainv = 1.0/std::tgamma(m_alpha);
       }
       void Predict(){
-           m_yPredictor=0.0;
-           for (int iw=0; iw < METHOD::Nw, iw++){
-               m_y[m_iStep+1] += METHOD::PredictorWeighs[iw] * m_Func(y[m_iStep-iw], m_t[m_iStep-iw]);
+           for (int m_j=0; m_j < m_k, m_j++){
+               m_y[m_k] += m_weights.Predict(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
            }
-           m_y[m_iStep+1] += m_y[m_iStep];
+           m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
            return;
       }
       void Correct(){
-           m_yCorrector=0.0;
-           for (int iw=0; iw < METHOD::Nw, iw++){
-               m_yCorrector += METHOD::CorrectorWeighs[iw] * m_Func(y[iStep+1-iw], m_t[iStep+1-iw]);
+           for (int m_j=0; m_j < m_k, m_j++){
+               m_y[m_k] += m_weights.Correct(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
            }
-           y[iStep+1] = y[iStep] + m_yCorrector;
+           m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
            return;
       }
       void Solve(){
-        m_iSteps=METHOD::Nw;
-        while (m_iSteps<m_Nsteps){
+        m_k=1;
+        while (m_k<m_Nsteps){
             Predict();
             Correct();
-            m_iSteps++;
+            m_k++;
         }
         return;
       }
