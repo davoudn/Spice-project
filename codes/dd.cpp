@@ -2,7 +2,7 @@
 #include <new>
 #include <string>
 #include <type_traits>
- 
+#include <cmath> 
 struct A{};
 struct B{};
 
@@ -25,6 +25,5 @@ f(T t){
 
 int main()
 {
-B a;
-	f(a);
+	std::cout << std::pow(2,0.5) << std::endl;
 }
