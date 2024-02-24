@@ -52,14 +52,14 @@ class SolveFracPC{
       }
       void Predict(){
            for (int m_j=0; m_j < m_k, m_j++){
-               m_y[m_k] += m_weights.Predict(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
+               m_y[m_k] += m_weights.predictor(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
            }
            m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
            return;
       }
       void Correct(){
            for (int m_j=0; m_j < m_k, m_j++){
-               m_y[m_k] += m_weights.Correct(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
+               m_y[m_k] += m_weights.corrector(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
            }
            m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
            return;
