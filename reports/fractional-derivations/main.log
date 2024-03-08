@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.31)  21 FEB 2024 20:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.31)  8 MAR 2024 20:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -569,7 +569,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 220--222
  []
 
 
-Overfull \hbox (15.32033pt too wide) in alignment at lines 242--254
+Overfull \hbox (18.6132pt too wide) in alignment at lines 242--254
  [][][] []
  []
 
@@ -581,11 +581,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.4.24
 l.296 \end{equation}
                     ]
 
-Package natbib Warning: Citation `apsrev41Control' undefined on input line 359.
+Package natbib Warning: Citation `apsrev41Control' undefined on input line 373.
 
 
 (./main.bbl [8
-pdfTeX warning (ext4): destination with the same identifier (name{equation.5.33
+pdfTeX warning (ext4): destination with the same identifier (name{equation.6.34
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -604,13 +604,13 @@ LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-06-30>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: AE22094347B3F507C7FE5809240E54FD;7364.
+(rerunfilecheck)             Checksum: C7CFD6D3FB17CDA5EFC28C8B69D5EFE4;7268.
  ) 
 Here is how much of TeX's memory you used:
- 13839 strings out of 475237
- 210523 string characters out of 5765561
- 1952238 words of memory out of 5000000
- 34800 multiletter control sequences out of 15000+600000
+ 13843 strings out of 475237
+ 210570 string characters out of 5765561
+ 1953238 words of memory out of 5000000
+ 34801 multiletter control sequences out of 15000+600000
  572885 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,15n,79p,540b,583s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -634,10 +634,10 @@ sfbx1000.pfb><f:/progs/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx
 .pfb><f:/progs/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb
 ><f:/progs/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><f:
 /progs/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on main.pdf (10 pages, 299928 bytes).
+Output written on main.pdf (10 pages, 301664 bytes).
 PDF statistics:
- 348 PDF objects out of 1000 (max. 8388607)
- 290 compressed objects within 3 object streams
- 78 named destinations out of 1000 (max. 500000)
+ 353 PDF objects out of 1000 (max. 8388607)
+ 295 compressed objects within 3 object streams
+ 81 named destinations out of 1000 (max. 500000)
  265 words of extra memory for PDF output out of 10000 (max. 10000000)
 

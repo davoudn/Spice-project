@@ -241,16 +241,16 @@ Taking fractional integration on both sides of Eq.~\ref{RLvsC1},
 \section{Fourier and Laplace transformations}
 \begin{eqnarray}
  \mathscr{L}\{ {^{\bf RL}_a\D_t^\alpha}\F \}&=&\int_{0}^{\infty} {^{\bf RL}_a\D_t^\alpha} \F(t)e^{-st}dt \nonumber\\
-                  &=&\frac{1}{\Gamma(m-\alpha)}\int_{0}^{\infty} e^{-st}dt \overbrace{\frac{d^m}{dt^m}\int_a^t (t-\tau)^{m-\alpha-1}\F(\tau)d\tau}^{\U^{(n)}(t)} \nonumber\\
-                  &=& \frac{1}{\Gamma(m-\alpha)}\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(n)}(t)dt}_{du} \nonumber\\
-                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \U^{(n-1)}(0) + s\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(n-1)}(t)dt}_{du} \right] \nonumber\\
-                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \U^{(n-1)}(0) + s\U^{(n-2)}(0) + s^2\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(n-2)}(t)dt}_{du} \right] \nonumber\\
+                  &=&\frac{1}{\Gamma(m-\alpha)}\int_{0}^{\infty} e^{-st}dt \overbrace{\frac{d^m}{dt^m}\int_a^t (t-\tau)^{m-\alpha-1}\F(\tau)d\tau}^{\U^{(m)}(t)} \nonumber\\
+                  &=& \frac{1}{\Gamma(m-\alpha)}\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(m)}(t)dt}_{du} \nonumber\\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \U^{(m-1)}(0) + s\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(m-1)}(t)dt}_{du} \right] \nonumber\\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \U^{(m-1)}(0) + s\U^{(m-2)}(0) + s^2\int_{0}^{\infty} \underbrace{e^{-st}}_{\nu} \underbrace{\U^{(m-2)}(t)dt}_{du} \right] \nonumber\\
                   \vdots \nonumber \\
-                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{i=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^n\sum_{i=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} e^{-st}\int_a^t (t-\tau)^{m-\alpha-1}\tau^\nu d\tau \right] \nonumber  \\
-                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{i=0}^{n-1}\U^{(i)}(0)s^{m-i-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} e^{-st}t^{m-\alpha+\nu}dt\underbrace{\int_0^1 (1-x)^{m-\alpha-1}x^{\nu+1-1}dx}_{\B(m-\alpha,\nu+1)} \right] \nonumber  \\
-                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\B(m-\alpha,\nu+1)\underbrace{\int_{0}^{\infty} e^{-st}  (st)^{m-\alpha+\nu}d(st)}_{\Gamma(m-\alpha+\nu+1)}\times s^{\alpha-m-\nu-1} \right] \nonumber  \\
-                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\frac{\Gamma(\nu+1)\Gamma(m-\alpha)}{\Gamma(m-\alpha+\nu+1)}\Gamma(m-\alpha+\nu+1) s^{\alpha-m-\nu-1} \right] \nonumber\\
-                  &=&  \frac{1}{\Gamma(m-\alpha)}\sum_{\nu=0}^{m-1}\U^{(i)}(0)s^{m-i-1} + s^\alpha\underbrace{\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{ s^{\nu+1}}}_{\F(s)} \nonumber
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(\nu)}(0)s^{m-\nu-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} e^{-st}\int_a^t (t-\tau)^{m-\alpha-1}\tau^\nu d\tau \right] \nonumber  \\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(\nu)}(0)s^{m-\nu-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\int_{0}^{\infty} e^{-st}t^{m-\alpha+\nu}dt\underbrace{\int_0^1 (1-x)^{m-\alpha-1}x^{\nu+1-1}dx}_{\B(m-\alpha,\nu+1)} \right] \nonumber  \\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(\nu)}(0)s^{m-\nu-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\B(m-\alpha,\nu+1)\underbrace{\int_{0}^{\infty} e^{-st}  (st)^{m-\alpha+\nu}d(st)}_{\Gamma(m-\alpha+\nu+1)}\times s^{\alpha-m-\nu-1} \right] \nonumber  \\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\left[ \sum_{\nu=0}^{m-1}\U^{(\nu)}(0)s^{m-\nu-1} + s^m\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{\nu!}\frac{\Gamma(\nu+1)\Gamma(m-\alpha)}{\Gamma(m-\alpha+\nu+1)}\Gamma(m-\alpha+\nu+1) s^{\alpha-m-\nu-1} \right] \nonumber\\
+                  &=&  \frac{1}{\Gamma(m-\alpha)}\sum_{\nu=0}^{m-1}\U^{(\nu)}(0)s^{m-\nu-1} + s^\alpha\underbrace{\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{ s^{\nu+1}}}_{\F(s)} \nonumber
 \end{eqnarray}
 %
 \begin{eqnarray}
@@ -261,6 +261,56 @@ Taking fractional integration on both sides of Eq.~\ref{RLvsC1},
                                          &=&\underbrace{\sum_{\nu=0}^\infty \frac{\F^{(\nu)}(a)}{s^{\nu+1}}}_{\F(s)}- \sum_{\nu=0}^{m-1} \F^{(\nu)}(a) s^{\alpha-\nu-1} \nonumber
 \end{eqnarray}
 %
+\section{Series expansion solution of FODEs}
+The simplest example is 
+\begin{equation}\label{fode-caputo}
+^{\bf C}_a\D_t^\alpha \F(t) + \lambda \F(t) = 0
+\end{equation}
+Suppose, $\F(t) =\sum_{\nu=0}^\infty a_\nu t^{\nu \alpha}$.
+%
+\begin{eqnarray}
+ \sum_{\nu=0}^\infty  a_\nu {^{\bf C}_a\D_t^\alpha}  t^{\nu \alpha} + \lambda\sum_{\nu=0}^\infty a_\nu t^{\nu t} =
+ \sum_{\nu=0}^\infty \left[ a_{\nu+1} \frac{\Gamma((\nu+1)\alpha+1)}{\Gamma(\nu\alpha+1)} + \lambda a_\nu  \right]t^{\nu \alpha} =0
+\end{eqnarray}
+\begin{equation}
+  a_{\nu+1}  = -\lambda \frac{\Gamma(\nu\alpha+1)}{\Gamma((\nu+1)\alpha+1)}a_\nu 
+\end{equation}
+\begin{eqnarray}
+ a_{\nu+1}  &=& -\lambda \frac{\Gamma(\nu\alpha+1)}{\Gamma((\nu+1)\alpha+1)}a_\nu \nonumber \\
+ a_{\nu+1}  &=& -\lambda \frac{\Gamma(\nu\alpha+1)}{\Gamma((\nu+1)\alpha+1)}\times-\lambda\frac{\Gamma(\nu\alpha+1)}{\Gamma((\nu+1)\alpha+1)}a_{\nu-1} \nonumber \\
+ a_{\nu+1}  &=& -\lambda \frac{\Gamma(\nu\alpha+1)}{\Gamma((\nu+1)\alpha+1)}\times-\lambda\frac{\Gamma(\nu\alpha+1)}{\Gamma((\nu+1)\alpha+1)}a_{\nu-1}\cdots \times -\lambda\frac{\Gamma(1)}{\Gamma(\alpha+1)}a_{0}
+\end{eqnarray}
+\begin{equation}
+ a_{\nu} = \frac{(-\lambda)^\nu}{\Gamma(\nu\alpha+1)}a_0
+\end{equation}
+thus the solution of Eq.~\ref{fode-caputo} becomes,
+\begin{equation}
+ \F(t)=\F(0) {\bf E}_{\alpha}(-\lambda t^\alpha)
+\end{equation}
+The $\F(0)$ fixes the initial condition for Eq.~\ref{fode-caputo}.
+the function,
+\begin{equation}
+ {\bf E}_{\alpha}(x)=\sum_{\nu=0}^\infty \frac{x^\nu}{\Gamma(\nu\alpha+1)}
+\end{equation}
+is dubed the one parameter Mittag-Leffer function.
+One may also employ the Laplace transform for solving Eq.~\ref{fode-caputo},
+\begin{eqnarray}
+ \mathscr{L}\{ {^{\bf C}_a\D_t^\alpha} \F(t) + \lambda \F(t) \} &=& 0 \nonumber \\
+ -s^{1-\alpha}\F(0) + s^\alpha\F(s) + \lambda\F(s) &=& 0
+\end{eqnarray}
+\begin{equation}
+ \F(s) = \F(0)\frac{s^{1-\alpha}}{\lambda+s^\alpha}
+\end{equation}
+Thus the solution of Eq.~\ref{fode-caputo}, becomes,
+\begin{equation}
+ \F(t)= \mathscr{L}^(-1)\{ \F(s) \} = \F(0) \int \frac{s^{1-\alpha}}{\lambda+s^\alpha} ds
+\end{equation}
+therefore one may infer, 
+\begin{equation}
+  \int \frac{s^{1-\alpha}}{\lambda+s^\alpha}ds = {\bf E}_{\alpha}(-\lambda t^\alpha)
+\end{equation}
+This means, as long as the $\Re[\lambda] <0$, $\lim_{t\rightarrow+\infty}\F(t)\rightarrow 0$, otherwise if
+  $\Re[\lambda] =0$ it oscillates permanently and if $\Re[\lambda] > 0$ the solution diverges.
 \section{Numerical Methods of solutions of Ordinary Differential Equations}
 %
 \begin{equation}\label{nonlin}
@@ -316,23 +366,26 @@ L_3(t)&=&\frac{(t-0)(t+h)(t+2h)}{(-3h+0)(-3h+h)(-3h+2h)} = -\frac{1}{6h^3}(t^3+3
 \begin{equation}
 {_{-h}\I_0}\left[ L_0\right] = \frac{3h}{8}~,{_{-h}\I_0}\left[ L_1\right] = \frac{19h}{24}~,{_{-h}\I_0}\left[ L_2\right] = \frac{-5h}{24}~,{_{-h}\I_0}\left[ L_3\right] = \frac{h}{24} 
 \end{equation}
+%+55.0/+24.0, -59.0/+24.0, +37.0/+24, -9.0/+24.0
 For the predictor the integration must performed in the domain $(0,h)$,
 \begin{equation}
-{_0\I_h}\left[ L_0\right] = \frac{3h}{8}~,{_0\I_h}\left[ L_1\right] = \frac{19h}{24}~,{_0\I_h}\left[ L_2\right] = \frac{-5h}{24}~,{_0\I_h}\left[ L_3\right] = \frac{h}{24} 
+{_0\I_h}\left[ L_0\right] = \frac{55h}{24}~,{_0\I_h}\left[ L_1\right] = \frac{-59h}{24}~,{_0\I_h}\left[ L_2\right] = \frac{37h}{24}~,{_0\I_h}\left[ L_3\right] = \frac{h}{24} 
 \end{equation}
 \subsection{Runge-Cutta}
 %
 \section{Numerical Methods for solving Fractional Order Differential Equations(FODE)}
 %
+For this section we will exactly follow Deithelm approach. The suggested equation for dealing with practical applications is the following, 
+\begin{equation}\label{fracde}
+ ^{\bf C}_a\D_t^\alpha y(t) = \F(y,t)
+\end{equation}
+by fraction integrating the both sides of Eq.~\ref{fracde}, we have,
+\begin{equation}
+y(t) = \sum_0^{[\alpha]-1} \frac{t^{\nu}}{\nu!}y^{(\nu)}(0) + \frac{1}{\Gamma(\alpha)}\int_0^t \frac{\F(y(\tau),\tau)}{(t-\tau)^{\alpha-1}}d\tau
+\end{equation}
 \subsection{Multi linear methods for the solutions of FODEs}
 %
 \subsection{Runge-Cutta}
-%
-\section{Higher order finite difference FOD}
-%
-\subsection{Higher order finite difference for integer order derivatives}
-%
-\subsection{Higher order finite difference for FOD}
 %
 \section{Numerical implementation}
 %
@@ -348,7 +401,11 @@ For the predictor the integration must performed in the domain $(0,h)$,
 \section{Some applications of FOC in the electrochemistry}
 
 \section{Possible integration into QUCS}
-
+%
+\section{Higher order finite difference for integer order derivatives}
+%
+\section{Finite difference FOD}
+%
 \begin{acknowledgments}
 \end{acknowledgments}
 \section{Appendix}
