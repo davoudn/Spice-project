@@ -303,7 +303,7 @@ One may also employ the Laplace transform for solving Eq.~\ref{fode-caputo},
 \end{equation}
 Thus the solution of Eq.~\ref{fode-caputo}, becomes,
 \begin{equation}
- \F(t)= \mathscr{L}^(-1)\{ \F(s) \} = \F(0) \int \frac{s^{1-\alpha}}{\lambda+s^\alpha} ds
+ \F(t)= \mathscr{L}^{-1}\{ \F(s) \} = \F(0) \int \frac{s^{1-\alpha}}{\lambda+s^\alpha} ds
 \end{equation}
 therefore one may infer, 
 \begin{equation}
@@ -380,10 +380,38 @@ For this section we will exactly follow Deithelm approach. The suggested equatio
  ^{\bf C}_a\D_t^\alpha y(t) = \F(y,t)
 \end{equation}
 by fraction integrating the both sides of Eq.~\ref{fracde}, we have,
-\begin{equation}
+\begin{equation}\label{fode-numsol}
 y(t) = \sum_0^{[\alpha]-1} \frac{t^{\nu}}{\nu!}y^{(\nu)}(0) + \frac{1}{\Gamma(\alpha)}\int_0^t \frac{\F(y(\tau),\tau)}{(t-\tau)^{\alpha-1}}d\tau
 \end{equation}
-\subsection{Multi linear methods for the solutions of FODEs}
+The next step is to evaluate the integral in Eq.~\ref{fode-numsol}. Following Deithelm,
+ one may slice the hole integration into slices which each slice could be evaluated
+  by qudrature rule. In Deithelm they used the linear interpolation of integrand between two point in each slice.
+  \begin{equation}
+   \int_0^{t_{k+1}} (t-\tau)^{\alpha-1} \F(\tau)d\tau \simeq  \int_0^{t_{k+1}} (t-\tau)^{\alpha-1} \tilde{\F}(\tau)d\tau = \sum_{j=0}^{k+1} a_{j,k+1} \F(t_j)
+  \end{equation}
+with
+\begin{equation}
+ a_{j,k+1} =\frac{h^\alpha}{\alpha(\alpha+1)}
+ \begin{cases}
+      k^{\alpha+1} - (k-\alpha)(k+1)^\alpha & \text{if $j=0$}\\
+       (k-j+2)^{\alpha+1} + (k-j)^{\alpha+1} -2 (k-j+1)^{\alpha+1} &  \text{if $1\preceq j \preceq k$}\\
+       1 & \text{if $j=k+1$} \\
+    \end{cases}
+\end{equation}
+The corrector for One step Adams-Moulton becomes,
+\begin{equation}
+y_{k+1} = \sum_0^{[\alpha]-1} \frac{t^{\nu}}{\nu!}y^{(\nu)}(0) + \frac{1}{\Gamma(\alpha)} \left [a_{k+1,k+1} \F(t_{k+1},y^{P}_{k+1}) + \sum_{j=0}^{k} a_{j,k+1} \F(t_j,y_j) \right]
+\end{equation}
+replacing the intgral in Eq.~\ref{fode-numsol} with rectangle rule will eliminat the share of the $y_{k+1}$, thus the equation will serve as a predictor estimation of the solution at $k+1$th point. In this case we have:
+\begin{equation}
+   \int_0^{t_{k+1}} (t-\tau)^{\alpha-1} \F(\tau)d\tau \simeq  \int_0^{t_{k+1}} (t-\tau)^{\alpha-1} \tilde{\F}(\tau)d\tau = \sum_{j=0}^{k+1} b_{j,k+1} \F(t_j)
+\end{equation}
+with $b_{j,k+1}=\frac{h^\alpha}{\alpha}((k+j-1)^\alpha-(k-j)^\alpha)$.
+\begin{equation}
+y^P_{k+1} = \sum_0^{[\alpha]-1} \frac{t^{\nu}}{\nu!}y^{(\nu)}(0) + \frac{1}{\Gamma(\alpha)}\sum_{j=0}^{k} b_{j,k+1} \F(t_j,y_j)
+\end{equation}
+
+  \subsection{Multi linear methods for the solutions of FODEs}
 %
 \subsection{Runge-Cutta}
 %
