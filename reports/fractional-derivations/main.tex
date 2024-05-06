@@ -582,8 +582,45 @@ i_{k+1} &=&\underbrace{ -\frac{\Delta t}{2L} V_k + i_k}_{I_{eq}} - \frac{\Delta 
     \caption{Equivalent circuit for a inductor.}
   \end{center}
 \end{figure}
+\item Fractional order capacitor:
+\begin{eqnarray}
+c\frac{d^\alpha V}{dt^\alpha} = i&\Longrightarrow& c(V_{k+1}-V_0) =_0I^\alpha_{t_{k+1}}[i] \nonumber \\
+c(V_{k+1}-V_0) &=&\frac{1}{\Gamma(\alpha)}a_{k+1,k+1} i_{k+1} + \frac{1}{\Gamma(\alpha)}\sum_{s=0}^{k} a_{s,k+1} i_s \nonumber \\
+i_{k+1} &=& \frac{c\Gamma(\alpha)}{a_{k+1,k+1}}V_{k+1} \underbrace{-\frac{c\Gamma(\alpha)}{a_{k+1,k+1}} V_0 -\frac{1}{a_{k+1,k+1}}\sum_{s=0}^{k} a_{s,k+1} i_s}_{I_{eq}}   \nonumber
+ %\underbrace{-\frac{2c}{\Delta t} V_{k}}_{I_{eq}}
+ \end{eqnarray}
+ \begin{figure}[h!]
+  \begin{center}
+    \begin{circuitikz}
+      \draw (0,0)
+      to[V,v=$I_{eq}$] (0,2) % The voltage source
+      to[short] (2,2)
+      to[R=$\frac{a_{k+1,k+1}}{c\Gamma(\alpha)}$] (2,0) % The resistor
+      to[short] (0,0);
+    \end{circuitikz}
+    \caption{Equivalent circuit for a inductor.}
+  \end{center}
+\end{figure}
+\item Fractional order inductance:
+\begin{eqnarray}
+-L\frac{d^\alpha i}{dt^\alpha} = V&\Longrightarrow& -L(i_{k+1}-i_0)=     _0I^\alpha_{t_{k+1}}[V] \nonumber \\
+-L(i_{k+1}-i_0) &=&\frac{1}{\Gamma(\alpha)}a_{k+1,k+1} V_{k+1} + \frac{1}{\Gamma(\alpha)}\sum_{s=0}^{k} a_{s,k+1} V_s \nonumber \\
+i_{k+1} &=& -\frac{a_{k+1,k+1}}{\Gamma(\alpha)L}V_{k+1} +\underbrace{i_0-\frac{a_{k+1,k+1}}{\Gamma(\alpha)L} V_0 -\frac{1}{\Gamma(\alpha)L}\sum_{s=0}^{k} a_{s,k+1} V_s}_{I_{eq}}   \nonumber
+ %\underbrace{-\frac{2c}{\Delta t} V_{k}}_{I_{eq}}
+ \end{eqnarray}
+ \begin{figure}[h!]
+  \begin{center}
+    \begin{circuitikz}
+      \draw (0,0)
+      to[V,v=$I_{eq}$] (0,2) % The voltage source
+      to[short] (2,2)
+      to[R=$-\frac{L\Gamma(\alpha)}{a_{k+1,k+1}}$] (2,0) % The resistor
+      to[short] (0,0);
+    \end{circuitikz}
+    \caption{Equivalent circuit for a inductor.}
+  \end{center}
+\end{figure}
 \end{itemize}
-
 \subsection{Simulation of parts without FO components}
 %
 \subsection{Simulation of parts with FO components}
