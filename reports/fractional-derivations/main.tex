@@ -4,6 +4,9 @@
 
 \bibliographystyle{apsrev4-1}
 \usepackage{graphicx}
+
+\usepackage{tikz}
+\usepackage{circuitikz}
 %%% Typo
 \usepackage[utf8]{inputenc}
 \usepackage{csquotes}
@@ -42,6 +45,7 @@
 \newcommand* {\dd}[1]{{\ensuremath{\bm{\mathcal{#1}}}}}
 \newcommand* {\kk}{\vek{k}}
 \newcommand* {\rr}{\vek{r}}
+\newcommand* {\G}{\bf G}
 \newcommand* {\dt}{\delta \tau}
 \newcommand* {\bra}[1]{\ensuremath{\langle {#1} |}}
 \newcommand* {\ket}[1]{\ensuremath{| {#1} \rangle}}
@@ -417,8 +421,169 @@ y^P_{k+1} = \sum_0^{[\alpha]-1} \frac{t^{\nu}}{\nu!}y^{(\nu)}(0) + \frac{1}{\Gam
 %
 \section{Numerical implementation}
 %
+\section{DC circuit analysis based on modified nodal node analysis(simple)}
+%
+\begin{figure}[h!]
+  \begin{center}
+\begin{circuitikz}[american]
+    \path (0,0) coordinate(n) node[above,red]{$i$};
+    % We want a star; let's use polar coordinates
+    \draw(n) to[R, v =$R$, *-o] ++(-72:5) coordinate(c) node[left,red]{$j$};
+    \draw(n) to[V, v<=$V$, *-o] ++(0:5)  coordinate(b) node[above,red]{$j$};
+    \draw(n) to[C, v<=$C$, *-o] ++(72:5) coordinate(a) node[left,red]{$j$};
+    \draw(n) to[I, v<=$I$, *-o] ++(144:5) coordinate(a) node[left,red]{$j$};
+    \draw(n) to[L, v<=$L$, *-o] ++(215:5) coordinate(a) node[left,red]{$j$};
+    % leads; the first one determines the horizontal shift (coordinate hh)
+    % just change the ++(5,0) here and all will move logically
+   % \draw (c) to[short, o-o] ++(5,0) coordinate(hh) node[red,right]{$C$};
+    % now we use the syntax -| ( horizontal -| vertical) to draw the wires
+    %\draw (b) to[short, o-o] (b -| hh) node[red,right]{$B$};
+   % \draw (n) to[short, o-o] (n -| hh) node[red,right]{$N$};
+    % a is a bit more complex because it's not straight on
+   %S \draw (a) to[short, o-] ++(0,1) coordinate(aa) % small vertical wire
+        %  to[short,-o] (aa -| hh) node[red,right]{$A$};
+\end{circuitikz}
+\end{center}
+\caption{Schematic of a possible node configuration.}
+\end{figure}
+For the derivation NMA equations we consider the following book keepings:
+\begin{itemize}
+ \item  For each two nodes labeled by $i$ and $j$, we have $G_{ij}$, $I_{ij}$ and $V_{ij}$ corresponding to conductance, current and voltage difference between node $i$ and $j$, notice $I_{ij}=-I_{ji};~V_{ij}=-V_{ji}$.
+ \item  $V_i$s correspond to the voltage difference between node $i$ and datum. The label $i=1 \cdots N$. Thus there are $N+1$ nodes.
+ \item In each circuit, we have impedences, current sources and voltage sources.
+  Thus the the unkown quantities are:
+  \begin{enumerate}
+  \item[(1)] node votages,
+  \item[(2)] the currents corresponding to each voltage source.
+  \end{enumerate}
+\item Therefore, there are $N+M$ unkowns
+   corresponding to the voltage of each node (N nodes) and the current for each
+    voltage source ($M$ voltage sources).
+\end{itemize}
+For each node the following KCL equation holds:
+\begin{equation}\label{eq0}
+ \forall i \in\aleph: \sum_{s\in \Bbbk_i} V_{is}\G_{is} + \sum_{s\in \Bbbk_i} I^{(vs)}_{is} = -\sum_{s\in \Bbbk_i}  I^{(cs)}_{is}
+\end{equation}
+where the upper case $cs$ and $vs$ holds for current source and voltage source respectievly. The $\Bbbk_i$ means the set of all nodes which are
+ connected to node $i$. Further rearranging:
+\begin{eqnarray}
+ \sum_{s\in \Bbbk_i} V_{is}\G_{is} &=& \sum_{s\in \Bbbk_i} (V_i-V_s)\G_{is} \nonumber \\
+  &=&(\sum_{s\in \Bbbk_i} \G_{is})V_i - \sum_{s\in \Bbbk_i} V_s\G_{is}
+\end{eqnarray}
+one may define $\tilde{\G}_{ij}=\delta_{ij}\sum_{s\in \Bbbk_i}\G_{is}+(\delta_{ij}-1)\G_{ij}$
+%
+Thus Eq.~\ref{eq0} becomes:
+\begin{equation}\label{eq1}
+ \forall i \in\aleph: \sum_{s} V_s\tilde{\G}_{is} + \sum_{s\in \Bbbk_i} I^{(vs)}_{is} = -\sum_{s\in \Bbbk_i}  I^{(cs)}_{is}
+\end{equation}
+By inspecting Eq.~\ref{eq1} one may recognise that all unkowns are on left hand side, while the known quantities are on the right handside.
+To further the MNA analysis one may define the unknown vector
+${\bf X}=\begin{bmatrix}
+    V     \\
+    I
+\end{bmatrix}$
+  with
+ ${\bf V}=\begin{bmatrix}
+    V_1     \\
+    V_2    \\
+    \vdots \\
+    V_{N}
+    \end{bmatrix}$
+    and
+ ${\bf I} = \begin{bmatrix}
+      I_1 \\
+    I_2 \\
+    \vdots \\
+    I_M
+\end{bmatrix}$.
+Which is vector with $N+M$ elements.
+While $V_i$s have a natural indexing related to node numbers,
+one may realize a map between $I^{(vs)}_1\hdots I^{(vs)}_M$ and $I^{(vs)}_{ij}$
+i.e. a map in the form of $(i,j)\rightarrow s$ with $s=1\hdots M$.
+With such notation one may construct an ${\bf A}$ matrix which upon
+ operation on, $I$, would produce the second term on the left hand of
+ Eq.~\ref{eq1}. Such matrix only hold $-1,0,1$ elements. $-1$ corresponds to the current through negative terminal of voltage source,
+  0 means there is no voltage source connected to this node, and $+1$ corresponds to positive part of voltage source.\\
+  Moreover, the $A^T$ multipied to the $V$ vector would result in the
+   $V_{is}=V_i-Vs$ which is a known quantity. On the other side of the
+    Eq.\ref{eq1}, one may construct the vector ${\bf U}= \begin{bmatrix}
+      I^{cs} \\
+     V^{vs}
+\end{bmatrix}$ with ${\bf I^{(cs)}} = \begin{bmatrix}
+      I^{cs}_1 \\
+    I^{cs}_2 \\
+    \vdots \\
+    I^{cs}_N
+    \end{bmatrix}$ with $I^{cs}_i =-\sum_{s\in \Bbbk_i}  I^{(cs)}_{is}$
+%
+and vector $V^{vs}=\begin{bmatrix}
+      V^{vs}_1 \\
+    V^{vs}_2 \\
+    \vdots \\
+    V^{vs}_M
+    \end{bmatrix}$, for $V^{vs}_s$ we have the same mapping
+    $s \rightarrow (i,j) $ as of $I^{(vs)}_s$.
+    In this regards, the set of equations may be writen as:
+    \begin{eqnarray}
+     A^T V &=& V^{vs} \nonumber \\
+     \tilde{\G} V + A I &=& I^{(vs)}
+    \end{eqnarray}
+    Finally in the absense of voltage dependent current source
+     one may write the final NMA equation as:
+     ${\bf B X = U}$,
+     with ${\bf B = \begin{bmatrix}
+      \tilde{G} & A \\
+            A^T & D
+    \end{bmatrix}}$. With matrix $D$ is an $M\times M$ matrix with all of its elements equal to zero.
+
 \section{Transient simulation of electrical circuits(passive parts only)}
 %
+For transient analysis of electrical circuits, one may exploit the
+ static one with only current, voltage sources and resistors. To do this
+  its is necessary to discritize the resulting equations wich consists
+   of capacitors, inductances as well as CPE elements. Implementation of CPEs are the main goal of this documentation. After discritization of
+    differential equations, one may collect the quantities of the former
+     step as either current or voltage sources (depending on the formulation), the rest could be handled as a resistor with the resistance which depends on the $\Delta t$ and the constant of the
+      particular elements. In the following we try to perform such procedure for different passive circuit elements.
+\begin{itemize}
+ \item Euler discritization for capacitors (corrector form):
+ \begin{eqnarray}
+c\frac{d V}{dt} = i&\Longrightarrow& c(V_{k+1}-V_k) = \frac{\Delta t}{2}(i_k+i_{k+1}) \nonumber \\
+i_{k+1} &=& \frac{2c}{\Delta t} V_{k+1}  \underbrace{-\frac{2c}{\Delta t} V_{k}}_{I_{eq}}
+ \end{eqnarray}
+ the resulting equivalent circuit is:
+ \begin{figure}[h!]
+  \begin{center}
+    \begin{circuitikz}
+      \draw (0,0)
+      to[V,v=$I_{eq}$] (0,2) % The voltage source
+      to[short] (2,2)
+      to[R=$\frac{2\Delta t}{c}$] (2,0) % The resistor
+      to[short] (0,0);
+    \end{circuitikz}
+    \caption{Equivalent circuit for a capacitor.}
+  \end{center}
+\end{figure}
+\item Euler discritization for inductors (corrector form):
+ \begin{eqnarray}
+-L\frac{d i}{dt} = V&\Longrightarrow& -L(i_{k+1}-i_k) = \frac{\Delta t}{2} (V_k+V_{k+1}) \nonumber \\
+i_{k+1} &=&\underbrace{ -\frac{\Delta t}{2L} V_k + i_k}_{I_{eq}} - \frac{\Delta t}{2L}V_{k+1}
+ \end{eqnarray}
+ the resulting equivalent circuit is:
+ \begin{figure}[h!]
+  \begin{center}
+    \begin{circuitikz}
+      \draw (0,0)
+      to[V,v=$I_{eq}$] (0,2) % The voltage source
+      to[short] (2,2)
+      to[R=$-\frac{2L}{\Delta t}$] (2,0) % The resistor
+      to[short] (0,0);
+    \end{circuitikz}
+    \caption{Equivalent circuit for a inductor.}
+  \end{center}
+\end{figure}
+\end{itemize}
+
 \subsection{Simulation of parts without FO components}
 %
 \subsection{Simulation of parts with FO components}
