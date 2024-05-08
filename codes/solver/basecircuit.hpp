@@ -13,6 +13,7 @@ public:
 private:
 	std::vector<BaseComponent*> elements;
 	std::vector< std::vector < std::vector <int> > > table;
+	std::map <std::string, double> params;
 	std::vector <int>  vsMap;
 	std::vector<double> x;
 	std::vector<double> z;

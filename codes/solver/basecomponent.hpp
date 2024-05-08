@@ -16,9 +16,9 @@ struct BaseComponent {
 	std::map<std::string, double> params;
 	std::vector<double> V;
 	std::vector<double> I;
-	int id;
+	int id, it_last;
 
-    double i_eq, r_eq, del_t;
+    double i_eq, g_eq, del_t;
 
 	virtual void integrate();
 };
