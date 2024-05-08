@@ -8,7 +8,7 @@ private:
     
     BaseCircuit baseCircuit;
 
-    void PopulateTransComponents(){};
+    void PopulateTransComponents();
     void PopulateComponents(){};
     void StaticSolve();
     void Translate();

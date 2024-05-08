@@ -7,7 +7,7 @@ struct Resistor : public BaseComponent {
     Resistor(){
         this->g_eq = 1.0/this->params["C"];
     }
-    inline void integrate(){
+    inline void integrate() override {
            // do nothing
     }
     private:

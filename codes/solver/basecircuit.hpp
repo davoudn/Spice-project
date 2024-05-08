@@ -12,9 +12,10 @@ public:
 	void Solve(){};
 private:
 	std::vector<BaseComponent*> elements;
-	std::vector< std::vector < std::vector <int> > > table;
+	std::vector<std::vector<std::vector <int>>> table;
 	std::map <std::string, double> params;
 	std::vector <int>  vsMap;
+public:
 	std::vector<double> x;
 	std::vector<double> z;
 	std::vector< std::vector<double> > a;
