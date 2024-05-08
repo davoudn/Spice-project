@@ -525,8 +525,8 @@ and vector $V^{vs}=\begin{bmatrix}
     $s \rightarrow (i,j) $ as of $I^{(vs)}_s$.
     In this regards, the set of equations may be writen as:
     \begin{eqnarray}
-     A^T V &=& V^{vs} \nonumber \\
-     \tilde{\G} V + A I &=& I^{(vs)}
+     A^T V &=& V^{(vs)} \nonumber \\
+     \tilde{\G} V + A I &=& I^{(cs)}
     \end{eqnarray}
     Finally in the absense of voltage dependent current source
      one may write the final NMA equation as:
@@ -621,11 +621,11 @@ i_{k+1} &=& -\frac{a_{k+1,k+1}}{\Gamma(\alpha)L}V_{k+1} +\underbrace{i_0-\frac{a
   \end{center}
 \end{figure}
 \end{itemize}
+%
+\subsection{Implementation of transient algorithem}
 \subsection{Simulation of parts without FO components}
 %
 \subsection{Simulation of parts with FO components}
-%
-\subsection{Implementation of transient algorithem}
 %
 \subsection{Inclusion of SPICE net lists}
 \section{Some applications of FOC in the electrochemistry}
