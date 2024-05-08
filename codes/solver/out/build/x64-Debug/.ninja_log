@@ -1,0 +1,9 @@
+# ninja log v5
+0	323	7367928041648288	CMakeFiles/MyLibExample.dir/simple_lib.cpp.obj	77a1de072deee980
+4	330	7367928041680775	CMakeFiles/MyExample.dir/simple_example.cpp.obj	1ee2a6a9cea88fa
+727	1213	7367928049876310	MyExample.exe	141a2085c482490d
+324	727	7367928042032651	MyLibExample.lib	71ff7f9c80313331
+0	506	7367937108493157	CMakeFiles/MyLib.dir/circuit.cpp.obj	d8f2d823814eaddd
+9	322	7367937686875707	CMakeFiles/Solve.dir/solve.cpp.obj	24930d171039e67f
+1	450	7367937684073898	MyLib.lib	b17d4a5e5b67d9c9
+450	1012	7367937693449632	Solve.exe	bceca5ba6e4ad739
