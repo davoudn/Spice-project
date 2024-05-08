@@ -34,15 +34,17 @@ void circuit::Integrate(){
     }
 }
 
+void circuit::StaticSolve(){
+    baseCircuit.Init(transComponents);
+    baseCircuit.Solve();
+}
+
 void circuit::Solve(){
     for (int it{0}; it < nIterations; it++){
 
-    Integrate();
-    PopulateTransComponents();
-
-    baseCircuit.Init(transComponents);
-    baseCircuit.Solve();
-
-    PopulateComponents();
+        Integrate();
+        PopulateTransComponents();
+        StaticSolve();
+        PopulateComponents();
   }
 }

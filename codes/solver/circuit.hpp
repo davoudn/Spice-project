@@ -10,11 +10,11 @@ private:
 
     void PopulateTransComponents(){};
     void PopulateComponents(){};
-
-    int nIterations;
-public:
+    void StaticSolve();
     void Translate();
     void Integrate();
+    int nIterations;
+public:
     void Solve();
 };
 
