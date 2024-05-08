@@ -18,7 +18,7 @@ struct BaseComponent {
 	std::vector<double> I;
 	int id;
 
-    double i_eq, r_eq;
+    double i_eq, r_eq, del_t;
 
 	virtual void integrate();
 };
