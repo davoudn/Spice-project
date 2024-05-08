@@ -2,13 +2,19 @@
 
 class circuit {
 private:
-    std::vector<BaseComponent*> elements;
-    std::vector<BaseComponent*> translatedElements;
+    std::vector<BaseComponent*> components;
+    std::vector<BaseComponent*> transComponents;
     std::vector< std::vector<int> > translationTable;
     
     BaseCircuit baseCircuit;
+
+    void PopulateTransComponents(){};
+    void PopulateComponents(){};
+
+    int nIterations;
 public:
-    void translate();
-    void solve();
+    void Translate();
+    void Integrate();
+    void Solve();
 };
 
