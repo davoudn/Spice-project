@@ -1,8 +1,6 @@
 #include "circuit.hpp"
 
-void BaseCircuit::Init(std::vector<BaseComponent*> _elements) {}
-
-void BaseCircuit::Allocate() {
+void BaseCircuit::CalcDim() {
 	//
 	nNodes = 0;
 	vsMap = std::vector <int>(components.size(), -1);
@@ -12,11 +10,20 @@ void BaseCircuit::Allocate() {
 			nVsourses++;
 		}
 		nDim = nNodes + nVsourses;
+		return;
+	}
+}
+void BaseCircuit::Init(std::vector<BaseComponent*> _elements) {
+	CalcDim();
+	return;
+}
+void BaseCircuit::Allocate() {
+	
 		a.zeros(nDim, nDim); // arma
 		x.zeros(nDim); // arma
 		z.zeros(nDim);  // arma
 		//
-	}
+		return;
 }
 
 void BaseCircuit::MakeAll() {
@@ -93,7 +100,7 @@ void BaseCircuit::Integrate() {
 		comp->integrate();
 	}
 }
-void::solve_it() {
+void::Solve_it() {
 	x = arma::Solve(A, z, solve_opts::refine);
 	return;
 }

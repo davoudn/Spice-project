@@ -29,6 +29,7 @@ public:
 	int maxIteration;
 	// a x = z
 private:
+	void CalcDim();
 	void MakeAll();
 	void Allocate();
 	void Populate() ;
