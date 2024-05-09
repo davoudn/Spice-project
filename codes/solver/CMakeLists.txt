@@ -27,11 +27,11 @@ project(
 # Including header files here helps IDEs but is not required.
 # Output libname matches target name, with the usual extensions on your system
 #add_library(MyLib solver.cpp solver.hpp)
-add_library(MyLib circuit.cpp circuit.hpp)
+add_library(MyLib "surpass/circuit_old.cpp" "surpass/circuit_old.hpp" "circuit.hpp" "circuit.cpp")
 # Link each target with other targets or add options, etc.
 
 # Adding something we can run - Output name matches target name
-add_executable(Solve solve.cpp)
+add_executable(Solve solve.cpp "circuit.hpp" "circuit.cpp")
 
 # Make sure you link your targets with this command. It can also link libraries and
 # even flags, so linking a target that does not exist will not give a configure-time error.

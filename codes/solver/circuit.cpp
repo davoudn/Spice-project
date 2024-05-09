@@ -1,79 +1,109 @@
 #include "circuit.hpp"
 
+void BaseCircuit::Init(std::vector<BaseComponent*> _elements) {}
 
-void circuit::Translate(){
-    int tanslatedId{0};
-  
-    for (int id{0}; id < components.size(); id++){
-        auto el = components[id];
-        if ( el->type == "C" || el->type == "L" || el->type == "CPE"){
-            transComponents.push_back(new BaseComponent(el->nodePos,el->nodeNeg, "IS", el->label+"I"));
-            tanslatedId++;
-            translationTable[id].push_back(tanslatedId);
-
-            transComponents.push_back(new BaseComponent(el->nodePos, el->nodeNeg, "R", el->label+"R"));
-            tanslatedId++;
-            translationTable[id].push_back(tanslatedId);
-
-        } else {
-            transComponents.push_back(new BaseComponent(el->nodePos, el->nodeNeg, el->type, el->label));
-            translationTable[id].push_back(tanslatedId);
-            tanslatedId++;
-        }
-    }
-
-    for (int id{0}; id < transComponents.size(); id++){
-        transComponents[id]->id = id;
-    }
-    return;
-}
-void circuit::Integrate(){
-    for (auto el : components){
-        el->integrate();
-    }
+void BaseCircuit::Allocate() {
+	//
+	nNodes = 0;
+	vsMap = std::vector <int>(components.size(), -1);
+	for (int id{ 0 }; id < components.size(); id++) {
+		if (components[id]->type == "VS") {
+			vsMap[id] = (nNodes + nVsourses);
+			nVsourses++;
+		}
+		nDim = nNodes + nVsourses;
+		a.zeros(nDim, nDim); // arma
+		x.zeros(nDim); // arma
+		z.zeros(nDim);  // arma
+		//
+	}
 }
 
-void circuit::StaticSolve(){
-    baseCircuit.Init(transComponents);
-    baseCircuit.Solve();
+void BaseCircuit::MakeAll() {
+	Allocate();
+	// making A matrix
+	double _gdiag{ 0.0 }, _gtmp{ 0.0 };
+	for (int n1{ 0 }; n1 < nNodes; n1++) {
+		_gdiag = 0.0;
+		for (int n2{ 0 }; n2 < nNodes; n2++) {
+			_gtmp = 0.0;
+			for (auto id : table[n1][n2]) {
+				if (components[id]->type != "VS" && components[id]->type != "IS")
+					_gtmp += components[id]->g_eq;
+			}
+			_gdiag += _gtmp;
+			if (n1 != n2)
+				a[n1][n2] = -_gtmp;
+		}
+		a[n1][n1] = _gdiag;
+	}
+
+
+	for (int n1{ 0 }; n1 < nNodes; n1++) {
+		for (int n2{ 0 }; n2 < nNodes; n2++) {
+			for (auto id : table[n1][n2]) {
+				if (components[id]->type == "VS" && components[id]->nodePos == n1) {
+					a[n1][vsMap[id]] = 1;
+					a[vsMap[id]][n1] = 1;
+				}
+				if (components[id]->type == "VS" && components[id]->nodeNeg == n1) {
+					a[n1][vsMap[id]] = -1;
+					a[vsMap[id]][n1] = -1;
+				}
+
+			}
+		}
+	}
+	// the end of A matrix construction block
+
+	// z matrix construction
+	double _itmp{ 0.0 };
+	for (int n1{ 0 }; n1 < nNodes; n1++) {
+		for (int n2{ 0 }; n2 < nNodes; n2++) {
+			for (auto id : table[n1][n2]) {
+				//
+				if (components[id]->type != "VS" && components[id]->nodePos == n1) {
+					_itmp += components[id]->i_eq;
+				}
+				if (components[id]->type != "VS" && components[id]->nodeNeg == n1) {
+					_itmp -= components[id]->i_eq;
+				}
+				//
+				if (components[id]->type == "VS") {
+					z[vsMap[id]] = components[id]->params["V"];
+				}
+			}
+		}
+		z[n1] = -_itmp;
+		_itmp = 0.0;
+	}
+
+	return;
 }
 
-void circuit::Solve(){
-    for (int it{0}; it < nIterations; it++){
-
-        Integrate();
-        PopulateTransComponents();
-        StaticSolve();
-        PopulateComponents();
-    }
-    return;
+void BaseCircuit::Populate() {
+	for (auto comp : components) {
+		auto dv = x[comp->nodePos] - x[comp->nodePos];
+		comp->Populate(dv);
+	}
 }
 
-void circuit::PopulateTransComponents() {
-    for (int id{ 0 }; id < components.size(); id++) {
-        for (int tid : translationTable[id]) {
-            if (transComponents[tid]->type == "IS") {
-                transComponents[tid]->i_eq = components[id]->i_eq;
-            }
-            if (transComponents[tid]->type == "R") {
-                transComponents[tid]->g_eq = components[id]->g_eq;
-            }
-        }
-    }
-    return;
+void BaseCircuit::Integrate() {
+	for (auto comp : components) {
+		comp->integrate();
+	}
 }
-
-void circuit::PopulateComponents() {
-    for (int id{ 0 }; id < components.size(); id++) {
-        for (int tid : translationTable[id]) {
-            if (transComponents[tid]->type != "VS") {
-                auto dv = baseCircuit.x[transComponents[tid]->nodePos] - baseCircuit.x[transComponents[tid]->nodeNeg];
-                components[id]->V.push_back(dv);
-            }
-        }
-    }
-
-    return;
+void::solve_it() {
+	x = arma::Solve(A, z, solve_opts::refine);
+	return;
 }
+void BaseCircuit::Solve() {
 
+	for (int it; it < maxIteration; it++) {
+		Integrate();
+		Solve_it();
+		Populate();
+	}
 
+	return;
+}
