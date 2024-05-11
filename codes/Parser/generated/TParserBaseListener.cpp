@@ -3,7 +3,8 @@
 
 
 #include "TParserBaseListener.h"
-
-
 using namespace antlrcpptest;
 
+void enterMain(TParser::MainContext * ctx) {
+    std :: cout << "hello " << std :: endl;
+ }

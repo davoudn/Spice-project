@@ -1,13 +1,5 @@
-R3 n1 n2 100k
+R3 n1 n2
 R4 node2 n2
 R5 n1 n2
-
-C1 n1 n2
-C2 n1 n2
-C3 n1 n2
-
-L1 n1 n2
-L2 n1 n2
-L3 n1 n2
 
 .end
