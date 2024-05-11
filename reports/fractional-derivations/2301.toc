@@ -1,0 +1,31 @@
+\contentsline {section}{\numberline {1}Fractional Derivatives}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Riemann-Liouville Fractional Integral}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Riemann-Liouville Fractional Derivative}{3}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Leibniz' formula}{4}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Fa\'a di Bruno formula (the chain rule)}{5}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}Fractional Taylor expansion}{5}{subsubsection.1.2.3}%
+\contentsline {subsubsection}{\numberline {1.2.4}Symmetrised space derivative}{5}{subsubsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.3}Caputo Fractional Derivative}{6}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Matrix Approach}{7}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Caputo \& Fabrizio Fractional Derivatives}{7}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}GC \& GRL derivatives}{8}{subsection.1.6}%
+\contentsline {subsubsection}{\numberline {1.6.1}GC derivatives}{8}{subsubsection.1.6.1}%
+\contentsline {subsubsection}{\numberline {1.6.2}GRL derivatives}{8}{subsubsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.7}Marchaud-Hadamard Fractional Derivatives}{9}{subsection.1.7}%
+\contentsline {subsection}{\numberline {1.8}Gr\"unwald - Letnikov Derivative}{10}{subsection.1.8}%
+\contentsline {subsection}{\numberline {1.9}Riesz Fractional Operators}{11}{subsection.1.9}%
+\contentsline {subsection}{\numberline {1.10}Weyl Fractional Derivative}{12}{subsection.1.10}%
+\contentsline {subsection}{\numberline {1.11}Erd\'elye-Kober Fractional Operators}{12}{subsection.1.11}%
+\contentsline {subsection}{\numberline {1.12}Interpretation of Fractional Integral and Derivatives}{13}{subsection.1.12}%
+\contentsline {subsection}{\numberline {1.13}Local Fractional Derivatives}{15}{subsection.1.13}%
+\contentsline {subsubsection}{\numberline {1.13.1}"Conformable" Fractional Derivative}{16}{subsubsection.1.13.1}%
+\contentsline {section}{\numberline {2}Tempered Fractional Calculus}{16}{section.2}%
+\contentsline {section}{\numberline {3}Fractional Differential Equations}{17}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Distributed order differential equations}{20}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Special Functions}{21}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Mittag-Leffler Functions}{21}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}H Functions}{23}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Wright Functions}{23}{subsubsection.3.2.3}%
+\contentsline {section}{\numberline {4}Solution of Fractional Differential Equations}{24}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Analytical Methods}{24}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Numerical Methods}{26}{subsection.4.2}%

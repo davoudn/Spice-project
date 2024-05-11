@@ -1,13 +1,9 @@
+
 #include <vector>
 #include <map>
 #include <string>
 
-struct Terminal {
-	int nodeId;
-	int signe;
-};
 
-struct SPICE {};
 struct BaseComponent {
 	BaseComponent(int _nodePos, int _nodeNeg, std::string _type, std::string _label): nodePos(_nodePos), nodeNeg(_nodeNeg), type(_type), label(_label) {}
 	BaseComponent(int _nodePos, int _nodeNeg, std::string _type, std::string _label, int _id):nodePos(_nodePos), nodeNeg(_nodeNeg), type(_type), label(_label)id(_id), id(_id) {}

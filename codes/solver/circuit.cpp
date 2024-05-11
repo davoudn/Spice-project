@@ -28,7 +28,9 @@ void BaseCircuit::Allocate() {
 
 void BaseCircuit::MakeAll() {
 	Allocate();
+    ///////////////////////////////////////////////////
 	// making A matrix
+    ///////////////////////////////////////////////////
 	double _gdiag{ 0.0 }, _gtmp{ 0.0 };
 	for (int n1{ 0 }; n1 < nNodes; n1++) {
 		_gdiag = 0.0;
@@ -62,8 +64,9 @@ void BaseCircuit::MakeAll() {
 		}
 	}
 	// the end of A matrix construction block
-
+    //////////////////////////////////////////////////////////////////
 	// z matrix construction
+    //////////////////////////////////////////////////////////////////
 	double _itmp{ 0.0 };
 	for (int n1{ 0 }; n1 < nNodes; n1++) {
 		for (int n2{ 0 }; n2 < nNodes; n2++) {
@@ -84,7 +87,7 @@ void BaseCircuit::MakeAll() {
 		z[n1] = -_itmp;
 		_itmp = 0.0;
 	}
-
+    /////////////////////////////////////////////////////////////////////
 	return;
 }
 
