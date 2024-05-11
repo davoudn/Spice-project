@@ -15,5 +15,5 @@ struct Capacitor : public BaseComponent {
            this->i_eq = -tmp / (this->del_t * integrator::CorrectorWeighs[0]) - g_eq * this->V[it_last];
     }
     private:
-     INTEGRATOR integrator;
+        INTEGRATOR integrator;
 };
