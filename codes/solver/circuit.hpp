@@ -7,7 +7,7 @@
 
 class BaseCircuit {
 public:
-	void Init(std::vector<BaseComponent*> _components);
+	void Init(std::vector<DummyStruct> _components);
 	void Solve_it() {};
 	void Solve();
 private:
@@ -16,14 +16,11 @@ private:
 	std::map <std::string, double> params;
 	std::vector <int>  vsMap;
 public:
-	//std::vector<double> x;
-	//std::vector<double> z;
 	arma::Vec<double> z;
 	arma::Vec<double> x;
 	arma::Mat<double> a;
-//	std::vector< std::vector<double> > a;
 	
-	int nNodes; // number of nodes - datum
+	int nNodes; // number of nodes minus datum
 	int nVsourses; // number voltage sources
 	int nDim;
 	int maxIteration;
