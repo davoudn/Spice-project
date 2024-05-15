@@ -61,6 +61,7 @@
         "numbers": "cpp",
         "semaphore": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "includePath": "/usr/local/include/antlr4-runtime"
     }
 }
