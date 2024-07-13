@@ -40,7 +40,8 @@ class SolveFracPC{
       FUNC m_Func;
       METHOD m_weights;
       public:
-      void SolveFracPC(double _h, int _NSteps, double _alpha, FUNC _Func, double _y0):m_h(_h), m_NSteps(_NSteps),
+      void SolveFracPC(){}
+      void SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0):m_h(_h), m_NSteps(_NSteps),
        m_y0(_y0), m_alpha(_alpha), m_weights(_alpha), m_k(1), m_Func(_Func){  
           int n{0};
            m_t.resize(m_NSteps);
@@ -73,12 +74,16 @@ class SolveFracPC{
         }
         return;
       }
+
+      std::tuple<std::vector<double>, std::vector<double>> GetResult(){
+          return std::tuple<std::vector<double>, std::vector<double>> {m_t, m_y};
+      }
 };
 
-struct Linear{
+struct DLinear{
     double a, b;
-    Linear(double _a, double _b):a(_a),b(_b){}
-    void set(double _a, double _b){
+    //DLinear(double _a, double _b):a(_a),b(_b){}
+    void Set(double _a, double _b){
         a=_a;
         b=_b;
     }
@@ -87,10 +92,10 @@ double operator() (double t){
 }
 };
 
-struct Exp{
+struct DExp{
     double a, b;
-    Exp(double _a, double _b):a(_a),b(_b){}
-    void set(double _a, double _b){
+   // DExp(double _a, double _b):a(_a),b(_b){}
+    void Set(double _a, double _b){
         a=_a;
         b=_b;
     }
@@ -99,14 +104,51 @@ struct Exp{
     }
 };
 
-struct Pow{
+struct DPow{
     double a, b;
-    Pow(double _a, double _b):a(_a),b(_b){}
-    void set(double _a, double _b){
+    //DPow(double _a, double _b):a(_a),b(_b){}
+    void Set(double _a, double _b){
         a=_a;
         b=_b;
     }   
     double operator() (double t){
         return a * std::pow(t, b);
     }
+};
+
+
+class Ohmic {
+    public:
+        Ohmic(double _R, double _C, double _Alpha, double _H, double _N, double _V0 ):R(_R), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H){
+             Linear.Set(-R/C,0.0);
+             Solver = SolveFracPC<Weights<DIETHELM>, DLinear>(H, N, Alpha, Linear, V0);
+        }
+        void Solve(){
+            Solver.Solve();
+        }
+    private:
+        DLinear Linear;
+        SolveFracPC<Weights<DIETHELM>, DLinear> Solver;
+        double R, C, Alpha, V0, H;
+        int N;
+};
+
+class Faradic {
+    public:
+        Faradic(double _A, double _B, double _C, double _Alpha, double _H, double _N, double _V0 ):A(_A), B(_B), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H){
+             Exp.Set(-A/C,B);
+             Solver = SolveFracPC<Weights<DIETHELM>, DExp>(H, N, Alpha, Exp, V0);
+        }
+        void Solve(){
+            Solver.Solve();
+        }
+    private:
+        DExp Exp;
+        SolveFracPC<Weights<DIETHELM>, DExp> Solver;
+        double A, B, C, Alpha, V0, H;
+        int N;
+};
+
+class Diffuse{
+
 };
