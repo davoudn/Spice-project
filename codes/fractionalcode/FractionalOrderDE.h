@@ -17,7 +17,7 @@ class Weights<DIETHELM>{
        double corrector (int k, int j){
             auto tmp=0.0;
             if(j==0)
-               tmp = std::pow(k,m_alpha+1.0) - (k-m_apha) * std::pow(k+1.0,m_alpha);
+               tmp = std::pow(k,m_alpha+1.0) - (k-m_alpha) * std::pow(k+1.0,m_alpha);
             if ( j>0 && j<k+1 )
                tmp = std::pow(k-j+2.0, m_alpha+1) + std::pow(k-j,m_alpha+1) - 2.0*std::pow(k-j+1,m_alpha+1);
             if ( j==k+1)
@@ -40,8 +40,8 @@ class SolveFracPC{
       FUNC m_Func;
       METHOD m_weights;
       public:
-      void SolvePredictorCorrector(double _h, int _NSteps, double _alpha, double _y0):m_h(_h), m_NSteps(_NSteps),
-       m_y0(_y0), m_alpha(_alpha), m_weights(_alpha), m_k(1){  
+      void SolveFracPC(double _h, int _NSteps, double _alpha, FUNC _Func, double _y0):m_h(_h), m_NSteps(_NSteps),
+       m_y0(_y0), m_alpha(_alpha), m_weights(_alpha), m_k(1), m_Func(_Func){  
           int n{0};
            m_t.resize(m_NSteps);
            std::generate(m_t.begin(), m_t.end(), [n = 0, &m_h]() mutable { return n++ * m_h;});    
@@ -73,4 +73,40 @@ class SolveFracPC{
         }
         return;
       }
+};
+
+struct Linear{
+    double a, b;
+    Linear(double _a, double _b):a(_a),b(_b){}
+    void set(double _a, double _b){
+        a=_a;
+        b=_b;
+    }
+double operator() (double t){
+    return a * t + b;
+}
+};
+
+struct Exp{
+    double a, b;
+    Exp(double _a, double _b):a(_a),b(_b){}
+    void set(double _a, double _b){
+        a=_a;
+        b=_b;
+    }
+    double operator() (double t){
+        return a * std::exp(b * t);
+    }
+};
+
+struct Pow{
+    double a, b;
+    Pow(double _a, double _b):a(_a),b(_b){}
+    void set(double _a, double _b){
+        a=_a;
+        b=_b;
+    }   
+    double operator() (double t){
+        return a * std::pow(t, b);
+    }
 };
