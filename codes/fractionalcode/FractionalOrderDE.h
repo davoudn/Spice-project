@@ -4,6 +4,9 @@
       is the Caputo FOD.
 */
 #include <cmath>
+#include <vector>
+#include <fstream>
+#include <algorithm>
 
 template <typename T>
 class Weights;
@@ -13,8 +16,10 @@ template <>
 class Weights<DIETHELM>{
     public:
       double m_alpha;
+      Weights(){}
+
       Weights(double _alpha):m_alpha(_alpha){}
-       double corrector (int k, int j){
+       double corrector (int k, int j) {
             auto tmp=0.0;
             if(j==0)
                tmp = std::pow(k,m_alpha+1.0) - (k-m_alpha) * std::pow(k+1.0,m_alpha);
@@ -24,7 +29,7 @@ class Weights<DIETHELM>{
                tmp = 1.0;
         return tmp;                    
        }
-       double predictor (int k, int j){
+       double predictor (int k, int j) {
            return  ( std::pow(k+1-j,m_alpha) - std::pow(k-j,m_alpha) )/m_alpha;
        }
 };
@@ -35,48 +40,59 @@ class Weights<DIETHELM>{
 template <typename METHOD, typename FUNC>
 class SolveFracPC{        
       std::vector<double> m_y, m_t;
-      double m_h, m_NSteps, m_y0, m_k,m_j, m_gamma;
-      int m_iSteps;
+      double m_alpha, m_h, m_y0, m_k,m_j, m_gamma, m_gammainv;
+      int m_iSteps, m_NSteps;
       FUNC m_Func;
       METHOD m_weights;
       public:
-      void SolveFracPC(){}
-      void SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0):m_h(_h), m_NSteps(_NSteps),
-       m_y0(_y0), m_alpha(_alpha), m_weights(_alpha), m_k(1), m_Func(_Func){  
-          int n{0};
+        SolveFracPC(){}
+        SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0):m_h(_h), m_NSteps(_NSteps), m_y0(_y0), m_alpha(_alpha), 
+                                                                                    m_weights(_alpha), m_k(1), m_Func(_Func){  
+           int n{0};
            m_t.resize(m_NSteps);
-           std::generate(m_t.begin(), m_t.end(), [n = 0, &m_h]() mutable { return n++ * m_h;});    
+           std::generate(m_t.begin(), m_t.end(), [n = 0, this]() mutable { return n++ * this->m_h;});    
            m_y.resize(m_NSteps);
            m_y[0] = m_y0;
            m_k = 0;
            m_gammainv = 1.0/std::tgamma(m_alpha);
       }
+
       void Predict(){
-           for (int m_j=0; m_j < m_k, m_j++){
-               m_y[m_k] += m_weights.predictor(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
+           for (int m_j=0; m_j < m_k; m_j++){
+               m_y[m_k] += m_weights.predictor(m_k,m_j) * m_Func(m_y[m_j]);
            }
            m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
            return;
       }
+
       void Correct(){
-           for (int m_j=0; m_j < m_k, m_j++){
-               m_y[m_k] += m_weights.corrector(m_k,m_j) * m_Func(m_y[m_j], m_t[m_j]);
+           for (int m_j=0; m_j < m_k; m_j++){
+               m_y[m_k] += m_weights.corrector(m_k,m_j) * m_Func(m_y[m_j]);
            }
            m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
            return;
       }
       void Solve(){
         m_k=1;
-        while (m_k<m_Nsteps){
+        while (m_k < m_NSteps){
             Predict();
             Correct();
             m_k++;
         }
+        DumpResults();
         return;
       }
 
-      std::tuple<std::vector<double>, std::vector<double>> GetResult(){
-          return std::tuple<std::vector<double>, std::vector<double>> {m_t, m_y};
+      auto GetResult(){
+          return std::tuple<std::vector<double>, std::vector<double>>(m_t, m_y);
+      }
+
+      void DumpResults(){
+        std::fstream fo;
+        fo.open("solver.dat", std::fstream::out);
+        for (int i{0}; i < m_t.size();i++)
+           fo << m_t[i] << " " << m_y[i] << "\n";
+        fo.close();
       }
 };
 
@@ -116,6 +132,26 @@ struct DPow{
     }
 };
 
+struct MitagLeffer{
+    double a, b, alpha;
+    int N;
+    MitagLeffer(int _N):N(_N){}
+    void Set(double _a, double _b, double _alpha){
+        a     = _a;
+        b     = _b;
+        alpha = _alpha;
+    } 
+    double operator() (double t){
+        auto tmp {0.0};
+        auto bt  {b*t};
+        auto tn  {1.0};
+        for (int nu {0}; nu < N; nu++){
+            tmp += tn * 1.0/std::tgamma(nu * alpha + 1);
+            tn *= bt;
+        }
+        return a * tmp;
+    }
+};
 
 class Ohmic {
     public:
@@ -135,9 +171,10 @@ class Ohmic {
 
 class Faradic {
     public:
-        Faradic(double _A, double _B, double _C, double _Alpha, double _H, double _N, double _V0 ):A(_A), B(_B), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H){
+        Faradic(double _A, double _B, double _C, double _Alpha, double _H, int _NSteps, double _V0 ):A(_A), B(_B), C(_C), Alpha(_Alpha), NSteps(_NSteps),
+                                                                                                    V0(_V0), H(_H){
              Exp.Set(-A/C,B);
-             Solver = SolveFracPC<Weights<DIETHELM>, DExp>(H, N, Alpha, Exp, V0);
+             Solver = SolveFracPC<Weights<DIETHELM>, DExp>(H, NSteps, Alpha, Exp, V0);
         }
         void Solve(){
             Solver.Solve();
@@ -146,9 +183,9 @@ class Faradic {
         DExp Exp;
         SolveFracPC<Weights<DIETHELM>, DExp> Solver;
         double A, B, C, Alpha, V0, H;
-        int N;
+        int NSteps;
 };
 
 class Diffuse{
-
 };
+
