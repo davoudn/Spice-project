@@ -47,8 +47,16 @@ class SolveFracPC{
       METHOD m_weights;
       public:
         SolveFracPC(){}
-        SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0):m_h(_h), m_NSteps(_NSteps), m_y0(_y0), m_alpha(_alpha), 
-                                                                                    m_weights(_alpha, _h), m_k(0), m_Func(_Func){  
+        SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0){
+            Set( _h,  _NSteps,  _alpha,  _Func,  _y0);
+      }
+
+      void Set(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0){
+           m_h=_h; m_NSteps=_NSteps; 
+           m_y0=_y0; m_alpha=_alpha;
+           m_weights= METHOD(_alpha, _h); m_k(0); 
+           m_Func(_Func);  
+           
            int n{0};
            m_t.resize(m_NSteps);
            std::generate(m_t.begin(), m_t.end(), [n = 0, this]() mutable { return n++ * this->m_h;});    
@@ -57,7 +65,6 @@ class SolveFracPC{
            m_k = 0;
            m_gammainv = 1.0/std::tgamma(m_alpha);
       }
-
       void Predict(){
         auto tmp {0.0};
            for (int m_j=0; m_j < m_k + 1; m_j++){
@@ -160,22 +167,25 @@ class Ohmic {
     public:
         Ohmic(double _R, double _C, double _Alpha, double _H, double _N, double _V0 ):R(_R), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H), MitagLeffer(200){
              Linear.Set(-R/C,0.0);
-             Solver = SolveFracPC<Weights<DIETHELM>, DLinear>(H, N, Alpha, Linear, V0);
+             Solver.Set(H, N, Alpha, Linear, V0);
              MitagLeffer.Set(1.0,1.0,_Alpha);
         }
-        void Solve(){
+        void Solve(bool IfDump){
             Solver.Solve();
-            auto _res = Solver.GetResult();
-            std::vector<double> _mt(std::get<0>(_res).size(),0.0);
-            for (int i{0};i < _mt.size(); i++){
-                _mt[i] = MitagLeffer(-std::pow(std::get<0>(_res)[i],Alpha));
-            }
+            if (IfDump){
+                auto _res = Solver.GetResult();
+                std::vector<double> _mt(std::get<0>(_res).size(),0.0);
+                for (int i{0};i < _mt.size(); i++){
+                     _mt[i] = MitagLeffer(-std::pow(std::get<0>(_res)[i],Alpha));
+                }
 
-            std::fstream fo;
-            fo.open("ohmic.dat", std::fstream::out);
-            for (int i{0}; i < std::get<0>(_res).size();i++)
-                 fo << std::get<0>(_res)[i] << " " << std::get<1>(_res)[i]  <<" "<< _mt[i] <<"\n";
-            fo.close();
+                std::fstream fo;
+                fo.open("ohmic.dat", std::fstream::out);
+                for (int i{0}; i < std::get<0>(_res).size();i++){
+                      fo << std::get<0>(_res)[i] << " " << std::get<1>(_res)[i]  <<" "<< _mt[i] <<"\n";
+                }
+                fo.close();
+            }
         }
     private:
         DLinear Linear;
