@@ -5,6 +5,7 @@
 */
 #include <cmath>
 #include <vector>
+#include <tuple>
 #include <fstream>
 #include <algorithm>
 
@@ -27,7 +28,7 @@ class Weights<DIETHELM>{
                tmp = std::pow(k-j+2.0, m_alpha+1) + std::pow(k-j,m_alpha+1) - 2.0*std::pow(k-j+1,m_alpha+1);
             if ( j==k+1)
                tmp = 1.0;
-        return tmp * std::pow(m_h,m_alpha)/m_alpha/(m_alpha+1.0);                    
+        return tmp * std::pow(m_h,m_alpha)/(m_alpha * (m_alpha+1.0));                    
        }
        double predictor (int k, int j) {
            return  std::pow(m_h,m_alpha) * ( std::pow(k+1-j,m_alpha) - std::pow(k-j,m_alpha) )/m_alpha;
@@ -47,7 +48,7 @@ class SolveFracPC{
       public:
         SolveFracPC(){}
         SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0):m_h(_h), m_NSteps(_NSteps), m_y0(_y0), m_alpha(_alpha), 
-                                                                                    m_weights(_alpha, _h), m_k(1), m_Func(_Func){  
+                                                                                    m_weights(_alpha, _h), m_k(0), m_Func(_Func){  
            int n{0};
            m_t.resize(m_NSteps);
            std::generate(m_t.begin(), m_t.end(), [n = 0, this]() mutable { return n++ * this->m_h;});    
@@ -59,34 +60,34 @@ class SolveFracPC{
 
       void Predict(){
         auto tmp {0.0};
-           for (int m_j=0; m_j < m_k; m_j++){
+           for (int m_j=0; m_j < m_k + 1; m_j++){
                tmp += m_weights.predictor(m_k,m_j) * m_Func(m_y[m_j]);
            }
-           m_y[m_k] = m_y0 + tmp * m_gammainv;
+           m_y[m_k+1] = m_y0 + tmp * m_gammainv;
            return;
       }
 
       void Correct(){
         auto tmp{0.0};
-           for (int m_j=0; m_j < m_k+1; m_j++){
+           for (int m_j=0; m_j <= m_k+1; m_j++){
                tmp += m_weights.corrector(m_k,m_j) * m_Func(m_y[m_j]);
            }
-           m_y[m_k] = m_y0 + tmp * m_gammainv;
+           m_y[m_k+1] = m_y0 + tmp * m_gammainv;
            return;
       }
       void Solve(){
-        m_k=1;
+        m_k=0;
         while (m_k < m_NSteps-1){
             Predict();
+      //      for (int i{0}; i <10; i++)
             Correct();
             m_k++;
         }
-        DumpResults();
         return;
       }
 
-      auto GetResult(){
-          return std::tuple<std::vector<double>, std::vector<double>>(m_t, m_y);
+      std::tuple<std::vector<double>, std::vector<double>> GetResult(){
+          return {m_t, m_y};
       }
 
       void DumpResults(){
@@ -134,10 +135,10 @@ struct DPow{
     }
 };
 
-struct MitagLeffer{
+struct DMitagLeffer{
     double a, b, alpha;
     int N;
-    MitagLeffer(int _N):N(_N){}
+    DMitagLeffer(int _N):N(_N){}
     void Set(double _a, double _b, double _alpha){
         a     = _a;
         b     = _b;
@@ -157,15 +158,28 @@ struct MitagLeffer{
 
 class Ohmic {
     public:
-        Ohmic(double _R, double _C, double _Alpha, double _H, double _N, double _V0 ):R(_R), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H){
+        Ohmic(double _R, double _C, double _Alpha, double _H, double _N, double _V0 ):R(_R), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H), MitagLeffer(200){
              Linear.Set(-R/C,0.0);
              Solver = SolveFracPC<Weights<DIETHELM>, DLinear>(H, N, Alpha, Linear, V0);
+             MitagLeffer.Set(1.0,1.0,_Alpha);
         }
         void Solve(){
             Solver.Solve();
+            auto _res = Solver.GetResult();
+            std::vector<double> _mt(std::get<0>(_res).size(),0.0);
+            for (int i{0};i < _mt.size(); i++){
+                _mt[i] = MitagLeffer(-std::pow(std::get<0>(_res)[i],Alpha));
+            }
+
+            std::fstream fo;
+            fo.open("ohmic.dat", std::fstream::out);
+            for (int i{0}; i < std::get<0>(_res).size();i++)
+                 fo << std::get<0>(_res)[i] << " " << std::get<1>(_res)[i]  <<" "<< _mt[i] <<"\n";
+            fo.close();
         }
     private:
         DLinear Linear;
+        DMitagLeffer MitagLeffer;
         SolveFracPC<Weights<DIETHELM>, DLinear> Solver;
         double R, C, Alpha, V0, H;
         int N;
