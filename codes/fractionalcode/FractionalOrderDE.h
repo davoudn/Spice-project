@@ -15,10 +15,10 @@ class DIETHELM{};
 template <>
 class Weights<DIETHELM>{
     public:
-      double m_alpha;
+      double m_alpha, m_h;
       Weights(){}
 
-      Weights(double _alpha):m_alpha(_alpha){}
+      Weights(double _alpha, double _h):m_alpha(_alpha), m_h(_h){}
        double corrector (int k, int j) {
             auto tmp=0.0;
             if(j==0)
@@ -27,10 +27,10 @@ class Weights<DIETHELM>{
                tmp = std::pow(k-j+2.0, m_alpha+1) + std::pow(k-j,m_alpha+1) - 2.0*std::pow(k-j+1,m_alpha+1);
             if ( j==k+1)
                tmp = 1.0;
-        return tmp;                    
+        return tmp * std::pow(m_h,m_alpha)/m_alpha/(m_alpha+1.0);                    
        }
        double predictor (int k, int j) {
-           return  ( std::pow(k+1-j,m_alpha) - std::pow(k-j,m_alpha) )/m_alpha;
+           return  std::pow(m_h,m_alpha) * ( std::pow(k+1-j,m_alpha) - std::pow(k-j,m_alpha) )/m_alpha;
        }
 };
 
@@ -47,7 +47,7 @@ class SolveFracPC{
       public:
         SolveFracPC(){}
         SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0):m_h(_h), m_NSteps(_NSteps), m_y0(_y0), m_alpha(_alpha), 
-                                                                                    m_weights(_alpha), m_k(1), m_Func(_Func){  
+                                                                                    m_weights(_alpha, _h), m_k(1), m_Func(_Func){  
            int n{0};
            m_t.resize(m_NSteps);
            std::generate(m_t.begin(), m_t.end(), [n = 0, this]() mutable { return n++ * this->m_h;});    
@@ -58,23 +58,25 @@ class SolveFracPC{
       }
 
       void Predict(){
+        auto tmp {0.0};
            for (int m_j=0; m_j < m_k; m_j++){
-               m_y[m_k] += m_weights.predictor(m_k,m_j) * m_Func(m_y[m_j]);
+               tmp += m_weights.predictor(m_k,m_j) * m_Func(m_y[m_j]);
            }
-           m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
+           m_y[m_k] = m_y0 + tmp * m_gammainv;
            return;
       }
 
       void Correct(){
-           for (int m_j=0; m_j < m_k; m_j++){
-               m_y[m_k] += m_weights.corrector(m_k,m_j) * m_Func(m_y[m_j]);
+        auto tmp{0.0};
+           for (int m_j=0; m_j < m_k+1; m_j++){
+               tmp += m_weights.corrector(m_k,m_j) * m_Func(m_y[m_j]);
            }
-           m_y[m_k] = m_y0 + m_y[m_k] * m_gammainv;
+           m_y[m_k] = m_y0 + tmp * m_gammainv;
            return;
       }
       void Solve(){
         m_k=1;
-        while (m_k < m_NSteps){
+        while (m_k < m_NSteps-1){
             Predict();
             Correct();
             m_k++;
@@ -186,6 +188,5 @@ class Faradic {
         int NSteps;
 };
 
-class Diffuse{
-};
+class Diffuse{};
 
