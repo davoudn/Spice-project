@@ -2,15 +2,13 @@
 #include "optim.hpp"
 
 // Ackley function
-
-double ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
+ double ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)
 {
     const double x = vals_inp(0);
     const double y = vals_inp(1);
     const double pi = arma::datum::pi;
 
     double obj_val = -20*std::exp( -0.2*std::sqrt(0.5*(x*x + y*y)) ) - std::exp( 0.5*(std::cos(2*pi*x) + std::cos(2*pi*y)) ) + 22.718282L;
-
     //
 
     return obj_val;

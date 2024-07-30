@@ -8,6 +8,8 @@
 #include <tuple>
 #include <fstream>
 #include <algorithm>
+#include "optim.hpp"
+
 
 template <typename T>
 class Weights;
@@ -40,10 +42,12 @@ class Weights<DIETHELM>{
 
 template <typename METHOD, typename FUNC>
 class SolveFracPC{        
-      std::vector<double> m_y, m_t;
+      arma::vec  m_y;
+      arma::vec  m_t;
       double m_alpha, m_h, m_y0, m_k,m_j, m_gamma, m_gammainv;
       int m_iSteps, m_NSteps;
       FUNC m_Func;
+      std::tuple<arma::vec, arma::vec> m_results;
       METHOD m_weights;
       public:
         SolveFracPC(){}
@@ -58,9 +62,9 @@ class SolveFracPC{
            m_Func(_Func);  
            
            int n{0};
-           m_t.resize(m_NSteps);
+           m_t = arma::zeros(m_NSteps,1);
            std::generate(m_t.begin(), m_t.end(), [n = 0, this]() mutable { return n++ * this->m_h;});    
-           m_y.resize(m_NSteps);
+           m_y = arma::zeros(m_NSteps,1);
            m_y[0] = m_y0;
            m_k = 0;
            m_gammainv = 1.0/std::tgamma(m_alpha);
@@ -90,11 +94,12 @@ class SolveFracPC{
             Correct();
             m_k++;
         }
+        m_results = std::tuple<arma::vec, arma::vec> {m_t, m_y};
         return;
       }
 
-      std::tuple<std::vector<double>, std::vector<double>> GetResult(){
-          return {m_t, m_y};
+      std::tuple<arma::vec&, arma::vec&>& GetResult(){
+          return m_results
       }
 
       void DumpResults(){
@@ -187,6 +192,9 @@ class Ohmic {
                 fo.close();
             }
         }
+        auto& GetResults(){
+            return Solver.GetResult();
+        }
     private:
         DLinear Linear;
         DMitagLeffer MitagLeffer;
@@ -205,12 +213,64 @@ class Faradic {
         void Solve(){
             Solver.Solve();
         }
+          auto& GetResults(){
+            return Solver.GetResult();
+        }
     private:
         DExp Exp;
         SolveFracPC<Weights<DIETHELM>, DExp> Solver;
         double A, B, C, Alpha, V0, H;
         int NSteps;
+
 };
 
 class Diffuse{};
 
+//
+// Ackley function
+ double ackley_fn(const arma::vec& p, arma::vec* grad_out, void* opt_data)
+{
+     double _A = p[0], _B = p[1], _C = p[2], _AlphaFa = p[3]; // faradic params
+     double _R = p[4], _C = p[5], _AlphaOh = p[6];
+
+     Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H , opt_data->NSteps, opt_data->V0);
+     Ohmic   _Ohmic  (_R, _C, _AlphaOh, opt_data->NSteps, opt_data->V0);
+
+     _Faradic.Solve();
+     _Ohmic.Solve();
+
+     _FaradicResult = _Faradic.GetResults();
+     _OhmicResult   = _Ohmic.GetResults();
+
+     auto tmp = _FaradicResult.Get<1> + _OhmicResult.Get<1>() - opt_data->V;
+     
+    double obj_val = tmp.Norm();
+    //
+
+    return obj_val;
+}
+
+int Optimmize(){
+        // initial values:
+    arma::vec x = arma::ones(7,1);
+
+    //
+
+    std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
+
+    bool success = optim::de(x,ackley_fn,nullptr);
+
+    std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end-start;
+
+    if (success) {
+        std::cout << "de: Ackley test completed successfully.\n"
+                << "elapsed time: " << elapsed_seconds.count() << "s\n";
+    } else {
+        std::cout << "de: Ackley test completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "\nde: solution to Ackley test:\n" << x << arma::endl;
+
+    return 0;
+}
