@@ -258,7 +258,7 @@ int Optimmize(){
 
     std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 
-    bool success = optim::de(x,ackley_fn,nullptr);
+    bool success = optim::de(x,ackley_fn,nullptr, );
 
     std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
