@@ -1,32 +1,102 @@
 #include <string>
+#include <armadillo>
 #include <fstream>
 #include <vector>
 #include <map>
 #include <sstream>
+#include "cvs.h"
 
-using data_t = std::vector<std::vector<std::string>>;
-template <typename T>
-using numericdata_t = std::vector<std::vector<T>>
-class cvs_generic {
+double to_seconds(std::string time){
+	    std::istringstream streeam(time);
+		std::vector<double> tmp;
+		double x{0.0};
+        for (std::string l2; std::getline(streeam, l2, ':');){
+			tmp.push_back( std::stof(l2) );
+		}
+		if (tmp.size()==3){
+           x = tmp[0]*3600 + tmp[1] * 60 + tmp[2];
+		}
+		return x;
+}
+
+struct mapped_data {
+	std::vector<std::vector<std::string>> data;
+	std::map<std::string, int> colmap;
+	std::vector<std::string> operator() (std::string col_name){
+		std::vector<std::string> tmp;
+		for (auto x: data){
+		    tmp.push_back(x[colmap[col_name]]);
+		}
+		return tmp;
+	}
+    std::vector<std::string> operator() (int row ){
+		return data[row];
+	}
+	std::string operator() (int row ,std::string colname){
+		return data[row][colmap[colname]];
+	}
+	std::vector<std::vector<std::string>>& get_data(){
+		return data;
+	}
+	int size(){
+		return data.size();
+	}
+
+};
+
+using data_t = mapped_data;  
+using numericdata_t = std::vector<arma::vec>;
+//
+struct cvs_generic {
 public:
-	cvs_generic(std::string _filename);
-	void read_header();
-	void read_data();
-	data_t get_cols_data(std::vector<std::string> cols);
-	
-private:
-	fstream cvsstream;
-	data_t data, filtered_data;
-	std::map<std::string,int> colmap;
+	cvs_generic(std::string _filename){
+		cvsfile_stream = std::fstream(_filename);
+   		read_data();
+	}
+	void read_data(){
+	// reading header
+    std::string header;
+    std::getline(cvsfile_stream, header);
+    std::istringstream cvsstreeam(header);
+	int c = 0;
+    for ( std::string l2; std::getline(cvsstreeam, l2, ',');){
+            data.colmap[l2] = c;
+    }
+	// reading the rest
+	std::string data_line;
+	while (std::getline(cvsfile_stream, data_line)){
+		   std::istringstream cvsstreeam(data_line);
+		   std::vector<std::string> tmp;
+		    for ( std::string l2; std::getline(cvsstreeam, l2, ',');){
+                tmp.push_back(l2);
+     		}
+			data.get_data().push_back(tmp);
+	}
+	//
+	}
+protected:
+	std::fstream cvsfile_stream;
+	data_t data;
 };
 
 
-class cvs_neware : public cvs_generic {
-	cvs_neware(std::string _filename):cvs_generic(_filename){}
-
-	data_t filter(std::string StepType, int StartCycleIndex, int EndCycleIndex);
-
-	template <typename T>
-	numericdata_t<T> cols_data_to<T>(std::vector<std::string> cols);
+struct cvsread_neware : public cvs_generic {
+	cvsread_neware(std::string _filename):cvs_generic(_filename){}
+// here we need Time and Voltage only.
+	numericdata_t filter(std::string StepType, int StartCycleIndex, int DataPoints){
+        std::vector<std::vector<double>> tmp(2, std::vector<double>());
+		int c=0;
+		for (int i{0}; i < data.size(); i++){
+            if ( (data(i,"Step Type") == StepType) && (std::stoi(data(i,"Cycle Index")) == StartCycleIndex) && (c <  DataPoints) ){
+                tmp[0].push_back( to_seconds(data(i,"Time")) ) ;
+				tmp[1].push_back( std::stof(data(i,"Voltage(V)")));
+			}
+		}
+		numericdata_t tmp2;
+        for (auto x: tmp){
+             tmp2.push_back(x);
+		}
+		return tmp2;
+	}
 };
 

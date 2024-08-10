@@ -14,8 +14,8 @@ int main()
     }
     while(std::getline(inf, cvsline)){
     std::istringstream cvsstreeam(cvsline);
-    for ( cvsline; std::getline(cvsstreeam, cvsline, ',');){
-	    std::cout << cvsline << "\n";
+    for ( l2; std::getline(cvsstreeam, l2, ',');){
+	    std::cout << l2 << "\n";
         }
     }
    // std::string line;

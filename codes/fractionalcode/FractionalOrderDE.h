@@ -228,13 +228,32 @@ class Diffuse{};
 
 //
 // Ackley function
- double ackley_fn(const arma::vec& p, arma::vec* grad_out, void* opt_data)
-{
+struct FitData {
+
+ FitData(std::string _file, std::string StepType, int CycleIndex, int Datapoints):data(_file){
+    Setup(StepType,CycleIndex,DataPoints);
+    }
+void Setup(std::string StepType, int CycleIndex, int DataPoints){
+    V = data.filter(StepType, CycleIndex, DataPoints)[1];
+    t = data.filter(StepType, CycleIndex, DataPoints)[0];
+    V0 = V[0];
+    H  = t[1] - t[0];
+    NSteps = t.size();
+    }
+    //
+ double V0;
+ cvs_neware data;
+ arma::vec t,V;
+ int NSteps;
+ int double H;
+};
+
+ double ObjectiveFunc(const arma::vec& p, arma::vec* grad_out, void* opt_data) {
      double _A = p[0], _B = p[1], _C = p[2], _AlphaFa = p[3]; // faradic params
      double _R = p[4], _C = p[5], _AlphaOh = p[6];
 
      Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H , opt_data->NSteps, opt_data->V0);
-     Ohmic   _Ohmic  (_R, _C, _AlphaOh, opt_data->NSteps, opt_data->V0);
+     Ohmic   _Ohmic  (_R, _C, _AlphaOh, opt_data->H, opt_data->NSteps, opt_data->V0);
 
      _Faradic.Solve();
      _Ohmic.Solve();
@@ -253,24 +272,25 @@ class Diffuse{};
 int Optimmize(){
         // initial values:
     arma::vec x = arma::ones(7,1);
-
+    
+    FitData* opt_data = New Data("10-1OCP.csv", "Rest", 1, 10);      
+    
     //
-
     std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
-
-    bool success = optim::de(x,ackley_fn,nullptr, );
+    bool success = optim::de(x, ObjectiveFunc, nullptr, opt_data);
 
     std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
 
     if (success) {
-        std::cout << "de: Ackley test completed successfully.\n"
+        std::cout << "de: ObjectiveFunc test completed successfully.\n"
                 << "elapsed time: " << elapsed_seconds.count() << "s\n";
     } else {
-        std::cout << "de: Ackley test completed unsuccessfully." << std::endl;
+        std::cout << "de: ObjectiveFunc test completed unsuccessfully." << std::endl;
     }
 
-    arma::cout << "\nde: solution to Ackley test:\n" << x << arma::endl;
+    arma::cout << "\nde: solution to ObjectiveFunc test:\n" << x << arma::endl;
 
     return 0;
 }
+};
