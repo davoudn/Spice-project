@@ -98,14 +98,19 @@ class SolveFracPC{
         return;
       }
 
-      std::tuple<arma::vec&, arma::vec&>& GetResult(){
-          return m_results
+      std::tuple<arma::vec, arma::vec>& GetResult(int NSkip ){
+          arma::vec t, y;
+          for (int i{0}; i < m_t.size();i+=NSkip){
+           t.push_back(m_t[i]);
+           y.push_back(m_y[i]);
+          }
+          return std::tuple<arma::vec, arma::vec> (t,y);
       }
 
-      void DumpResults(){
+      void DumpResults(int NSkip){
         std::fstream fo;
         fo.open("solver.dat", std::fstream::out);
-        for (int i{0}; i < m_t.size();i++)
+        for (int i{0}; i < m_t.size();i+=NSkip)
            fo << m_t[i] << " " << m_y[i] << "\n";
         fo.close();
       }
@@ -192,8 +197,8 @@ class Ohmic {
                 fo.close();
             }
         }
-        auto& GetResults(){
-            return Solver.GetResult();
+        auto& GetResults(int NSkip){
+            return Solver.GetResult(NSkip);
         }
     private:
         DLinear Linear;
@@ -213,8 +218,8 @@ class Faradic {
         void Solve(){
             Solver.Solve();
         }
-          auto& GetResults(){
-            return Solver.GetResult();
+          auto& GetResults(int NSkip){
+            return Solver.GetResult(NSkip);
         }
     private:
         DExp Exp;
@@ -230,21 +235,22 @@ class Diffuse{};
 // Ackley function
 struct FitData {
 
- FitData(std::string _file, std::string StepType, int CycleIndex, int Datapoints):data(_file){
-    Setup(StepType,CycleIndex,DataPoints);
+ FitData(std::string _file, std::string StepType, int CycleIndex, int Datapoints, int _NSubsteps):data(_file){
+    Setup(StepType,CycleIndex,DataPoints, _NSubsteps);
     }
-void Setup(std::string StepType, int CycleIndex, int DataPoints){
+void Setup(std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps){
     V = data.filter(StepType, CycleIndex, DataPoints)[1];
     t = data.filter(StepType, CycleIndex, DataPoints)[0];
     V0 = V[0];
-    H  = t[1] - t[0];
-    NSteps = t.size();
+    H  = (t[1] - t[0])/_NSubsteps;
+    NSteps = t.size() * _NSubsteps;
+    NSubsteps = _NSubsteps;
     }
     //
  double V0;
  cvs_neware data;
  arma::vec t,V;
- int NSteps;
+ int NSteps, NSubsteps;
  int double H;
 };
 
@@ -258,10 +264,10 @@ void Setup(std::string StepType, int CycleIndex, int DataPoints){
      _Faradic.Solve();
      _Ohmic.Solve();
 
-     _FaradicResult = _Faradic.GetResults();
-     _OhmicResult   = _Ohmic.GetResults();
+     _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
+     _OhmicResult   = _Ohmic.GetResults(opt_data->NSubsteps);
 
-     auto tmp = _FaradicResult.Get<1> + _OhmicResult.Get<1>() - opt_data->V;
+     auto tmp = _FaradicResult.Get<1>() + _OhmicResult.Get<1>() - opt_data->V;
      
     double obj_val = tmp.Norm();
     //
@@ -273,7 +279,7 @@ int Optimmize(){
         // initial values:
     arma::vec x = arma::ones(7,1);
     
-    FitData* opt_data = New Data("10-1OCP.csv", "Rest", 1, 10);      
+    FitData* opt_data = New FitData("10-1OCP.csv", "Rest", 1, 10,20);      
     
     //
     std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
