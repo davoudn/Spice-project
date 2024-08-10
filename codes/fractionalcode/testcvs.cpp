@@ -2,10 +2,11 @@
 #include <sstream>
 #include <string>
 #include <fstream>
- 
+#include "cvs.h"
+
 int main()
 {
-	std::fstream inf("10-1OCP.csv", std::ios_base::in);
+/*	std::fstream inf("10-1OCP.csv", std::ios_base::in);
     // greet the user
     std::string name, cvsline, l2;
     for (int i{0}; i <10; i++){
@@ -34,4 +35,16 @@ int main()
     input2.str("a;b;c;d");
     for (std::string line; std::getline(input2, line, ';');)
         std::cout << line << '\n';
+
+*/
+auto _file = "10-1OCP.csv";
+cvsread_neware data(_file);
+
+auto x = data.filter("Rest", 1, 30);
+
+for (int i{0}; i < x[0].size(); i++){
+    std::cout << x[0][i] << " "  << x[1][i] << "\n";
+}
+
+return 0;
 }

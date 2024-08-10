@@ -4,7 +4,6 @@
 #include <vector>
 #include <map>
 #include <sstream>
-#include "cvs.h"
 
 double to_seconds(std::string time){
 	    std::istringstream streeam(time);
@@ -61,6 +60,7 @@ public:
 	int c = 0;
     for ( std::string l2; std::getline(cvsstreeam, l2, ',');){
             data.colmap[l2] = c;
+			c++;
     }
 	// reading the rest
 	std::string data_line;
@@ -72,7 +72,10 @@ public:
      		}
 			data.get_data().push_back(tmp);
 	}
-	//
+	//for (auto x: data.colmap){
+	//	std::cout << x.first << " " << x.second << "\n";
+
+	//}
 	}
 protected:
 	std::fstream cvsfile_stream;
