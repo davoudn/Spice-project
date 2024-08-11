@@ -257,12 +257,15 @@ void Setup(std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps)
  int NSteps, NSubsteps;
  double H;
 };
+static FitData* opt_data = nullptr;
 struct opt{
     //
     static Faradic _Faradic;
     static Ohmic   _Ohmic;
-    static constexpr FitData* opt_data = nullptr;
     //
+    static void init(std::string _file, std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps){
+          opt_data = new FitData(  _file,   StepType,   CycleIndex,   DataPoints,   _NSubsteps);
+    }
     //
  static double ObjectiveFunc(const arma::vec& p, arma::vec* grad_out, void* _data) {
      double _A = p[0], _B = p[1], _C = p[2], _Alpha = p[3]; // faradic params
@@ -288,9 +291,6 @@ struct opt{
 static int Optimmize(){
         // initial values:
     arma::vec x = arma::ones(6,1);
-    
-    FitData* opt_data = new FitData("10-1OCP.csv", "Rest", 1, 10,20);      
-    
     //
     std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
     bool success = optim::de(x, ObjectiveFunc,nullptr);
