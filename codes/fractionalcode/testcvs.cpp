@@ -2,7 +2,16 @@
 #include <sstream>
 #include <string>
 #include <fstream>
+#include <vector>
 #include "cvs.h"
+
+std::vector<int>* Linear(){
+    std::vector<int>* tmp = new std::vector<int>();
+    for (int i{0}; i<100;i++){
+	    tmp->push_back(i);
+    }
+    return tmp;
+}	
 
 int main()
 {
@@ -36,7 +45,7 @@ int main()
     for (std::string line; std::getline(input2, line, ';');)
         std::cout << line << '\n';
 
-*/
+
 auto _file = "10-1OCP.csv";
 cvsread_neware data(_file);
 
@@ -45,6 +54,14 @@ auto x = data.filter("Rest", 1, 30);
 for (int i{0}; i < x[0].size(); i++){
     std::cout << x[0][i] << " "  << x[1][i] << "\n";
 }
+*/
+auto res = Linear();
 
+std::cout << res->size() << "\n";
+
+for (int i{0}; i<res->size(); i++){
+    std::cout << res->at(i) << "\n";
+}
+delete res;
 return 0;
 }

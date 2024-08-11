@@ -1,5 +1,5 @@
 #define OPTIM_ENABLE_ARMA_WRAPPERS
-#include "optim.hpp"
+#include "optim/optim.hpp"
 
 // Ackley function
  double ackley_fn(const arma::vec& vals_inp, arma::vec* grad_out, void* opt_data)

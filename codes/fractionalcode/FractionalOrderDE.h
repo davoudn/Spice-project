@@ -8,7 +8,8 @@
 #include <tuple>
 #include <fstream>
 #include <algorithm>
-#include "optim.hpp"
+#include "cvs.h"
+#include "optim/optim.hpp"
 
 
 template <typename T>
@@ -58,8 +59,9 @@ class SolveFracPC{
       void Set(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0){
            m_h=_h; m_NSteps=_NSteps; 
            m_y0=_y0; m_alpha=_alpha;
-           m_weights= METHOD(_alpha, _h); m_k(0); 
-           m_Func(_Func);  
+           m_weights= METHOD(_alpha, _h); 
+           m_k = 0; 
+           m_Func = _Func;  
            
            int n{0};
            m_t = arma::zeros(m_NSteps,1);
@@ -98,13 +100,13 @@ class SolveFracPC{
         return;
       }
 
-      std::tuple<arma::vec, arma::vec>& GetResult(int NSkip ){
-          arma::vec t, y;
+      std::tuple<arma::vec, arma::vec>&& GetResult(int NSkip ){
+          std::vector<double> t, y;
           for (int i{0}; i < m_t.size();i+=NSkip){
            t.push_back(m_t[i]);
            y.push_back(m_y[i]);
           }
-          return std::tuple<arma::vec, arma::vec> (t,y);
+          return std::make_tuple<arma::vec, arma::vec> (t,y);
       }
 
       void DumpResults(int NSkip){
@@ -180,9 +182,9 @@ class Ohmic {
              Solver.Set(H, N, Alpha, Linear, V0);
              MitagLeffer.Set(1.0,1.0,_Alpha);
         }
-        void Solve(bool IfDump){
+        void Solve(){
             Solver.Solve();
-            if (IfDump){
+       /*     if (IfDump){
                 auto _res = Solver.GetResult();
                 std::vector<double> _mt(std::get<0>(_res).size(),0.0);
                 for (int i{0};i < _mt.size(); i++){
@@ -196,8 +198,9 @@ class Ohmic {
                 }
                 fo.close();
             }
+            */
         }
-        auto& GetResults(int NSkip){
+        std::tuple<arma::vec, arma::vec>&& GetResults(int NSkip){
             return Solver.GetResult(NSkip);
         }
     private:
@@ -218,7 +221,7 @@ class Faradic {
         void Solve(){
             Solver.Solve();
         }
-          auto& GetResults(int NSkip){
+          std::tuple<arma::vec, arma::vec>&& GetResults(int NSkip){
             return Solver.GetResult(NSkip);
         }
     private:
@@ -235,7 +238,7 @@ class Diffuse{};
 // Ackley function
 struct FitData {
 
- FitData(std::string _file, std::string StepType, int CycleIndex, int Datapoints, int _NSubsteps):data(_file){
+ FitData(std::string _file, std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps):data(_file){
     Setup(StepType,CycleIndex,DataPoints, _NSubsteps);
     }
 void Setup(std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps){
@@ -248,44 +251,50 @@ void Setup(std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps)
     }
     //
  double V0;
- cvs_neware data;
+ cvsread_neware data;
  arma::vec t,V;
  int NSteps, NSubsteps;
- int double H;
+ double H;
 };
+struct opt{
+    //
+    static Faradic _Faradic;
+    static Ohmic   _Ohmic;
+    static constexpr FitData* opt_data = nullptr;
+    //
+    //
+ static double ObjectiveFunc(const arma::vec& p, arma::vec* grad_out, void* _data) {
+     double _A = p[0], _B = p[1], _C = p[2], _Alpha = p[3]; // faradic params
+     double _R = p[4];
 
- double ObjectiveFunc(const arma::vec& p, arma::vec* grad_out, void* opt_data) {
-     double _A = p[0], _B = p[1], _C = p[2], _AlphaFa = p[3]; // faradic params
-     double _R = p[4], _C = p[5], _AlphaOh = p[6];
-
-     Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H , opt_data->NSteps, opt_data->V0);
-     Ohmic   _Ohmic  (_R, _C, _AlphaOh, opt_data->H, opt_data->NSteps, opt_data->V0);
+     Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
+     Ohmic   _Ohmic  (_R, _C    , _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
 
      _Faradic.Solve();
      _Ohmic.Solve();
 
-     _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
-     _OhmicResult   = _Ohmic.GetResults(opt_data->NSubsteps);
+     auto _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
+     auto _OhmicResult   = _Ohmic.GetResults(opt_data->NSubsteps);
 
-     auto tmp = _FaradicResult.Get<1>() + _OhmicResult.Get<1>() - opt_data->V;
+     auto tmp = std::get<1>(_FaradicResult) + std::get<1>(_OhmicResult) - opt_data->V;
      
-    double obj_val = tmp.Norm();
+    double obj_val = arma::norm(tmp);
     //
 
     return obj_val;
 }
 
-int Optimmize(){
+static int Optimmize(){
         // initial values:
-    arma::vec x = arma::ones(7,1);
+    arma::vec x = arma::ones(6,1);
     
-    FitData* opt_data = New FitData("10-1OCP.csv", "Rest", 1, 10,20);      
+    FitData* opt_data = new FitData("10-1OCP.csv", "Rest", 1, 10,20);      
     
     //
     std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
-    bool success = optim::de(x, ObjectiveFunc, nullptr, opt_data);
+    bool success = optim::de(x, ObjectiveFunc,nullptr);
 
-    std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
+    std::chrono::time_point<std::chrono::system_clock> end   = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
 
     if (success) {
@@ -298,5 +307,6 @@ int Optimmize(){
     arma::cout << "\nde: solution to ObjectiveFunc test:\n" << x << arma::endl;
 
     return 0;
-}
+ }
 };
+
