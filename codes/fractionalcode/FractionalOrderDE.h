@@ -100,13 +100,14 @@ class SolveFracPC{
         return;
       }
 
-      std::tuple<arma::vec, arma::vec>&& GetResult(int NSkip ){
+      arma::vec* GetResult(int NSkip ){
           std::vector<double> t, y;
           for (int i{0}; i < m_t.size();i+=NSkip){
            t.push_back(m_t[i]);
            y.push_back(m_y[i]);
           }
-          return std::make_tuple<arma::vec, arma::vec> (t,y);
+          arma::vec* x = new arma::vec(y);
+          return x;
       }
 
       void DumpResults(int NSkip){
@@ -200,7 +201,7 @@ class Ohmic {
             }
             */
         }
-        std::tuple<arma::vec, arma::vec>&& GetResults(int NSkip){
+        arma::vec* GetResults(int NSkip){
             return Solver.GetResult(NSkip);
         }
     private:
@@ -221,7 +222,7 @@ class Faradic {
         void Solve(){
             Solver.Solve();
         }
-          std::tuple<arma::vec, arma::vec>&& GetResults(int NSkip){
+          arma::vec* GetResults(int NSkip){
             return Solver.GetResult(NSkip);
         }
     private:
@@ -276,7 +277,7 @@ struct opt{
      auto _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
      auto _OhmicResult   = _Ohmic.GetResults(opt_data->NSubsteps);
 
-     auto tmp = std::get<1>(_FaradicResult) + std::get<1>(_OhmicResult) - opt_data->V;
+     auto tmp = *_FaradicResult + *_OhmicResult - opt_data->V;
      
     double obj_val = arma::norm(tmp);
     //

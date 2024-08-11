@@ -11,7 +11,16 @@ std::vector<int>* Linear(){
 	    tmp->push_back(i);
     }
     return tmp;
-}	
+}
+
+std::vector<int>* LinearRef(){
+    std::vector<int>* tmp = new std::vector<int>();
+    for (int i{0}; i<100;i++){
+            tmp->push_back(i);
+    }
+    return tmp;
+}
+
 
 int main()
 {
