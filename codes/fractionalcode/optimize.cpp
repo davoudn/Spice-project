@@ -8,6 +8,10 @@ int main(){
     opt::init("10-1OCP.csv", "Rest", 1, 10,20);
    // opt::Optimmize();
     opt::ObjectiveFunc(x,nullptr,nullptr);
-
+    // cvsread_neware cvs("10-1OCP.csv");
+    // auto d = cvs.filter("Rest", 1, 10);
+    // for (auto y:d[1]){
+    //     std::cout << y << "\n";
+    // }
     return 0;
 }

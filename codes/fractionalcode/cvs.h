@@ -88,17 +88,21 @@ struct cvsread_neware : public cvs_generic {
 // here we need Time and Voltage only.
 	numericdata_t filter(std::string StepType, int StartCycleIndex, int DataPoints){
         std::vector<std::vector<double>> tmp(2, std::vector<double>());
-		int c=0;
+        int c=0;
 		for (int i{0}; i < data.size(); i++){
-            if ( (data(i,"Step Type") == StepType) && (std::stoi(data(i,"Cycle Index")) == StartCycleIndex) && (c <  DataPoints) ){
-                tmp[0].push_back( to_seconds(data(i,"Time")) ) ;
-				tmp[1].push_back( std::stof(data(i,"Voltage(V)")));
-			}
+        	if ( (data(i,"Step Type") == StepType) && (std::stoi(data(i,"Cycle Index")) == StartCycleIndex) && (c <  DataPoints) ){
+				
+			//	std::cout << c << "\n";
+            	tmp[0].push_back( to_seconds(data(i,"Time"))) ;
+     			tmp[1].push_back( std::stof (data(i,"Voltage(V)")));
+				c++;
+	    	}
 		}
-		numericdata_t tmp2;
+	    numericdata_t tmp2;
+    	//tmp2.push_back({1.0,2.0});
         for (auto x: tmp){
-             tmp2.push_back(x);
-		}
+            tmp2.push_back(x);
+    	}
 		return tmp2;
 	}
 };

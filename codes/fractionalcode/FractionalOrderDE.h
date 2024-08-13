@@ -251,6 +251,7 @@ struct FitData {
 void Setup(std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps){
     V = data.filter(StepType, CycleIndex, DataPoints)[1];
     t = data.filter(StepType, CycleIndex, DataPoints)[0];
+    std::cout << "data size: " << t.size() << "\n";
     V0 = V[0];
     H  = (t[1] - t[0])/_NSubsteps;
     NSteps = t.size() * _NSubsteps;
