@@ -8,6 +8,7 @@
 #include <tuple>
 #include <fstream>
 #include <algorithm>
+#include <memory>
 #include "cvs.h"
 #include "optim/optim.hpp"
 
@@ -50,6 +51,7 @@ class SolveFracPC{
       FUNC m_Func;
       std::tuple<arma::vec, arma::vec> m_results;
       METHOD m_weights;
+      int c;
       public:
         SolveFracPC(){}
         SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0){
@@ -90,7 +92,11 @@ class SolveFracPC{
       }
       void Solve(){
         m_k=0;
+        c = 0;
         while (m_k < m_NSteps-1){
+            if(c==100){
+                std::cout << "Iteration: " << m_k <<"\n";
+            }
             Predict();
       //      for (int i{0}; i <10; i++)
             Correct();
@@ -100,13 +106,13 @@ class SolveFracPC{
         return;
       }
 
-      arma::vec* GetResult(int NSkip ){
+      std::shared_ptr<arma::vec> GetResult(int NSkip ){
           std::vector<double> t, y;
           for (int i{0}; i < m_t.size();i+=NSkip){
-           t.push_back(m_t[i]);
+        //   t.push_back(m_t[i]);
            y.push_back(m_y[i]);
           }
-          arma::vec* x = new arma::vec(y);
+          std::shared_ptr<arma::vec> x = std::make_shared<arma::vec>(y);
           return x;
       }
 
@@ -201,7 +207,7 @@ class Ohmic {
             }
             */
         }
-        arma::vec* GetResults(int NSkip){
+        std::shared_ptr<arma::vec> GetResults(int NSkip){
             return Solver.GetResult(NSkip);
         }
     private:
@@ -222,7 +228,7 @@ class Faradic {
         void Solve(){
             Solver.Solve();
         }
-          arma::vec* GetResults(int NSkip){
+          std::shared_ptr<arma::vec> GetResults(int NSkip){
             return Solver.GetResult(NSkip);
         }
     private:
@@ -271,18 +277,20 @@ struct opt{
      double _A = p[0], _B = p[1], _C = p[2], _Alpha = p[3]; // faradic params
      double _R = p[4];
 
-     Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
-     Ohmic   _Ohmic  (_R, _C    , _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
+     //Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
+     //Ohmic   _Ohmic  (_R, _C    , _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
+     std::cout << opt_data->V0 << " " << opt_data->NSteps << " " << opt_data->H << "\n" ;
+     Ohmic ohmic(1.0,1.0,0.5, 0.01, 1000, opt_data->V0);
 
-     _Faradic.Solve();
-     _Ohmic.Solve();
+     //_Faradic.Solve();
+      ohmic.Solve();
 
-     auto _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
-     auto _OhmicResult   = _Ohmic.GetResults(opt_data->NSubsteps);
+     //auto _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
+     //auto _OhmicResult   = _Ohmic.GetResults(opt_data->NSubsteps);
 
-     auto tmp = *_FaradicResult + *_OhmicResult - opt_data->V;
+     //auto tmp = *_FaradicResult + *_OhmicResult - opt_data->V;
      
-    double obj_val = arma::norm(tmp);
+    double obj_val = 0.0;//arma::norm(tmp);
     //
 
     return obj_val;
