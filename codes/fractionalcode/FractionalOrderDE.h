@@ -46,6 +46,7 @@ template <typename METHOD, typename FUNC>
 class SolveFracPC{        
       arma::vec  m_y;
       arma::vec  m_t;
+      std::string Tag;
       double m_alpha, m_h, m_y0, m_k,m_j, m_gamma, m_gammainv;
       int m_iSteps, m_NSteps;
       FUNC m_Func;
@@ -54,17 +55,17 @@ class SolveFracPC{
       int c;
       public:
         SolveFracPC(){}
-        SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0){
-            Set( _h,  _NSteps,  _alpha,  _Func,  _y0);
+        SolveFracPC(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0, std::string _Tag){
+            Set( _h,  _NSteps,  _alpha,  _Func,  _y0, _Tag);
       }
 
-      void Set(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0){
+      void Set(double _h, int _NSteps, double _alpha, FUNC& _Func, double _y0, std::string _Tag){
            m_h=_h; m_NSteps=_NSteps; 
            m_y0=_y0; m_alpha=_alpha;
            m_weights= METHOD(_alpha, _h); 
            m_k = 0; 
            m_Func = _Func;  
-           
+           Tag = _Tag;
            int n{0};
            m_t = arma::zeros(m_NSteps,1);
            std::generate(m_t.begin(), m_t.end(), [n = 0, this]() mutable { return n++ * this->m_h;});    
@@ -95,7 +96,7 @@ class SolveFracPC{
         c = 0;
         while (m_k < m_NSteps-1){
             if(c==100){
-                std::cout << "Iteration: " << m_k <<"\n";
+                std::cout <<"Solver Name: "<< Tag << ",  Iteration: " << m_k <<"\n";
             }
             Predict();
       //      for (int i{0}; i <10; i++)
@@ -184,9 +185,9 @@ struct DMitagLeffer{
 
 class Ohmic {
     public:
-        Ohmic(double _R, double _C, double _Alpha, double _H, double _N, double _V0 ):R(_R), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H), MitagLeffer(200){
+        Ohmic(double _R, double _C, double _Alpha, double _H, double _N, double _V0, std::string _Tag ):R(_R), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H), MitagLeffer(200){
              Linear.Set(-R/C,0.0);
-             Solver.Set(H, N, Alpha, Linear, V0);
+             Solver.Set(H, N, Alpha, Linear, V0, _Tag);
              MitagLeffer.Set(1.0,1.0,_Alpha);
         }
         void Solve(){
@@ -220,10 +221,10 @@ class Ohmic {
 
 class Faradic {
     public:
-        Faradic(double _A, double _B, double _C, double _Alpha, double _H, int _NSteps, double _V0 ):A(_A), B(_B), C(_C), Alpha(_Alpha), NSteps(_NSteps),
+        Faradic(double _A, double _B, double _C, double _Alpha, double _H, int _NSteps, double _V0, std::string _Tag ):A(_A), B(_B), C(_C), Alpha(_Alpha), NSteps(_NSteps),
                                                                                                     V0(_V0), H(_H){
              Exp.Set(-A/C,B);
-             Solver = SolveFracPC<Weights<DIETHELM>, DExp>(H, NSteps, Alpha, Exp, V0);
+             Solver = SolveFracPC<Weights<DIETHELM>, DExp>(H, NSteps, Alpha, Exp, V0, _Tag);
         }
         void Solve(){
             Solver.Solve();
@@ -278,23 +279,22 @@ struct opt{
      double _A = p[0], _B = p[1], _C = p[2], _Alpha = p[3]; // faradic params
      double _R = p[4];
 
-     //Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
-     //Ohmic   _Ohmic  (_R, _C    , _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0);
-     std::cout << opt_data->V0 << " " << opt_data->NSteps << " " << opt_data->H << "\n" ;
-     Ohmic ohmic(1.0,1.0,0.5, 0.01, 1000, opt_data->V0);
+     Faradic _Faradic(_A, _B, _C, _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0, std::string("Faradic"));
+     Ohmic   _Ohmic  (_R, _C    , _Alpha, opt_data->H, opt_data->NSteps, opt_data->V0, std::string("Ohmic"));
+     //std::cout << opt_data->V0 << " " << opt_data->NSteps << " " << opt_data->H << "\n" ;
+     //Ohmic ohmic(1.0,1.0,0.5, 0.01, 1000, opt_data->V0);
 
-     //_Faradic.Solve();
-      ohmic.Solve();
+     _Faradic.Solve();
+     _Ohmic.Solve();
 
-     //auto _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
-     //auto _OhmicResult   = _Ohmic.GetResults(opt_data->NSubsteps);
-
-     //auto tmp = *_FaradicResult + *_OhmicResult - opt_data->V;
-     
-    double obj_val = 0.0;//arma::norm(tmp);
-    //
-
-    return obj_val;
+     auto _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
+     auto _OhmicResult   =   _Ohmic.GetResults(opt_data->NSubsteps);
+     //std::cout << _FaradicResult->n_rows  <<  " " << _FaradicResult->n_rows  << " " << opt_data->V.n_rows  << "\n";
+     //if ( _FaradicResult->n_rows == )
+     auto tmp = *_FaradicResult + *_FaradicResult - opt_data->V;
+     double obj_val = arma::norm(tmp);
+     //
+     return obj_val;
 }
 
 static int Optimmize(){

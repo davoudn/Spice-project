@@ -7,7 +7,7 @@ int main(){
     //ohmic.Solve(true);
     opt::init("10-1OCP.csv", "Rest", 1, 10,20);
    // opt::Optimmize();
-    opt::ObjectiveFunc(x,nullptr,nullptr);
+    std::cout << opt::ObjectiveFunc(x,nullptr,nullptr) << "\n";
     // cvsread_neware cvs("10-1OCP.csv");
     // auto d = cvs.filter("Rest", 1, 10);
     // for (auto y:d[1]){
