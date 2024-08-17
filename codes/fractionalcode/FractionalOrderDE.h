@@ -93,15 +93,16 @@ class SolveFracPC{
       }
       void Solve(){
         m_k=0;
-        c = 0;
+        //c = 0;
         while (m_k < m_NSteps-1){
-            if(c==100){
-                std::cout <<"Solver Name: "<< Tag << ",  Iteration: " << m_k <<"\n";
-            }
+        //    if(c==100){
+        //        std::cout <<"Solver Name: "<< Tag << ",  Iteration: " << m_k <<"\n";
+        //    }
             Predict();
       //      for (int i{0}; i <10; i++)
             Correct();
             m_k++;
+        //    c++;
         }
         m_results = std::tuple<arma::vec, arma::vec> {m_t, m_y};
         return;
@@ -160,7 +161,60 @@ struct DPow{
     double operator() (double t){
         return a * std::pow(t, b);
     }
+
+  
 };
+// Normal self discharge terms
+struct FaradicOrdinary {
+    FaradicOrdinary(double _A, double _B, double _C, double _V0):A(_A), B(_B), C(_C), V0(_V0){}
+       double operator() (double t){
+        return -(1.0/B) * std::log( std::exp(-B*V0) + t * A*B/C );
+       }
+    
+    void Dump(int N, double dt){
+        std::fstream fo("FaradicOrdinary.dat", std::fstream::out);
+        for (int i{0}; i<N; i++){
+            fo << i*dt << " " << (*this)(i*dt) << "\n";
+        }
+    }
+       private:
+       double A,B,C,V0;
+};
+struct OhmicOrdinary {
+    OhmicOrdinary(double _R, double _C, double _V0):R(_R), C(_C), V0(_V0){}
+       double operator() (double t){
+        return V0*std::exp(-(1.0/R/C)* t);
+       }
+
+    void Dump(int N, double dt){
+        std::fstream fo("OhmicOrdinary.dat", std::fstream::out);
+        for (int i{0}; i<N; i++){
+            fo << i*dt << " " << (*this)(i*dt) << "\n";
+        }
+    }
+       private:
+       double R,C,V0;
+};
+
+struct DiffuseOrdinary {
+    DiffuseOrdinary(double _A, double _V0):A(_A), V0(_V0){}
+       double operator() (double t){
+        return V0 - A*std::pow(t,0.5);
+       }
+    void Dump(int N, double dt){
+        std::fstream fo("FaradicNormal.dat", std::fstream::out);
+        for (int i{0}; i<N; i++){
+            fo << i*dt << " " << (*this)(i*dt) << "\n";
+        }
+    }
+       private:
+       double A,V0;
+};
+
+
+
+
+
 
 struct DMitagLeffer{
     double a, b, alpha;
@@ -186,27 +240,12 @@ struct DMitagLeffer{
 class Ohmic {
     public:
         Ohmic(double _R, double _C, double _Alpha, double _H, double _N, double _V0, std::string _Tag ):R(_R), C(_C), Alpha(_Alpha), N(_N), V0(_V0), H(_H), MitagLeffer(200){
-             Linear.Set(-R/C,0.0);
+             Linear.Set(-1.0/(R*C),0.0);
              Solver.Set(H, N, Alpha, Linear, V0, _Tag);
              MitagLeffer.Set(1.0,1.0,_Alpha);
         }
         void Solve(){
             Solver.Solve();
-       /*     if (IfDump){
-                auto _res = Solver.GetResult();
-                std::vector<double> _mt(std::get<0>(_res).size(),0.0);
-                for (int i{0};i < _mt.size(); i++){
-                     _mt[i] = MitagLeffer(-std::pow(std::get<0>(_res)[i],Alpha));
-                }
-
-                std::fstream fo;
-                fo.open("ohmic.dat", std::fstream::out);
-                for (int i{0}; i < std::get<0>(_res).size();i++){
-                      fo << std::get<0>(_res)[i] << " " << std::get<1>(_res)[i]  <<" "<< _mt[i] <<"\n";
-                }
-                fo.close();
-            }
-            */
         }
         std::shared_ptr<arma::vec> GetResults(int NSkip){
             return Solver.GetResult(NSkip);
@@ -222,7 +261,7 @@ class Ohmic {
 class Faradic {
     public:
         Faradic(double _A, double _B, double _C, double _Alpha, double _H, int _NSteps, double _V0, std::string _Tag ):A(_A), B(_B), C(_C), Alpha(_Alpha), NSteps(_NSteps),
-                                                                                                    V0(_V0), H(_H){
+                                                                                                    V0(_V0), H(_H), Tag(_Tag){
              Exp.Set(-A/C,B);
              Solver = SolveFracPC<Weights<DIETHELM>, DExp>(H, NSteps, Alpha, Exp, V0, _Tag);
         }
@@ -232,11 +271,19 @@ class Faradic {
           std::shared_ptr<arma::vec> GetResults(int NSkip){
             return Solver.GetResult(NSkip);
         }
+        void Dump(int NSkip){
+            auto x = GetResults(NSkip);
+            std::fstream fo(Tag+std::string(".dat"), std::fstream::out);
+            for (int i{0}; i < x->n_rows; i++){
+                fo<< i*NSkip*H << " " << (*x)(i) << "\n";
+            }
+        }
     private:
         DExp Exp;
         SolveFracPC<Weights<DIETHELM>, DExp> Solver;
         double A, B, C, Alpha, V0, H;
         int NSteps;
+        std::string Tag;
 
 };
 
@@ -266,10 +313,53 @@ void Setup(std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps)
  double H;
 };
 static FitData* opt_data = nullptr;
+
+struct optordinary{
+     //
+  //  static Faradic _Faradic;
+  //  static Ohmic   _Ohmic;
+    //
+    static void init(std::string _file, std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps){
+          opt_data = new FitData(  _file,   StepType,   CycleIndex,   DataPoints,   _NSubsteps);
+    }
+    //
+ static double ObjectiveFunc(const arma::vec& p, arma::vec* grad_out, void* _data) {
+     double _A = p[0], _B = p[1], _C = p[2], _R = p[3];
+
+     
+     double obj_val = 0.0;
+     //
+     return obj_val;
+}
+
+static int Optimmize(){
+        // initial values:
+    arma::vec x = arma::ones(6,1);
+    //
+    std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
+    bool success = optim::bfgs(x, ObjectiveFunc,nullptr);
+
+    std::chrono::time_point<std::chrono::system_clock> end   = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end-start;
+
+    if (success) {
+        std::cout << "de: ObjectiveFunc test completed successfully.\n"
+                << "elapsed time: " << elapsed_seconds.count() << "s\n";
+    } else {
+        std::cout << "de: ObjectiveFunc test completed unsuccessfully." << std::endl;
+    }
+
+    arma::cout << "\nde: solution to ObjectiveFunc test:\n" << x << arma::endl;
+
+    return 0;
+ }
+};
+
+
 struct opt{
     //
-    static Faradic _Faradic;
-    static Ohmic   _Ohmic;
+  //  static Faradic _Faradic;
+  //  static Ohmic   _Ohmic;
     //
     static void init(std::string _file, std::string StepType, int CycleIndex, int DataPoints, int _NSubsteps){
           opt_data = new FitData(  _file,   StepType,   CycleIndex,   DataPoints,   _NSubsteps);
@@ -289,9 +379,11 @@ struct opt{
 
      auto _FaradicResult = _Faradic.GetResults(opt_data->NSubsteps);
      auto _OhmicResult   =   _Ohmic.GetResults(opt_data->NSubsteps);
-     //std::cout << _FaradicResult->n_rows  <<  " " << _FaradicResult->n_rows  << " " << opt_data->V.n_rows  << "\n";
-     //if ( _FaradicResult->n_rows == )
-     auto tmp = *_FaradicResult + *_FaradicResult - opt_data->V;
+
+     for (int i{0}; i< _FaradicResult->n_rows; i++){
+        std::cout << (*_FaradicResult)(i) << " " <<  (*_OhmicResult)(i) << " " << opt_data->V(i) << "\n";
+     }
+     auto tmp = *_FaradicResult - opt_data->V;
      double obj_val = arma::norm(tmp);
      //
      return obj_val;
@@ -302,7 +394,7 @@ static int Optimmize(){
     arma::vec x = arma::ones(6,1);
     //
     std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
-    bool success = optim::de(x, ObjectiveFunc,nullptr);
+    bool success = optim::bfgs(x, ObjectiveFunc,nullptr);
 
     std::chrono::time_point<std::chrono::system_clock> end   = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
