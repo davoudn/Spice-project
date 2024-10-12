@@ -18,11 +18,15 @@ class  TParserBaseVisitor : public TParserVisitor {
 public:
 
   virtual std::any visitMain(TParser::MainContext *ctx) override {
-    std  :: cout << "visit from " << std :: endl;
+    std  :: cout << "visit Main " << std :: endl;
     return visitChildren(ctx);
   }
 
   virtual std::any visitResistor(TParser::ResistorContext *ctx) override {
+    std :: cout << "ctx : " << ctx->RESISTOR_NAME()->toString() << std :: endl;
+    auto a = ctx->PARAMS();
+    // std :: cout << "cttx " << a.pop_back();
+    // std :: cout << "ctx : " << ctx->NUMERIC_VALUE(0)->toString() << std :: endl;
     return visitChildren(ctx);
   }
 

@@ -30,24 +30,33 @@ int main(int , const char **) {
   TLexer lexer(&input);
   CommonTokenStream tokens(&lexer);
 
-  // tokens.fill();
-  // for (auto token : tokens.getTokens()) {
-  //   // std :: cout << token[0] ;
-  //   //std::cout << token->toString() << std::endl;
-  // }
+  tokens.fill();
+  for (auto token : tokens.getTokens()) {
+    // std :: cout << token[0] ;
+    std::cout << token->toString() << std::endl;
+  }
 
   TParser parser(&tokens);
+
+  TParserBaseVisitor visitor;
+  visitor.visitMain(parser.main());
+  TParserBaseListener listener;
+  listener.enterMain(parser.main());
+  // parser.main();
+  // parser.resistor();
+
   // tree::ParseTree* tree = parser.main();
   // std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
-  TParserBaseVisitor visitor;
-  // std::string str = visitor.visitMain(parser.main()).as<std::string>();
-  visitor.visitMain(parser.main());
-  // std::cout << "Visitor output: " << str << std::endl;
+  // TParserBaseVisitor visitor;
+  // // std::string str = visitor.visitMain(parser.main()).as<std::string>();
+  // visitor.visitMain(parser.main());
+  // // std::cout << "Visitor output: " << visitor.visitMain(parser.main()).type().name() << std::endl;
 
   // tree :: ParseTreeWalker walker;
   // ParserRuleContext* fileInput = parser.main();
   // TParserBaseListener *listener = new TParserBaseListener();
   // walker.walk(listener,fileInput);
-  std :: cout << "finish" << std ::endl;
+  
+  // std :: cout << "finish" << std ::endl;
   return 0;
 }

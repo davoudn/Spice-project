@@ -6,5 +6,5 @@
 using namespace antlrcpptest;
 
 void enterMain(TParser::MainContext * ctx) {
-    std :: cout << "hello " << std :: endl;
+    std :: cout << "hello from main " << std :: endl;
  }
