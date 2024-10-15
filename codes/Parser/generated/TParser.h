@@ -1,5 +1,5 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.1
+// Generated from TParser.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -14,12 +14,15 @@ class  TParser : public antlr4::Parser {
 public:
   enum {
     COMMENT = 1, WHITESPACE = 2, NEWLINE = 3, RESISTOR_NAME = 4, CAPACITOR_NAME = 5, 
-    INDUCTOR_NAME = 6, COMPONENT_VALUE = 7, NUMERIC_VALUE = 8, NUMBERS = 9, 
-    END = 10, PARAMS = 11, TEXT = 12
+    INDUCTOR_NAME = 6, MUTUAL_INDUCTOR_NAME = 7, DIOD_NAME = 8, BJT_NAME = 9, 
+    MOSFET_NAME = 10, JFET_NAME = 11, VOLTAGE_SOURCE_NAME = 12, CURRENT_SOURCE_NAME = 13, 
+    PALSE = 14, SIN = 15, EXP = 16, PWL = 17, MODEL = 18, OFF = 19, COMPONENT_VALUE = 20, 
+    NUMERIC_VALUE = 21, NUMBERS = 22, END = 23, PARAMS = 24, TEXT = 25
   };
 
   enum {
-    RuleMain = 0, RuleResistor = 1, RuleCapacitor = 2, RuleInductor = 3
+    RuleMain = 0, RuleResistor = 1, RuleCapacitor = 2, RuleInductor = 3, 
+    RuleMutual_inductor = 4, RuleDiod = 5
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -42,7 +45,9 @@ public:
   class MainContext;
   class ResistorContext;
   class CapacitorContext;
-  class InductorContext; 
+  class InductorContext;
+  class Mutual_inductorContext;
+  class DiodContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
   public:
@@ -55,8 +60,6 @@ public:
     std::vector<InductorContext *> inductor();
     InductorContext* inductor(size_t i);
 
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -74,13 +77,11 @@ public:
     antlr4::tree::TerminalNode *NEWLINE();
     std::vector<antlr4::tree::TerminalNode *> WHITESPACE();
     antlr4::tree::TerminalNode* WHITESPACE(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> NUMERIC_VALUE();
-    antlr4::tree::TerminalNode* NUMERIC_VALUE(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> COMPONENT_VALUE();
+    antlr4::tree::TerminalNode* COMPONENT_VALUE(size_t i);
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -98,13 +99,11 @@ public:
     antlr4::tree::TerminalNode *NEWLINE();
     std::vector<antlr4::tree::TerminalNode *> WHITESPACE();
     antlr4::tree::TerminalNode* WHITESPACE(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> NUMERIC_VALUE();
-    antlr4::tree::TerminalNode* NUMERIC_VALUE(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> COMPONENT_VALUE();
+    antlr4::tree::TerminalNode* COMPONENT_VALUE(size_t i);
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -122,19 +121,55 @@ public:
     antlr4::tree::TerminalNode *NEWLINE();
     std::vector<antlr4::tree::TerminalNode *> WHITESPACE();
     antlr4::tree::TerminalNode* WHITESPACE(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> NUMERIC_VALUE();
-    antlr4::tree::TerminalNode* NUMERIC_VALUE(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> COMPONENT_VALUE();
+    antlr4::tree::TerminalNode* COMPONENT_VALUE(size_t i);
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
   InductorContext* inductor();
+
+  class  Mutual_inductorContext : public antlr4::ParserRuleContext {
+  public:
+    Mutual_inductorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *MUTUAL_INDUCTOR_NAME();
+    std::vector<antlr4::tree::TerminalNode *> WHITESPACE();
+    antlr4::tree::TerminalNode* WHITESPACE(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> INDUCTOR_NAME();
+    antlr4::tree::TerminalNode* INDUCTOR_NAME(size_t i);
+    antlr4::tree::TerminalNode *COMPONENT_VALUE();
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Mutual_inductorContext* mutual_inductor();
+
+  class  DiodContext : public antlr4::ParserRuleContext {
+  public:
+    DiodContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *RESISTOR_NAME();
+    std::vector<antlr4::tree::TerminalNode *> TEXT();
+    antlr4::tree::TerminalNode* TEXT(size_t i);
+    antlr4::tree::TerminalNode *NEWLINE();
+    std::vector<antlr4::tree::TerminalNode *> WHITESPACE();
+    antlr4::tree::TerminalNode* WHITESPACE(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> PARAMS();
+    antlr4::tree::TerminalNode* PARAMS(size_t i);
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  DiodContext* diod();
 
 
   // By default the static state used to implement the parser is lazily initialized during the first

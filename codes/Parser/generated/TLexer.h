@@ -1,5 +1,5 @@
 
-// Generated from TLexer.g4 by ANTLR 4.13.1
+// Generated from TLexer.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -14,8 +14,10 @@ class  TLexer : public antlr4::Lexer {
 public:
   enum {
     COMMENT = 1, WHITESPACE = 2, NEWLINE = 3, RESISTOR_NAME = 4, CAPACITOR_NAME = 5, 
-    INDUCTOR_NAME = 6, COMPONENT_VALUE = 7, NUMERIC_VALUE = 8, NUMBERS = 9, 
-    END = 10, PARAMS = 11, TEXT = 12
+    INDUCTOR_NAME = 6, MUTUAL_INDUCTOR_NAME = 7, DIOD_NAME = 8, BJT_NAME = 9, 
+    MOSFET_NAME = 10, JFET_NAME = 11, VOLTAGE_SOURCE_NAME = 12, CURRENT_SOURCE_NAME = 13, 
+    PALSE = 14, SIN = 15, EXP = 16, PWL = 17, MODEL = 18, OFF = 19, COMPONENT_VALUE = 20, 
+    NUMERIC_VALUE = 21, NUMBERS = 22, END = 23, PARAMS = 24, TEXT = 25
   };
 
   explicit TLexer(antlr4::CharStream *input);

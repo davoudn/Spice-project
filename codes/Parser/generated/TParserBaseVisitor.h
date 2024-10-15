@@ -1,5 +1,5 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.1
+// Generated from TParser.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -18,15 +18,18 @@ class  TParserBaseVisitor : public TParserVisitor {
 public:
 
   virtual std::any visitMain(TParser::MainContext *ctx) override {
-    std  :: cout << "visit Main " << std :: endl;
     return visitChildren(ctx);
   }
 
   virtual std::any visitResistor(TParser::ResistorContext *ctx) override {
-    std :: cout << "ctx : " << ctx->RESISTOR_NAME()->toString() << std :: endl;
-    auto a = ctx->PARAMS();
-    // std :: cout << "cttx " << a.pop_back();
-    // std :: cout << "ctx : " << ctx->NUMERIC_VALUE(0)->toString() << std :: endl;
+    std :: cout << "Resistor Detect :  " << ctx->RESISTOR_NAME()->toString() << std :: endl;
+    for(auto it : ctx->TEXT())
+      std :: cout << "Nodes : " << it->toString() << std :: endl;
+    
+    for (auto it : ctx->COMPONENT_VALUE())
+      std :: cout << "value is : " << it->toString() << std :: endl;
+    
+    std :: cout << "_________________________________" << std :: endl;
     return visitChildren(ctx);
   }
 
@@ -35,6 +38,14 @@ public:
   }
 
   virtual std::any visitInductor(TParser::InductorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitMutual_inductor(TParser::Mutual_inductorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitDiod(TParser::DiodContext *ctx) override {
     return visitChildren(ctx);
   }
 

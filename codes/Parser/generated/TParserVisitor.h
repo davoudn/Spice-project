@@ -1,5 +1,5 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.1
+// Generated from TParser.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -27,6 +27,10 @@ public:
     virtual std::any visitCapacitor(TParser::CapacitorContext *context) = 0;
 
     virtual std::any visitInductor(TParser::InductorContext *context) = 0;
+
+    virtual std::any visitMutual_inductor(TParser::Mutual_inductorContext *context) = 0;
+
+    virtual std::any visitDiod(TParser::DiodContext *context) = 0;
 
 
 };

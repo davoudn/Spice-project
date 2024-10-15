@@ -1,5 +1,5 @@
-R3 n1 n2
-R4 node2 n2
-R5 n1 n2
+R3 n1 n2 500k
+R4 node2 n2 10k
+R5 n1 n2    1m
 
 .end
