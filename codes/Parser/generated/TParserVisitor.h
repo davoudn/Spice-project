@@ -20,17 +20,19 @@ public:
   /**
    * Visit parse trees produced by TParser.
    */
-    virtual std::any visitMain(TParser::MainContext *context) = 0;
+    virtual std::any visitCircuit(TParser::CircuitContext *context) = 0;
+
+    virtual std::any visitElement(TParser::ElementContext *context) = 0;
+
+    virtual std::any visitVoltagesource(TParser::VoltagesourceContext *context) = 0;
+
+    virtual std::any visitCurrentsource(TParser::CurrentsourceContext *context) = 0;
 
     virtual std::any visitResistor(TParser::ResistorContext *context) = 0;
 
     virtual std::any visitCapacitor(TParser::CapacitorContext *context) = 0;
 
     virtual std::any visitInductor(TParser::InductorContext *context) = 0;
-
-    virtual std::any visitMutual_inductor(TParser::Mutual_inductorContext *context) = 0;
-
-    virtual std::any visitDiod(TParser::DiodContext *context) = 0;
 
 
 };

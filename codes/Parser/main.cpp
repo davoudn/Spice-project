@@ -9,23 +9,32 @@
 using namespace antlrcpptest;
 using namespace antlr4;
 
-int main(int , const char **) {
-  std::ifstream t("Example.net");
-  t.seekg(0, std::ios::end);
-  size_t size = t.tellg();
-  std::string buffer(size, ' ');
-  t.seekg(0);
-  t.read(&buffer[0], size);
+int main(int argc ,const char* argv[]) {
 
+
+  if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <input-file>" << std::endl;
+        return 1;
+  }
+
+  // Open input file
+  std::ifstream buffer;
+  buffer.open(argv[1]);
+  if (!buffer.is_open()) {
+      std::cerr << "Error: Cannot open file " << argv[1] << std::endl;
+      return 1;
+  }
   ANTLRInputStream input(buffer);
   TLexer lexer(&input);
   CommonTokenStream tokens(&lexer);
-
+  // for (auto token : tokens.getTokens()) {
+  //       std::cout << token->toString() << std::endl;
+  //   }
   tokens.fill();
   TParser parser(&tokens);
 
   TParserBaseVisitor visitor;
-  visitor.visitMain(parser.main());
+  visitor.visitCircuit(parser.circuit());
   
   return 0;
 }

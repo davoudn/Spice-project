@@ -17,35 +17,40 @@ namespace antlrcpptest {
 class  TParserBaseVisitor : public TParserVisitor {
 public:
 
-  virtual std::any visitMain(TParser::MainContext *ctx) override {
+  virtual std::any visitCircuit(TParser::CircuitContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitElement(TParser::ElementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitVoltagesource(TParser::VoltagesourceContext *ctx) override {
+    std :: cout << ctx->VOLTAGE_SOURCE_NAME()->toString() << "\n";
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCurrentsource(TParser::CurrentsourceContext *ctx) override {
+    std :: cout << ctx->CURRENT_SOURCE_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
   virtual std::any visitResistor(TParser::ResistorContext *ctx) override {
-    std :: cout << "Resistor Detect :  " << ctx->RESISTOR_NAME()->toString() << std :: endl;
-    for(auto it : ctx->TEXT())
-      std :: cout << "Nodes : " << it->toString() << std :: endl;
-    
-    for (auto it : ctx->COMPONENT_VALUE())
-      std :: cout << "value is : " << it->toString() << std :: endl;
-    
-    std :: cout << "_________________________________" << std :: endl;
+    std :: cout << ctx->RESISTOR_NAME()->toString() << "\n";
+    for(auto item : ctx->TEXT()){
+      std :: cout << item->toString() << " -r";
+    }
+    std :: cout << "\n";
     return visitChildren(ctx);
   }
 
   virtual std::any visitCapacitor(TParser::CapacitorContext *ctx) override {
+    std :: cout << ctx->CAPACITOR_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
   virtual std::any visitInductor(TParser::InductorContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitMutual_inductor(TParser::Mutual_inductorContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitDiod(TParser::DiodContext *ctx) override {
+    std :: cout << ctx->INDUCTOR_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 

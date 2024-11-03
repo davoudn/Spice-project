@@ -1,13 +1,23 @@
-
 #include <vector>
 #include <map>
 #include <string>
 
 // this is just for the constraction of acctual components 
+// r1 n1 n2 10k
+/* general
+lable
+npos
+nneg
+type
+*/
+// resistor resistance
+// capacitor capacitance
+// inductor inductance
+// cpe     capacitance, alpha
+
 
 struct DummyStruct{
-std::map<std::string, double> params;
-std::string label, type;
+std::map<std::string, std::string> params;
 };
 
 //////////////////////////////////////////////////////////
