@@ -36,11 +36,6 @@ public:
   }
 
   virtual std::any visitResistor(TParser::ResistorContext *ctx) override {
-    std :: cout << ctx->RESISTOR_NAME()->toString() << "\n";
-    for(auto item : ctx->TEXT()){
-      std :: cout << item->toString() << " -r";
-    }
-    std :: cout << "\n";
     return visitChildren(ctx);
   }
 
