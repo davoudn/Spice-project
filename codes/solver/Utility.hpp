@@ -38,4 +38,10 @@ struct Map{
           return -1;
        }
        //
+       int size(){
+	   if ( M.size() != InvM.size() ){
+		   return M.size();
+	   }
+	   return 0;
+       }
 };

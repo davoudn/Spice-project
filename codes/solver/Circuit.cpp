@@ -1,4 +1,5 @@
 #include "Circuit.hpp"
+#include ""
 
 /*void BaseCircuit::CalcDim() {
 	//
@@ -14,6 +15,8 @@
 	}
 }
 */
+
+template<typename INTEGRATOR>
 void BaseCircuit::Init(std::vector<DummyStruct> _Components) {
      //	
      int c = 0;
@@ -24,17 +27,27 @@ void BaseCircuit::Init(std::vector<DummyStruct> _Components) {
      //
      c = 0;
      for (auto& x: _Components) {
-        if ( ComponentsMap.Add(x["PosNET"], c) ){
+        if ( NodesMap.Add(x["PosNET"], c) ){
         	c++;
 	}
-	if ( ComponentsMap.Add(x["NegNET"], c) ){
+	if ( NodesMap.Add(x["NegNET"], c) ){
 		c++;
 	}
      }
      //
-
+     ConnectivityTable.zeros(NodesMap.Size(), NodesMap.Size());
+     for (auto& x: _Components) {
+	     int Pos = NodesMap.Get(x["PosNET"]);
+	     int Neg = NodesMap.Get(x["NegNET"]);
+	     ConnectivityTable[Pos][Neg] = ComponentsMap.Get(x["Name"]);
+     }
+     //
+     for (auto& x: _Components){
+         Components.Emplace( Make<INTEGRATOR>(x));
+     }
      return;
 }
+//
 void BaseCircuit::Allocate() {
 	
 		a.zeros(nDim, nDim); // arma

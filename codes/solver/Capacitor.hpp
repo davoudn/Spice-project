@@ -4,37 +4,37 @@
 template <typename INTEGRATOR>
 struct Capacitor : public BaseComponent {
     public:
-    Capacitor(DummyStruct& _dummyStract){
+    Capacitor(std::map<std::string, std::string>& _P){
+              Init(_P);
+	      SetupComponent();
     }
     
-       
     void integrate();
-    void SetupComponent (double _del_t);
+    void SetupComponent ();
     bool CheckComponent();
     private:
         INTEGRATOR integrator;
-        double initialV;
+        double InitialV;
 };
 
 template <typename INTEGRATOR>
 void Capacitor<INTEGRATOR>::integrate()  {
            double tmp{0.0};
            for (int i{1}; i < integrator::Nw; i++){
-                tmp += this->I[this->it_last + 1 - i] * integrator::CorrectorWeighs[i];
+                tmp += this->I[this->itLast + 1 - i] * integrator::CorrectorWeighs[i];
            }
-           this->i_eq = -tmp / (this->del_t * integrator::CorrectorWeighs[0]) - g_eq * this->V[it_last];
-    }
+           this->Ieq = -tmp / (this->DelT * integrator::CorrectorWeighs[0]) - Geq * this->V[itLast];
+}
 
 template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::SetupComponent (double _del_t){
+void Capacitor<INTEGRATOR>::SetupComponent (){
         this->V.clear();
         this->I.clear();
-        this->del_t = _del_t;
-        this->g_eq = this->params["C"]/(this->del_t * integrator::CorrectorWeighs[0]);
+        this->Geq = std::stof(this->params["C"])/(this->DelT * integrator::CorrectorWeighs[0]);
         return;
-    }
+}
 
 template <typename INTEGRATOR>
 bool Capacitor<INTEGRATOR>:: CheckComponent (){
         return;
-    }
+}

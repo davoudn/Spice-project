@@ -4,10 +4,10 @@
 #include <armadillo>
 #include "BaseComponent.hpp"
 #include "Utility.hpp"
-//std::string simple_lib_function();
 
 class BaseCircuit {
 public:
+	template<typename INTEGRATOR>
 	void Init(std::vector<DummyStruct> _components);
 	void Solve_it() {};
 	void Solve();
@@ -30,6 +30,6 @@ private:
 	void CalcDim();
 	void MakeAll();
 	void Allocate();
-	void Populate() ;
+	void Populate();
 	void Integrate();
 };
