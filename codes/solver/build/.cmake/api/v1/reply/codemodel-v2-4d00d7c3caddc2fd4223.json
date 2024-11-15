@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.1"
@@ -20,7 +20,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "MyLib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-MyLib-Debug-0255b24e8ae3efa29817.json",
+					"jsonFile" : "target-MyLib-4033b009ebae00dbff65.json",
 					"name" : "MyLib",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Solve::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Solve-Debug-c4cdc58dd796ba639608.json",
+					"jsonFile" : "target-Solve-5a38f388a4c1267c81e9.json",
 					"name" : "Solve",
 					"projectIndex" : 0
 				}
@@ -58,8 +58,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/pouyan/Spice-project/codes/solver/build",
-		"source" : "/home/pouyan/Spice-project/codes/solver"
+		"build" : "/home/dd/Spice-project/codes/solver/build",
+		"source" : "/home/dd/Spice-project/codes/solver"
 	},
 	"version" : 
 	{

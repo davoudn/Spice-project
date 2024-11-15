@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pouyan/Spice-project/codes/solver
+CMAKE_SOURCE_DIR = /home/dd/Spice-project/codes/solver
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pouyan/Spice-project/codes/solver/build
+CMAKE_BINARY_DIR = /home/dd/Spice-project/codes/solver/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Solve.dir/depend.make
@@ -70,32 +70,32 @@ include CMakeFiles/Solve.dir/progress.make
 include CMakeFiles/Solve.dir/flags.make
 
 CMakeFiles/Solve.dir/solve.cpp.o: CMakeFiles/Solve.dir/flags.make
-CMakeFiles/Solve.dir/solve.cpp.o: /home/pouyan/Spice-project/codes/solver/solve.cpp
+CMakeFiles/Solve.dir/solve.cpp.o: /home/dd/Spice-project/codes/solver/solve.cpp
 CMakeFiles/Solve.dir/solve.cpp.o: CMakeFiles/Solve.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Solve.dir/solve.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Solve.dir/solve.cpp.o -MF CMakeFiles/Solve.dir/solve.cpp.o.d -o CMakeFiles/Solve.dir/solve.cpp.o -c /home/pouyan/Spice-project/codes/solver/solve.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Solve.dir/solve.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Solve.dir/solve.cpp.o -MF CMakeFiles/Solve.dir/solve.cpp.o.d -o CMakeFiles/Solve.dir/solve.cpp.o -c /home/dd/Spice-project/codes/solver/solve.cpp
 
 CMakeFiles/Solve.dir/solve.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Solve.dir/solve.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pouyan/Spice-project/codes/solver/solve.cpp > CMakeFiles/Solve.dir/solve.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dd/Spice-project/codes/solver/solve.cpp > CMakeFiles/Solve.dir/solve.cpp.i
 
 CMakeFiles/Solve.dir/solve.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Solve.dir/solve.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pouyan/Spice-project/codes/solver/solve.cpp -o CMakeFiles/Solve.dir/solve.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dd/Spice-project/codes/solver/solve.cpp -o CMakeFiles/Solve.dir/solve.cpp.s
 
 CMakeFiles/Solve.dir/circuit.cpp.o: CMakeFiles/Solve.dir/flags.make
-CMakeFiles/Solve.dir/circuit.cpp.o: /home/pouyan/Spice-project/codes/solver/circuit.cpp
+CMakeFiles/Solve.dir/circuit.cpp.o: /home/dd/Spice-project/codes/solver/circuit.cpp
 CMakeFiles/Solve.dir/circuit.cpp.o: CMakeFiles/Solve.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Solve.dir/circuit.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Solve.dir/circuit.cpp.o -MF CMakeFiles/Solve.dir/circuit.cpp.o.d -o CMakeFiles/Solve.dir/circuit.cpp.o -c /home/pouyan/Spice-project/codes/solver/circuit.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Solve.dir/circuit.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Solve.dir/circuit.cpp.o -MF CMakeFiles/Solve.dir/circuit.cpp.o.d -o CMakeFiles/Solve.dir/circuit.cpp.o -c /home/dd/Spice-project/codes/solver/circuit.cpp
 
 CMakeFiles/Solve.dir/circuit.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Solve.dir/circuit.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pouyan/Spice-project/codes/solver/circuit.cpp > CMakeFiles/Solve.dir/circuit.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dd/Spice-project/codes/solver/circuit.cpp > CMakeFiles/Solve.dir/circuit.cpp.i
 
 CMakeFiles/Solve.dir/circuit.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Solve.dir/circuit.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pouyan/Spice-project/codes/solver/circuit.cpp -o CMakeFiles/Solve.dir/circuit.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dd/Spice-project/codes/solver/circuit.cpp -o CMakeFiles/Solve.dir/circuit.cpp.s
 
 # Object files for target Solve
 Solve_OBJECTS = \
@@ -110,7 +110,7 @@ Solve: CMakeFiles/Solve.dir/circuit.cpp.o
 Solve: CMakeFiles/Solve.dir/build.make
 Solve: libMyLib.a
 Solve: CMakeFiles/Solve.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Solve"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Solve"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Solve.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -122,6 +122,6 @@ CMakeFiles/Solve.dir/clean:
 .PHONY : CMakeFiles/Solve.dir/clean
 
 CMakeFiles/Solve.dir/depend:
-	cd /home/pouyan/Spice-project/codes/solver/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pouyan/Spice-project/codes/solver /home/pouyan/Spice-project/codes/solver /home/pouyan/Spice-project/codes/solver/build /home/pouyan/Spice-project/codes/solver/build /home/pouyan/Spice-project/codes/solver/build/CMakeFiles/Solve.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/dd/Spice-project/codes/solver/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/dd/Spice-project/codes/solver /home/dd/Spice-project/codes/solver /home/dd/Spice-project/codes/solver/build /home/dd/Spice-project/codes/solver/build /home/dd/Spice-project/codes/solver/build/CMakeFiles/Solve.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/Solve.dir/depend
 

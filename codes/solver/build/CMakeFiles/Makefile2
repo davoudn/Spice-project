@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pouyan/Spice-project/codes/solver
+CMAKE_SOURCE_DIR = /home/dd/Spice-project/codes/solver
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pouyan/Spice-project/codes/solver/build
+CMAKE_BINARY_DIR = /home/dd/Spice-project/codes/solver/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -83,14 +83,14 @@ clean: CMakeFiles/Solve.dir/clean
 CMakeFiles/MyLib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyLib.dir/build.make CMakeFiles/MyLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyLib.dir/build.make CMakeFiles/MyLib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=1,2,3 "Built target MyLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=1,2,3 "Built target MyLib"
 .PHONY : CMakeFiles/MyLib.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/MyLib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pouyan/Spice-project/codes/solver/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dd/Spice-project/codes/solver/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MyLib.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pouyan/Spice-project/codes/solver/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dd/Spice-project/codes/solver/build/CMakeFiles 0
 .PHONY : CMakeFiles/MyLib.dir/rule
 
 # Convenience name for target.
@@ -109,14 +109,14 @@ CMakeFiles/MyLib.dir/clean:
 CMakeFiles/Solve.dir/all: CMakeFiles/MyLib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Solve.dir/build.make CMakeFiles/Solve.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Solve.dir/build.make CMakeFiles/Solve.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=4,5,6 "Built target Solve"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=4,5,6 "Built target Solve"
 .PHONY : CMakeFiles/Solve.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Solve.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pouyan/Spice-project/codes/solver/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dd/Spice-project/codes/solver/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Solve.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pouyan/Spice-project/codes/solver/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dd/Spice-project/codes/solver/build/CMakeFiles 0
 .PHONY : CMakeFiles/Solve.dir/rule
 
 # Convenience name for target.

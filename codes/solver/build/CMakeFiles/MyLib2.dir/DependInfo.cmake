@@ -8,8 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/dd/Spice-project/codes/solver/circuit.cpp" "CMakeFiles/Solve.dir/circuit.cpp.o" "gcc" "CMakeFiles/Solve.dir/circuit.cpp.o.d"
-  "/home/dd/Spice-project/codes/solver/solve.cpp" "CMakeFiles/Solve.dir/solve.cpp.o" "gcc" "CMakeFiles/Solve.dir/solve.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

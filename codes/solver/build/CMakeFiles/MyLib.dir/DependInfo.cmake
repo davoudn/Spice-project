@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/pouyan/Spice-project/codes/solver/circuit.cpp" "CMakeFiles/MyLib.dir/circuit.cpp.o" "gcc" "CMakeFiles/MyLib.dir/circuit.cpp.o.d"
-  "/home/pouyan/Spice-project/codes/solver/surpass/circuit_old.cpp" "CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o" "gcc" "CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o.d"
+  "/home/dd/Spice-project/codes/solver/circuit.cpp" "CMakeFiles/MyLib.dir/circuit.cpp.o" "gcc" "CMakeFiles/MyLib.dir/circuit.cpp.o.d"
+  "/home/dd/Spice-project/codes/solver/surpass/circuit_old.cpp" "CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o" "gcc" "CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

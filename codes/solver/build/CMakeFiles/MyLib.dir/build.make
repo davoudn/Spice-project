@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pouyan/Spice-project/codes/solver
+CMAKE_SOURCE_DIR = /home/dd/Spice-project/codes/solver
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pouyan/Spice-project/codes/solver/build
+CMAKE_BINARY_DIR = /home/dd/Spice-project/codes/solver/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/MyLib.dir/depend.make
@@ -70,32 +70,32 @@ include CMakeFiles/MyLib.dir/progress.make
 include CMakeFiles/MyLib.dir/flags.make
 
 CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o: CMakeFiles/MyLib.dir/flags.make
-CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o: /home/pouyan/Spice-project/codes/solver/surpass/circuit_old.cpp
+CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o: /home/dd/Spice-project/codes/solver/surpass/circuit_old.cpp
 CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o: CMakeFiles/MyLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o -MF CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o.d -o CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o -c /home/pouyan/Spice-project/codes/solver/surpass/circuit_old.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o -MF CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o.d -o CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o -c /home/dd/Spice-project/codes/solver/surpass/circuit_old.cpp
 
 CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pouyan/Spice-project/codes/solver/surpass/circuit_old.cpp > CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dd/Spice-project/codes/solver/surpass/circuit_old.cpp > CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.i
 
 CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pouyan/Spice-project/codes/solver/surpass/circuit_old.cpp -o CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dd/Spice-project/codes/solver/surpass/circuit_old.cpp -o CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.s
 
 CMakeFiles/MyLib.dir/circuit.cpp.o: CMakeFiles/MyLib.dir/flags.make
-CMakeFiles/MyLib.dir/circuit.cpp.o: /home/pouyan/Spice-project/codes/solver/circuit.cpp
+CMakeFiles/MyLib.dir/circuit.cpp.o: /home/dd/Spice-project/codes/solver/circuit.cpp
 CMakeFiles/MyLib.dir/circuit.cpp.o: CMakeFiles/MyLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/MyLib.dir/circuit.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyLib.dir/circuit.cpp.o -MF CMakeFiles/MyLib.dir/circuit.cpp.o.d -o CMakeFiles/MyLib.dir/circuit.cpp.o -c /home/pouyan/Spice-project/codes/solver/circuit.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/MyLib.dir/circuit.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyLib.dir/circuit.cpp.o -MF CMakeFiles/MyLib.dir/circuit.cpp.o.d -o CMakeFiles/MyLib.dir/circuit.cpp.o -c /home/dd/Spice-project/codes/solver/circuit.cpp
 
 CMakeFiles/MyLib.dir/circuit.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MyLib.dir/circuit.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pouyan/Spice-project/codes/solver/circuit.cpp > CMakeFiles/MyLib.dir/circuit.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dd/Spice-project/codes/solver/circuit.cpp > CMakeFiles/MyLib.dir/circuit.cpp.i
 
 CMakeFiles/MyLib.dir/circuit.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MyLib.dir/circuit.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pouyan/Spice-project/codes/solver/circuit.cpp -o CMakeFiles/MyLib.dir/circuit.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dd/Spice-project/codes/solver/circuit.cpp -o CMakeFiles/MyLib.dir/circuit.cpp.s
 
 # Object files for target MyLib
 MyLib_OBJECTS = \
@@ -109,7 +109,7 @@ libMyLib.a: CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o
 libMyLib.a: CMakeFiles/MyLib.dir/circuit.cpp.o
 libMyLib.a: CMakeFiles/MyLib.dir/build.make
 libMyLib.a: CMakeFiles/MyLib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pouyan/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libMyLib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/dd/Spice-project/codes/solver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libMyLib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/MyLib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MyLib.dir/link.txt --verbose=$(VERBOSE)
 
@@ -122,6 +122,6 @@ CMakeFiles/MyLib.dir/clean:
 .PHONY : CMakeFiles/MyLib.dir/clean
 
 CMakeFiles/MyLib.dir/depend:
-	cd /home/pouyan/Spice-project/codes/solver/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pouyan/Spice-project/codes/solver /home/pouyan/Spice-project/codes/solver /home/pouyan/Spice-project/codes/solver/build /home/pouyan/Spice-project/codes/solver/build /home/pouyan/Spice-project/codes/solver/build/CMakeFiles/MyLib.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/dd/Spice-project/codes/solver/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/dd/Spice-project/codes/solver /home/dd/Spice-project/codes/solver /home/dd/Spice-project/codes/solver/build /home/dd/Spice-project/codes/solver/build /home/dd/Spice-project/codes/solver/build/CMakeFiles/MyLib.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/MyLib.dir/depend
 

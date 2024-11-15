@@ -1,1 +1,1 @@
-/usr/bin/g++ -g CMakeFiles/Solve.dir/solve.cpp.o CMakeFiles/Solve.dir/circuit.cpp.o -o Solve  libMyLib.a 
+/usr/bin/c++ CMakeFiles/Solve.dir/solve.cpp.o CMakeFiles/Solve.dir/circuit.cpp.o -o Solve  libMyLib.a -lMyLib2 

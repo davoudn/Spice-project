@@ -1,6 +1,6 @@
-#include "circuit.hpp"
+#include "Circuit.hpp"
 
-void BaseCircuit::CalcDim() {
+/*void BaseCircuit::CalcDim() {
 	//
 	nNodes = 0;
 	vsMap = std::vector <int>(components.size(), -1);
@@ -13,9 +13,27 @@ void BaseCircuit::CalcDim() {
 		return;
 	}
 }
-void BaseCircuit::Init(std::vector<BaseComponent*> _elements) {
-	CalcDim();
-	return;
+*/
+void BaseCircuit::Init(std::vector<DummyStruct> _Components) {
+     //	
+     int c = 0;
+     for (auto& x: _Components) {
+        ComponentsMap.Add(x["name"], c);    
+        c++;	
+     }
+     //
+     c = 0;
+     for (auto& x: _Components) {
+        if ( ComponentsMap.Add(x["NodePos"], c) ){
+        	c++;
+	}
+	if ( ComponentsMap.Add(x["NodeNeg"], c) ){
+		c++;
+	}
+     }
+     //
+
+     return;
 }
 void BaseCircuit::Allocate() {
 	
@@ -28,9 +46,9 @@ void BaseCircuit::Allocate() {
 
 void BaseCircuit::MakeAll() {
 	Allocate();
-    ///////////////////////////////////////////////////
-	// making A matrix
-    ///////////////////////////////////////////////////
+    /*                                                 
+     *********************  making A matrix  ***************************
+    */
 	double _gdiag{ 0.0 }, _gtmp{ 0.0 };
 	for (int n1{ 0 }; n1 < nNodes; n1++) {
 		_gdiag = 0.0;
@@ -63,10 +81,10 @@ void BaseCircuit::MakeAll() {
 			}
 		}
 	}
-	// the end of A matrix construction block
-    //////////////////////////////////////////////////////////////////
-	// z matrix construction
-    //////////////////////////////////////////////////////////////////
+    /* the end of A matrix construction block */
+    /*
+	************************** z matrix construction *****************************
+    */
 	double _itmp{ 0.0 };
 	for (int n1{ 0 }; n1 < nNodes; n1++) {
 		for (int n2{ 0 }; n2 < nNodes; n2++) {
@@ -87,13 +105,15 @@ void BaseCircuit::MakeAll() {
 		z[n1] = -_itmp;
 		_itmp = 0.0;
 	}
-    /////////////////////////////////////////////////////////////////////
+    /*
+     * ********************************************************************************
+     * */
 	return;
 }
 
 void BaseCircuit::Populate() {
 	for (auto comp : components) {
-		auto dv = x[comp->nodePos] - x[comp->nodePos];
+		auto dv = x[comp->nodePos] - x[comp->nodeNeg];
 		comp->Populate(dv);
 	}
 }
@@ -103,7 +123,7 @@ void BaseCircuit::Integrate() {
 		comp->integrate();
 	}
 }
-void::Solve_it() {
+void BaseCircuit::Solve_it() {
 	x = arma::Solve(A, z, solve_opts::refine);
 	return;
 }

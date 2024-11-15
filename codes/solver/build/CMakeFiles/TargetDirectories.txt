@@ -1,5 +1,5 @@
-/home/pouyan/Spice-project/codes/solver/build/CMakeFiles/MyLib.dir
-/home/pouyan/Spice-project/codes/solver/build/CMakeFiles/Solve.dir
-/home/pouyan/Spice-project/codes/solver/build/CMakeFiles/test.dir
-/home/pouyan/Spice-project/codes/solver/build/CMakeFiles/edit_cache.dir
-/home/pouyan/Spice-project/codes/solver/build/CMakeFiles/rebuild_cache.dir
+/home/dd/Spice-project/codes/solver/build/CMakeFiles/MyLib.dir
+/home/dd/Spice-project/codes/solver/build/CMakeFiles/Solve.dir
+/home/dd/Spice-project/codes/solver/build/CMakeFiles/test.dir
+/home/dd/Spice-project/codes/solver/build/CMakeFiles/edit_cache.dir
+/home/dd/Spice-project/codes/solver/build/CMakeFiles/rebuild_cache.dir

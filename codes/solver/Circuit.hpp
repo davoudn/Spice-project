@@ -2,7 +2,8 @@
 #include <map>
 #include <vector>
 #include <armadillo>
-#include "basecomponent.hpp"
+#include "BaseComponent.hpp"
+#include "Utility.hpp"
 //std::string simple_lib_function();
 
 class BaseCircuit {
@@ -11,19 +12,19 @@ public:
 	void Solve_it() {};
 	void Solve();
 private:
-	std::vector<BaseComponent*> components;
-	std::vector<std::vector<std::vector <int>>> table;
-	std::map <std::string, double> params;
-	std::vector <int>  vsMap;
+        Map ComponentsMap, NodesMap;
+	std ::map<int, BaseComponent*> Components;
+	arma::Mat<int> ConnectivityTable;
+	arma::Mat<int> VoltageSourceMap;
 public:
 	arma::Vec<double> z;
 	arma::Vec<double> x;
 	arma::Mat<double> a;
 	
-	int nNodes; // number of nodes minus datum
-	int nVsourses; // number voltage sources
+	int NumNodes; // number of nodes minus datum
+	int NumVolatgeSourses; // number voltage sources
 	int nDim;
-	int maxIteration;
+	int MaxIterations;
 	// a x = z
 private:
 	void CalcDim();

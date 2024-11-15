@@ -1,9 +1,8 @@
 {
-	"archive" : {},
 	"artifacts" : 
 	[
 		{
-			"path" : "libMyLib.a"
+			"path" : "Solve"
 		}
 	],
 	"backtrace" : 1,
@@ -11,7 +10,8 @@
 	{
 		"commands" : 
 		[
-			"add_library"
+			"add_executable",
+			"target_link_libraries"
 		],
 		"files" : 
 		[
@@ -25,7 +25,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 30,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 38,
 				"parent" : 0
 			}
 		]
@@ -33,23 +39,45 @@
 	"compileGroups" : 
 	[
 		{
-			"compileCommandFragments" : 
-			[
-				{
-					"fragment" : "-g"
-				}
-			],
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
 				0,
-				3
+				2
 			]
 		}
 	],
-	"id" : "MyLib::@6890427a1f51a3e7e1df",
-	"name" : "MyLib",
-	"nameOnDisk" : "libMyLib.a",
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "MyLib::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "Solve::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "libMyLib.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lMyLib2",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Solve",
+	"nameOnDisk" : "Solve",
 	"paths" : 
 	{
 		"build" : ".",
@@ -62,15 +90,14 @@
 			"sourceIndexes" : 
 			[
 				0,
-				3
+				2
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				1,
-				2
+				1
 			]
 		}
 	],
@@ -79,13 +106,8 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "surpass/circuit_old.cpp",
+			"path" : "solve.cpp",
 			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "surpass/circuit_old.hpp",
-			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
@@ -99,5 +121,5 @@
 			"sourceGroupIndex" : 0
 		}
 	],
-	"type" : "STATIC_LIBRARY"
+	"type" : "EXECUTABLE"
 }
