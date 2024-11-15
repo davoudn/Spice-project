@@ -24,10 +24,10 @@ void BaseCircuit::Init(std::vector<DummyStruct> _Components) {
      //
      c = 0;
      for (auto& x: _Components) {
-        if ( ComponentsMap.Add(x["NodePos"], c) ){
+        if ( ComponentsMap.Add(x["PosNET"], c) ){
         	c++;
 	}
-	if ( ComponentsMap.Add(x["NodeNeg"], c) ){
+	if ( ComponentsMap.Add(x["NegNET"], c) ){
 		c++;
 	}
      }
