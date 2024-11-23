@@ -97,7 +97,6 @@ void BaseCircuit::MakeAll() {
 				if (Components[id]->Type != "VolatageSource" && Components[id]->NegNET == n1) {
 					_itmp -= Components[id]->Ieq;
 				}
-				//
 				if (Components[id]->Type == "VoltageSource") {
 					Z(VoltageSourceMap[id]) = Components[id]->Params.Get<float>("V");
 				}

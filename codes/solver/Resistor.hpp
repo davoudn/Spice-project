@@ -1,11 +1,11 @@
-#include "basecomponent.hpp"
+#include "BaseComponent.hpp"
 
 
 template <typename INTEGRATOR>
 struct Resistor : public BaseComponent {
     public:
     Resistor(){
-        this->g_eq = 1.0/this->params["R"];
+        this->Geq = 1.0/this->Params.Get<float>("R");
     }
     inline void integrate() override {
            // do nothing

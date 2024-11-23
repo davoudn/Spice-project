@@ -29,10 +29,10 @@ public:
 	arma::Col<double> Z;
 	arma::Col<double> X;
 	
-	int NumNodes; // number of nodes minus datum
-	int NumVolatgeSourses; // number voltage sources
-	int nDim;
-	int MaxIterations;
+	int NumNodes = 0; // number of nodes minus datum
+	int NumVolatgeSourses = 0; // number voltage sources
+	int nDim = 0;
+	int MaxIterations = 0;
 private:
 	void CalcDim();
 	void MakeAll();

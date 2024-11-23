@@ -4,15 +4,16 @@
 template <typename INTEGRATOR>
 struct CPE : public BaseComponent {
     public:
-    CPE(std::map<std::string, std::string>& _P){
-              Init(_P);
+    CPE(DParams _Params){
+              Init(_Params);
 	      SetupComponent();
-              Integrator.Init(Params.Get<float>("Alpha"), Params.Get<float>("DelT"));
-              Alpha = this->Params.Get<float>("Alpha");
-              C = this->Params.Get<float>("C");
-              Gamma = std::tgamma(Alpha);
+              Alpha    = this->Params.Get<float>("Alpha");
+              C        = this->Params.Get<float>("C");
+              V0       = this->Params.Get<float>("V0");
+              DelT     = this->Params.Get<float>("DelT");
+              Gamma    = std::tgamma(Alpha);
               InvGamma = std::tgamma(Alpha);
-              InitialV = this->Params.Get<float>("V0");
+              Integrator.Init(Alpha, DelT);
     }
     
     void Integrate() override;
@@ -20,7 +21,7 @@ struct CPE : public BaseComponent {
     bool CheckComponent() override;
     private:
         Weights<INTEGRATOR> Integrator;
-        double C = 0.0, Alpha = 0.0 , Gamma = 0.0, InvGamma = 0.0, InitialV = 0.0;
+        double C = 0.0, Alpha = 0.0 , Gamma = 0.0, InvGamma = 0.0, V0 = 0.0, DelT = 0.0;
 };
 
 template <typename INTEGRATOR>
@@ -30,7 +31,7 @@ void CPE<INTEGRATOR>::Integrate()  {
            for (int i{0}; i < k; i++){
                 sum += this->I[i] * Integrator(i,k);
            }
-           this->Ieq = - InitialV * Gamma * C / Integrator(k,k) - sum / Integrator(k,k) ;
+           this->Ieq = - V0 * Gamma * C / Integrator(k,k) - sum / Integrator(k,k) ;
            this->Geq = Gamma * C / Integrator(k,k);
 }
 
