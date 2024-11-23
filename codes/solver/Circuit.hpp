@@ -12,20 +12,27 @@ public:
 	void Solve_it() {};
 	void Solve();
 private:
-        Map ComponentsMap, NodesMap;
+   /*
+     here we construct a map/invmap to index nodes and components, thus we could 
+	 translate the results into the original SPICE naming.
+   */
+    DMap ComponentsMap, NodesMap;
+
+	/*
+	*/
 	std ::map<int, BaseComponent*> Components;
 	arma::Mat<int> ConnectivityTable;
 	arma::Mat<int> VoltageSourceMap;
-public:
-	arma::Vec<double> z;
-	arma::Vec<double> x;
-	arma::Mat<double> a;
+public:	
+	// a x = z
+	arma::Mat<double> A;
+	arma::Col<double> Z;
+	arma::Col<double> X;
 	
 	int NumNodes; // number of nodes minus datum
 	int NumVolatgeSourses; // number voltage sources
 	int nDim;
 	int MaxIterations;
-	// a x = z
 private:
 	void CalcDim();
 	void MakeAll();

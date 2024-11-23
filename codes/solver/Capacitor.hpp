@@ -1,4 +1,4 @@
-#include "basecomponent.hpp"
+#include "BaseComponent.hpp"
 
 
 template <typename INTEGRATOR>
@@ -9,16 +9,16 @@ struct Capacitor : public BaseComponent {
 	      SetupComponent();
     }
     
-    void integrate();
-    void SetupComponent ();
-    bool CheckComponent();
+    void Integrate() override;
+    void SetupComponent () override;
+    bool CheckComponent() override;
     private:
         INTEGRATOR integrator;
         double InitialV;
 };
 
 template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::integrate()  {
+void Capacitor<INTEGRATOR>::Integrate()  {
            double tmp{0.0};
            for (int i{1}; i < integrator::Nw; i++){
                 tmp += this->I[this->itLast + 1 - i] * integrator::CorrectorWeighs[i];
@@ -30,7 +30,7 @@ template <typename INTEGRATOR>
 void Capacitor<INTEGRATOR>::SetupComponent (){
         this->V.clear();
         this->I.clear();
-        this->Geq = std::stof(this->params["C"])/(this->DelT * integrator::CorrectorWeighs[0]);
+        this->Geq = this->Params.Get<float>("C")/(this->DelT * integrator::CorrectorWeighs[0]);
         return;
 }
 

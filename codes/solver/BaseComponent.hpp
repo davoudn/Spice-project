@@ -1,7 +1,7 @@
 #include <vector>
 #include <map>
 #include <string>
-
+#include "Utility.hpp"
 // this is just for the constraction of acctual components 
 // r1 n1 n2 10k
 /* general
@@ -25,29 +25,32 @@ std::map<std::string, std::string> params;
 struct BaseComponent {
 public:
 
-    void Init(std::map<std::string,std::string> _P){
-	     PosNET=std::stoi(_P["PosNET"]); NegNET=std::stoi(_P["NegNET"]); Type=_P["Type"]; Label = _P["Label"]; Name = _P["name"];
-	     Params = _P;
-	     DelT   = std::stof(_P["DelT"]);
+    void Init(DParams _Params){
+	     Params = _Params;
+	     PosNET = _Params.Get<int>("PosNET"); 
+		 NegNET = _Params.Get<int>("NegNET"); 
+		 Type   = _Params.Get<std::string>("Type");
+		 Label  = _Params.Get<std::string>("Label"); 
+		 Name   = _Params.Get<std::string>("name");
+		 DelT   = _Params.Get<int>("DelT");
     }
 
     BaseComponent(){}
 
-private:
 	int PosNET = 0, NegNET = 0;
 	std::string Label, Type, Name;
 	std::vector<double> V;
 	std::vector<double> I;
 	int ItLast;
-    	double Ieq, Geq, DelT;
+   	double Ieq, Geq, DelT;
 	// this would be populated in the acctual drived class. 
-	std::map<std::string, std:;string> Params;
+	DParams Params;
 
 public:
 	virtual void Integrate() {};
 	void Populate(double dv) {
 		V.push_back(dv);
-		auto i = i_eq + dv * g_eq;
+		auto i = Ieq + dv * Geq;
 		I.push_back(i);
 	}
 	virtual void SetupComponent (double _del_t);
