@@ -29,13 +29,13 @@ project(
 #add_library(MyLib solver.cpp solver.hpp)
 add_library(MyLib "surpass/circuit_old.cpp" "surpass/circuit_old.hpp" "circuit.hpp" "circuit.cpp")
 # Link each target with other targets or add options, etc.
-
+#  /usr/local/include/antlr4-runtime main.cpp generated/*.cpp -L /usr/local/lib/libantlr4-runtime.*
 # Adding something we can run - Output name matches target name
 add_executable(Solve solve.cpp "circuit.hpp" "circuit.cpp")
 
 # Make sure you link your targets with this command. It can also link libraries and
 # even flags, so linking a target that does not exist will not give a configure-time error.
-target_link_libraries(Solve PRIVATE MyLib)
+target_link_libraries(Solve PRIVATE MyLib MyLib2)
 
 ## [main]
 

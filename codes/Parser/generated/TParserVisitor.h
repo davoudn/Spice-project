@@ -1,5 +1,5 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.1
+// Generated from TParser.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -20,7 +20,13 @@ public:
   /**
    * Visit parse trees produced by TParser.
    */
-    virtual std::any visitMain(TParser::MainContext *context) = 0;
+    virtual std::any visitCircuit(TParser::CircuitContext *context) = 0;
+
+    virtual std::any visitElement(TParser::ElementContext *context) = 0;
+
+    virtual std::any visitVoltagesource(TParser::VoltagesourceContext *context) = 0;
+
+    virtual std::any visitCurrentsource(TParser::CurrentsourceContext *context) = 0;
 
     virtual std::any visitResistor(TParser::ResistorContext *context) = 0;
 

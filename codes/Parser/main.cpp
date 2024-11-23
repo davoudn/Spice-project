@@ -1,53 +1,7 @@
-#include <iostream>
-#include "antlr4-runtime.h"
-#include "generated/TLexer.h"
-#include "generated/TParser.h"
-#include "generated/TParserBaseListener.h"
-#include "generated/TParserBaseVisitor.h"
-#include "tree/ParseTreeWalker.h"
-#include <fstream>
-#include <string>
+#include "Parser.h"
 
-using namespace antlrcpptest;
-using namespace antlr4;
 
-int main(int , const char **) {
-  // std :: cout << "Reading File ...." << std :: endl;
-  // std :: cout << "_________________________________________" << std :: endl;
-
-  std::ifstream t("Example.net");
-  t.seekg(0, std::ios::end);
-  size_t size = t.tellg();
-  std::string buffer(size, ' ');
-  t.seekg(0);
-  t.read(&buffer[0], size);
-  // std :: cout << buffer << std :: endl;
-  
-  // std :: cout << "_________________________________________" << std :: endl << std :: endl;
-  
-  
-  ANTLRInputStream input(buffer);
-  TLexer lexer(&input);
-  CommonTokenStream tokens(&lexer);
-
-  // tokens.fill();
-  // for (auto token : tokens.getTokens()) {
-  //   // std :: cout << token[0] ;
-  //   //std::cout << token->toString() << std::endl;
-  // }
-
-  TParser parser(&tokens);
-  // tree::ParseTree* tree = parser.main();
-  // std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
-  TParserBaseVisitor visitor;
-  // std::string str = visitor.visitMain(parser.main()).as<std::string>();
-  visitor.visitMain(parser.main());
-  // std::cout << "Visitor output: " << str << std::endl;
-
-  // tree :: ParseTreeWalker walker;
-  // ParserRuleContext* fileInput = parser.main();
-  // TParserBaseListener *listener = new TParserBaseListener();
-  // walker.walk(listener,fileInput);
-  std :: cout << "finish" << std ::endl;
-  return 0;
+int main(){
+    ParseFile("Example.net");
+    return 0;
 }

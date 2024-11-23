@@ -1,5 +1,5 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.1
+// Generated from TParser.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -17,8 +17,21 @@ namespace antlrcpptest {
 class  TParserBaseVisitor : public TParserVisitor {
 public:
 
-  virtual std::any visitMain(TParser::MainContext *ctx) override {
-    std  :: cout << "visit from " << std :: endl;
+  virtual std::any visitCircuit(TParser::CircuitContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitElement(TParser::ElementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitVoltagesource(TParser::VoltagesourceContext *ctx) override {
+    std :: cout << ctx->VOLTAGE_SOURCE_NAME()->toString() << "\n";
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCurrentsource(TParser::CurrentsourceContext *ctx) override {
+    std :: cout << ctx->CURRENT_SOURCE_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
@@ -27,10 +40,12 @@ public:
   }
 
   virtual std::any visitCapacitor(TParser::CapacitorContext *ctx) override {
+    std :: cout << ctx->CAPACITOR_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
   virtual std::any visitInductor(TParser::InductorContext *ctx) override {
+    std :: cout << ctx->INDUCTOR_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
