@@ -68,27 +68,27 @@ void BaseCircuit::MakeAll() {
 		for (int n2{ 0 }; n2 < nNodes; n2++) {
 			_gtmp = 0.0;
 			for (auto id : table[n1][n2]) {
-				if (components[id]->type != "VS" && components[id]->type != "IS")
-					_gtmp += components[id]->g_eq;
+				if (components[id]->Type != "VS" && components[id]->Type != "IS")
+					_gtmp += components[id]->Geq;
 			}
 			_gdiag += _gtmp;
 			if (n1 != n2)
-				a[n1][n2] = -_gtmp;
+				A[n1][n2] = -_gtmp;
 		}
-		a[n1][n1] = _gdiag;
+		A[n1][n1] = _gdiag;
 	}
 
 
 	for (int n1{ 0 }; n1 < nNodes; n1++) {
 		for (int n2{ 0 }; n2 < nNodes; n2++) {
 			for (auto id : table[n1][n2]) {
-				if (components[id]->type == "VS" && components[id]->nodePos == n1) {
-					a[n1][vsMap[id]] = 1;
-					a[vsMap[id]][n1] = 1;
+				if (components[id]->type == "VolatageSource" && components[id]->PosNET == n1) {
+					A[n1][vsMap[id]] = 1;
+					A[vsMap[id]][n1] = 1;
 				}
-				if (components[id]->type == "VS" && components[id]->nodeNeg == n1) {
-					a[n1][vsMap[id]] = -1;
-					a[vsMap[id]][n1] = -1;
+				if (components[id]->type == "VolatageSource" && components[id]->NegNET == n1) {
+					A[n1][vsMap[id]] = -1;
+					A[vsMap[id]][n1] = -1;
 				}
 
 			}
@@ -103,14 +103,14 @@ void BaseCircuit::MakeAll() {
 		for (int n2{ 0 }; n2 < nNodes; n2++) {
 			for (auto id : table[n1][n2]) {
 				//
-				if (components[id]->type != "VS" && components[id]->nodePos == n1) {
+				if (components[id]->type != "VoltageSource"  && components[id]->PosNET == n1) {
 					_itmp += components[id]->i_eq;
 				}
-				if (components[id]->type != "VS" && components[id]->nodeNeg == n1) {
+				if (components[id]->type != "VolatageSource" && components[id]->NegNET == n1) {
 					_itmp -= components[id]->i_eq;
 				}
 				//
-				if (components[id]->type == "VS") {
+				if (components[id]->type == "VoltageSource") {
 					z[vsMap[id]] = components[id]->params["V"];
 				}
 			}

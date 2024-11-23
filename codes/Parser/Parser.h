@@ -117,7 +117,7 @@ std::vector<std :: map<std::string,std:: string>> ParseFile(std:: string FileNam
   CircuitParser visitor;
   visitor.visitCircuit(parser.circuit());
   
-  // visitor.print_element();
+  visitor.print_element();
 
   return visitor.ElementVector;
 }
