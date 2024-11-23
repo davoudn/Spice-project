@@ -18,7 +18,7 @@ struct Capacitor : public BaseComponent {
 };
 
 template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::Integrate()  {
+void Capacitor<INTEGRATOR>::Integrate ()  {
            double tmp{0.0};
            for (int i{1}; i < integrator::Nw; i++){
                 tmp += this->I[this->itLast + 1 - i] * integrator::CorrectorWeighs[i];

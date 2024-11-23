@@ -1,3 +1,6 @@
+
+#include <cmath>
+
 template <typename T>
 class Weights;
 class DIETHELM{};
@@ -9,8 +12,14 @@ class Weights<DIETHELM>{
     public:
       double m_alpha, m_h;
       Weights(){}
+      Weights(double _alpha, double _h){
+        Init(_alpha, _h);
 
-      Weights(double _alpha, double _h):m_alpha(_alpha), m_h(_h){}
+      }
+      void Init(double _alpha, double _h){
+           m_alpha = _alpha;
+           m_h = _h;
+      }
        double corrector (int k, int j) {
             auto tmp=0.0;
             if(j==0)
