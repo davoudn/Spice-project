@@ -9,7 +9,7 @@ class BaseCircuit {
 public:
 	template<typename INTEGRATOR>
 	void Init(std::vector<DummyStruct> _components);
-	void Solve_it() {};
+	void Solve_it();
 	void Solve();
 private:
    /*

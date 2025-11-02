@@ -13,28 +13,31 @@ struct Capacitor : public BaseComponent {
     void SetupComponent () override;
     bool CheckComponent() override;
     private:
-        INTEGRATOR integrator;
+        INTEGRATOR Integrator;
         double InitialV;
 };
 
 template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::Integrate ()  {
+void Capacitor<INTEGRATOR>::Integrate ()  
+{
            double tmp{0.0};
-           for (int i{1}; i < integrator::Nw; i++){
-                tmp += this->I[this->itLast + 1 - i] * integrator::CorrectorWeighs[i];
+           for (int i{1}; i < Integrator.Size(); i++){
+                tmp += this->I[this->itLast + 1 - i] * Integrator.CorrectorWeighs[i];
            }
-           this->Ieq = -tmp / (this->DelT * integrator::CorrectorWeighs[0]) - Geq * this->V[itLast];
+           this->Ieq = -tmp / (this->DelT * Integrator.CorrectorWeighs[0]) - Geq * this->V[ItLast];
 }
 
 template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::SetupComponent (){
+void Capacitor<INTEGRATOR>::SetupComponent ()
+{
         this->V.clear();
         this->I.clear();
-        this->Geq = this->Params.Get<float>("C")/(this->DelT * integrator::CorrectorWeighs[0]);
+        this->Geq = this->Params.Get<float>("C")/(this->DelT * Integrator.CorrectorWeighs[0]);
         return;
 }
 
 template <typename INTEGRATOR>
-bool Capacitor<INTEGRATOR>:: CheckComponent (){
-        return;
+bool Capacitor<INTEGRATOR>:: CheckComponent ()
+{
+        return true;
 }

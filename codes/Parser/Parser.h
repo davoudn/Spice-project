@@ -70,7 +70,7 @@ class CircuitParser : TParserBaseVisitor{
     temp["NegNET"] = ctx->TEXT(1)->toString();
     temp["PosNET"] = ctx->TEXT(0)->toString();
     temp["name"] = ctx->CAPACITOR_NAME()->toString();
-    temp["type"] = "Resistor";
+    temp["type"] = "Capacitor";
     return visitChildren(ctx);
   }
 

@@ -25,7 +25,8 @@ struct CPE : public BaseComponent {
 };
 
 template <typename INTEGRATOR>
-void CPE<INTEGRATOR>::Integrate()  {
+void CPE<INTEGRATOR>::Integrate()  
+{
            double sum{0.0};
            int k = this->I.size();
            for (int i{0}; i < k; i++){
@@ -36,7 +37,8 @@ void CPE<INTEGRATOR>::Integrate()  {
 }
 
 template <typename INTEGRATOR>
-void CPE<INTEGRATOR>::SetupComponent (){
+void CPE<INTEGRATOR>::SetupComponent ()
+{
         this->V.clear();
         this->I.clear();
         this->Geq = Gamma * C / Integrator(1,1); // be carefull //
@@ -45,5 +47,5 @@ void CPE<INTEGRATOR>::SetupComponent (){
 
 template <typename INTEGRATOR>
 bool CPE<INTEGRATOR>::CheckComponent (){
-        return;
+        return true;
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <map>
 #include <string>
@@ -48,7 +49,8 @@ public:
 
 public:
 	virtual void Integrate() {};
-	void Populate(double dv) {
+	void Populate(double dv) 
+	{
 		V.push_back(dv);
 		auto i = Ieq + dv * Geq;
 		I.push_back(i);

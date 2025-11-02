@@ -1,2 +1,0 @@
-/usr/bin/ar qc libMyLib.a CMakeFiles/MyLib.dir/surpass/circuit_old.cpp.o CMakeFiles/MyLib.dir/circuit.cpp.o
-/usr/bin/ranlib libMyLib.a

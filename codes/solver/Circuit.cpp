@@ -1,40 +1,42 @@
 #include "Circuit.hpp"
-
+#include "Components.hpp"
 
 
 template<typename INTEGRATOR>
-void BaseCircuit::Init(std::vector<DummyStruct> _Components) {
+void BaseCircuit::Init(std::vector<DummyStruct> _Components) 
+{
      //	
      int c = 0;
      for (auto& x: _Components) {
-        ComponentsMap.Add(x["name"], c);    
+        ComponentsMap.Add(x.params["Name"], c);    
         c++;	
      }
      //
      c = 0;
      for (auto& x: _Components) {
-        if ( NodesMap.Add(x["PosNET"], c) ){
+        if ( NodesMap.Add(x.params["PosNET"], c) ){
         	c++;
 		}
-		if ( NodesMap.Add(x["NegNET"], c) ){
+		if ( NodesMap.Add(x.params["NegNET"], c) ){
 			c++;
 		}
      }
      //
-     ConnectivityConnectivityTable.zeros(NodesMap.Size(), NodesMap.Size());
+     ConnectivityTable.zeros(NodesMap.Size(), NodesMap.Size());
      for (auto& x: _Components) {
-	     int Pos = NodesMap.Get(x["PosNET"]);
-	     int Neg = NodesMap.Get(x["NegNET"]);
-	     ConnectivityConnectivityTable[Pos][Neg] = ComponentsMap.Get(x["Name"]);
+	     int Pos = NodesMap.Get(x.params["PosNET"]);
+	     int Neg = NodesMap.Get(x.params["NegNET"]);
+	     ConnectivityTable(Pos,Neg) = ComponentsMap.Get(x.params["Name"]);
      }
      //
      for (auto& x: _Components){
-         Components.Emplace( Make<INTEGRATOR>(x));
+         Components.emplace( Components::Make<INTEGRATOR>(x));
      }
      return;
 }
 //
-void BaseCircuit::Allocate() {
+void BaseCircuit::Allocate() 
+{
 	
 		A.zeros(nDim, nDim); // arma
 		X.zeros(nDim); // arma
@@ -43,26 +45,27 @@ void BaseCircuit::Allocate() {
 		return;
 }
 
-void BaseCircuit::MakeAll() {
+void BaseCircuit::MakeAll() 
+{
 	Allocate();
     /*                                                 
      *********************  making A matrix  ***************************
     */
-	double _Gdiag{ 0.0 }, _Gtmp{ 0.0 };
+	double gdiag{ 0.0 }, gtmp{ 0.0 };
 	for (int n1{ 0 }; n1 < NumNodes; n1++) {
-		_Gdiag = 0.0;
+		gdiag = 0.0;
 		for (int n2{ 0 }; n2 < NumNodes; n2++) {
-			_Gtmp = 0.0;
+			gtmp = 0.0;
 			int id = ConnectivityTable(n1, n2);
 			if ( id > 0) {
 				if (Components[id]->Type != "VoltageSource" && Components[id]->Type != "CurrentSource")
-					_Gtmp += Components[id]->Geq;
+					gtmp += Components[id]->Geq;
 			}
-			_Gdiag += _Gtmp;
+			gdiag += gtmp;
 			if (n1 != n2)
-				A(n1, n2) = -_Gtmp;
+				A(n1, n2) = -gtmp;
 		}
-		A(n1, n1) = _Gdiag;
+		A(n1, n1) = gdiag;
 	}
 
 
@@ -85,25 +88,25 @@ void BaseCircuit::MakeAll() {
     /*
 	************************** z matrix construction *****************************
     */
-	double _itmp{ 0.0 };
+	double itmp{ 0.0 };
 	for (int n1{ 0 }; n1 < NumNodes; n1++) {
 		for (int n2{ 0 }; n2 < NumNodes; n2++) {
 			int id = ConnectivityTable(n1, n2);
 			if ( id > 0) {
 				//
 				if (Components[id]->Type != "VoltageSource"  && Components[id]->PosNET == n1) {
-					_itmp += Components[id]->Ieq;
+					itmp += Components[id]->Ieq;
 				}
 				if (Components[id]->Type != "VolatageSource" && Components[id]->NegNET == n1) {
-					_itmp -= Components[id]->Ieq;
+					itmp -= Components[id]->Ieq;
 				}
 				if (Components[id]->Type == "VoltageSource") {
 					Z(VoltageSourceMap[id]) = Components[id]->Params.Get<float>("V");
 				}
 			}
 		}
-		Z(n1) = -_itmp;
-		_itmp = 0.0;
+		Z(n1) = -itmp;
+		itmp = 0.0;
 	}
     /*
      * ********************************************************************************
@@ -111,25 +114,29 @@ void BaseCircuit::MakeAll() {
 	return;
 }
 
-void BaseCircuit::Populate() {
+void BaseCircuit::Populate() 
+{
 	for (auto comp : Components) {
 		auto dv = X[comp.second->PosNET] - X[comp.second->NegNET];
 		comp.second->Populate(dv);
 	}
 }
 
-void BaseCircuit::Integrate() {
+void BaseCircuit::Integrate() 
+{
 	for (auto comp : Components) {
 		comp.second->Integrate();
 	}
 }
-void BaseCircuit::Solve_it() {
+void BaseCircuit::Solve_it() 
+{
 	X = arma::solve(A, Z);
 	return;
 }
-void BaseCircuit::Solve() {
+void BaseCircuit::Solve() 
+{
 
-	for (int it; it < MaxIterations; it++) {
+	for (int it=0; it < MaxIterations; it++) {
 		Integrate();
 		Solve_it();
 		Populate();

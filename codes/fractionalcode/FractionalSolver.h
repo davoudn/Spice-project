@@ -4,7 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <memory>
-#include "mathaux.h"
+#include "MathAux.h"
 
 template <typename T>
 class Weights;

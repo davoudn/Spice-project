@@ -63,6 +63,12 @@
         "thread": "cpp",
         "variant": "cpp",
         "format": "cpp",
-        "armadillo": "cpp"
+        "armadillo": "cpp",
+        "any": "cpp",
+        "bitset": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "shared_mutex": "cpp",
+        "cinttypes": "cpp"
     }
 }
