@@ -4,7 +4,7 @@
 template <typename INTEGRATOR>
 struct Resistor : public BaseComponent {
     public:
-    Resistor(){
+    Resistor(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
         this->Geq = 1.0/this->Params.Get<float>("R");
     }
     inline void integrate() override {

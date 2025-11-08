@@ -4,8 +4,7 @@
 template <typename INTEGRATOR>
 struct CPE : public BaseComponent {
     public:
-    CPE(DParams _Params){
-              Init(_Params);
+    CPE(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
 	      SetupComponent();
               Alpha    = this->Params.Get<float>("Alpha");
               C        = this->Params.Get<float>("C");
@@ -19,9 +18,10 @@ struct CPE : public BaseComponent {
     void Integrate() override;
     void SetupComponent () override;
     bool CheckComponent() override;
+            double C = 0.0, Alpha = 0.0 , Gamma = 0.0, InvGamma = 0.0, V0 = 0.0, DelT = 0.0;
+
     private:
         Weights<INTEGRATOR> Integrator;
-        double C = 0.0, Alpha = 0.0 , Gamma = 0.0, InvGamma = 0.0, V0 = 0.0, DelT = 0.0;
 };
 
 template <typename INTEGRATOR>

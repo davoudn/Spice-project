@@ -1,8 +1,14 @@
+#include <string>
+
 class BaseComponent;
+template <typename T>
+class DMap;
+
+class DParams;
 
 namespace Components {
 template <typename INTEGRATOR>
-BaseComponent* Make(std::map<std::string, std::string>&& _P);
+BaseComponent* Make(DParams params, DMap<std::string> argnodemap);
 
 }
  

@@ -26,18 +26,26 @@ std::map<std::string, std::string> params;
 struct BaseComponent {
 public:
 
-    void Init(DParams _Params){
-	     Params = _Params;
-	     PosNET = _Params.Get<int>("PosNET"); 
-		 NegNET = _Params.Get<int>("NegNET"); 
-		 Type   = _Params.Get<std::string>("Type");
-		 Label  = _Params.Get<std::string>("Label"); 
-		 Name   = _Params.Get<std::string>("name");
-		 DelT   = _Params.Get<int>("DelT");
+    void Init(DParams& argarams){
+	     Params = argarams;
+	     PosNET = argarams.Get<int>("PosNET"); 
+		 NegNET = argarams.Get<int>("NegNET"); 
+		 Type   = argarams.Get<std::string>("Type");
+		 Label  = argarams.Get<std::string>("Label"); 
+		 Name   = argarams.Get<std::string>("name");
+		 DelT   = argarams.Get<int>("DelT");
     }
 
-    BaseComponent(){}
-
+    BaseComponent() = delete;
+    BaseComponent(DParams argarams, DMap<std::string> nodesmap){
+		 Params = argarams;
+	     PosNET = nodesmap.Get(argarams.Get<std::string>("PosNET")); 
+		 NegNET = nodesmap.Get(argarams.Get<std::string>("NegNET")); 
+		 Type   = argarams.Get<std::string>("Type");
+		 Label  = argarams.Get<std::string>("Label"); 
+		 Name   = argarams.Get<std::string>("name");
+		 DelT   = argarams.Get<int>("DelT");
+	}
 	int PosNET = 0, NegNET = 0;
 	std::string Label, Type, Name;
 	std::vector<double> V;

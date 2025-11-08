@@ -4,8 +4,10 @@
 template <typename INTEGRATOR>
 struct Capacitor : public BaseComponent {
     public:
-    Capacitor(std::map<std::string, std::string>& _P){
-              Init(_P);
+    Capacitor(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
+              C        = this->Params.Get<float>("C");
+              V0       = this->Params.Get<float>("V0");
+              DelT     = this->Params.Get<float>("DelT");
 	      SetupComponent();
     }
     
@@ -13,6 +15,10 @@ struct Capacitor : public BaseComponent {
     void SetupComponent () override;
     bool CheckComponent() override;
     private:
+        double_t C = 0.f;
+        double_t V0= 0.f;
+        double_t DelT= 0.f;
+
         INTEGRATOR Integrator;
         double InitialV;
 };
@@ -32,7 +38,7 @@ void Capacitor<INTEGRATOR>::SetupComponent ()
 {
         this->V.clear();
         this->I.clear();
-        this->Geq = this->Params.Get<float>("C")/(this->DelT * Integrator.CorrectorWeighs[0]);
+        this->Geq = C/(this->DelT * Integrator.CorrectorWeighs[0]);
         return;
 }
 

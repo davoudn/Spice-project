@@ -1,15 +1,12 @@
 #include "Utility.hpp"
-#include <string>
 
-DParams::DParams(){
-   }
 
-DParams::DParams(data_t _Data):Data(_Data){
+DParams::DParams(data_t argdata):Data(argdata){
    }
    
    template<>
-   float DParams::Get<float>(std::string _PName){
-      auto result = Data.find(_PName);
+   float DParams::Get<float>(std::string argpname){
+      auto result = Data.find(argpname);
       if (result == Data.end()){
          return 0.0;
       }
@@ -17,8 +14,8 @@ DParams::DParams(data_t _Data):Data(_Data){
    }
 
    template<>
-   std::string DParams::Get<std::string>(std::string _PName){
-      auto result = Data.find(_PName);
+   std::string DParams::Get<std::string>(std::string argpname){
+      auto result = Data.find(argpname);
       if (result == Data.end()){
          return std::string("");
       }
@@ -26,9 +23,9 @@ DParams::DParams(data_t _Data):Data(_Data){
    }
 
    template<>
-   int DParams::Get<int>(std::string _PName)
+   int DParams::Get<int>(std::string argpname)
    {
-      auto result = Data.find(_PName);
+      auto result = Data.find(argpname);
       if (result == Data.end()){
          return 0;
       }
@@ -37,13 +34,14 @@ DParams::DParams(data_t _Data):Data(_Data){
 
 
 
-bool DMap::Add(std::string _Key, int _Id)
+template <typename T>
+bool DMap<T>::Add(T _Key, int _Id)
 {
               
 	      auto search0 = M.find(_Key); 
          auto search1 = InvM.find(_Id);
 
-	      if (search0 == M.end() || search1 == InvM.end()){
+	      if (search0 != M.end() || search1 != InvM.end()){
 		      return false;
 	      }
 
@@ -54,19 +52,21 @@ bool DMap::Add(std::string _Key, int _Id)
 	          return true;
 	       }
 	       else{
-		    return false;
+		      return false;
 	       }
 }
        //
-std::string DMap::Get(int _Id)
+template <typename T>
+T DMap<T>::Get(int _Id)
 {
 	  if (auto search = InvM.find(_Id); search != InvM.end()){
 	      return search->second;
-          }
-	  return std::string("");  
+   }
+	  return T(0);  
 }
        //
-int DMap::Get(std::string _Key)
+template <typename T>
+int DMap<T>::Get(T _Key)
 {
          if (auto search = M.find(_Key); search != M.end()){
               return search->second;
@@ -74,9 +74,10 @@ int DMap::Get(std::string _Key)
           return -1;
 }
        //
-int DMap::Size()
+template <typename T>
+int DMap<T>::Size()
 {
-	   if ( M.size() != InvM.size() ){
+	   if ( M.size() == InvM.size() ){
 		   return M.size();
 	   }
 	   return 0;

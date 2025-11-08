@@ -51,3 +51,9 @@ class FourPoints {
     constexpr static double CorrectorWeighs[Nw] =  {+3.0/+8.0, +19.0/+24.0, -5.0/+24.0 , +1.0/+24.0};
     constexpr static double PredictorWeighs[Nw] =  {+55.0/+24.0, -59.0/+24.0, +37.0/+24, -9.0/+24.0}; 
 };
+
+
+class Null{
+    public:
+       static const int Nw = 0;
+};
