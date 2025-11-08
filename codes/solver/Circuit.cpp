@@ -7,12 +7,12 @@ template<typename INTEGRATOR>
 void BaseCircuit::Init(std::vector<DParams> _Components) 
 {
 	//
-     c = 0;
+     int c = 0;
      for (auto& x: _Components) {
-        if ( NodesMap.Add(x.params["PosNET"], c) ){
+        if ( NodesMap.add(x.get<std::string>("PosNET"), c) ){
         	c++;
 		}
-		if ( NodesMap.Add(x.params["NegNET"], c) ){
+		if ( NodesMap.add(x.get<std::string>("NegNET"), c) ){
 			c++;
 		}
      }
@@ -22,7 +22,7 @@ void BaseCircuit::Init(std::vector<DParams> _Components)
      }
 
      //
-     ConnectivityTable.resize(NodesMap.Size(), NodesMap.Size());
+     ConnectivityTable.resize(NodesMap.size());
 	 c = 0;
      for (auto& x: Components) {
 	     int Pos = x->PosNET;
@@ -37,8 +37,8 @@ void BaseCircuit::Init(std::vector<DParams> _Components)
 			VoltageSourceMap.push_back(it);
 		 }
      }
-     nDim = VoltageSourceMap.size() + NodesMap.Size();
-	 NumNodes = NodesMap.Size();
+     nDim = VoltageSourceMap.size() + NodesMap.size();
+	 NumNodes = NodesMap.size();
      return;
 }
 //
@@ -89,10 +89,13 @@ void BaseCircuit::MakeAll()
 	************************** z matrix construction *****************************
     */
 	double itmp{ 0.0 };
-	for (int n1{ 0 }; n1 < NumNodes; n1++) {
-		for (int n2{ 0 }; n2 < NumNodes; n2++) {
+	for (int n1{ 0 }; n1 < NumNodes; n1++) 
+	{
+		for (int n2{ 0 }; n2 < NumNodes; n2++) 
+		{
 			int id = ConnectivityTable(n1, n2);
-			if ( id > 0) {
+			if ( id > 0) 
+			{
 				//
 				if (Components[id]->Type != "VoltageSource"  && Components[id]->PosNET == n1) {
 					itmp += Components[id]->Ieq;
@@ -114,18 +117,18 @@ void BaseCircuit::MakeAll()
 	return;
 }
 
-void BaseCircuit::Populate() 
+void BaseCircuit::populate() 
 {
 	for (auto comp : Components) {
 		auto dv = X[comp->PosNET] - X[comp->NegNET];
-		comp->Populate(dv);
+		comp->populate(dv);
 	}
 }
 
-void BaseCircuit::Integrate() 
+void BaseCircuit::integrate() 
 {
 	for (auto comp : Components) {
-		comp->Integrate();
+		comp->integrate();
 	}
 }
 void BaseCircuit::Solve_it() 
@@ -137,9 +140,9 @@ void BaseCircuit::Solve()
 {
 
 	for (int it=0; it < MaxIterations; it++) {
-		Integrate();
+		integrate();
 		Solve_it();
-		Populate();
+		populate();
 	}
 
 	return;

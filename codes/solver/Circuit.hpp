@@ -8,7 +8,7 @@
 class BaseCircuit {
 public:
 	template<typename INTEGRATOR>
-	void Init(std::vector<DParams> _components);
+	void Init(std::vector<DParams> argcomponents);
 	void Solve_it();
 	void Solve();
 private:
@@ -37,6 +37,6 @@ private:
 	void CalcDim();
 	void MakeAll();
 	void Allocate();
-	void Populate();
-	void Integrate();
+	void populate();
+	void integrate();
 };

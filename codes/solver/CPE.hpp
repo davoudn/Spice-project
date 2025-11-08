@@ -5,19 +5,19 @@ template <typename INTEGRATOR>
 struct CPE : public BaseComponent {
     public:
     CPE(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
-	      SetupComponent();
-              Alpha    = this->Params.Get<float>("Alpha");
-              C        = this->Params.Get<float>("C");
-              V0       = this->Params.Get<float>("V0");
-              DelT     = this->Params.Get<float>("DelT");
+	      setupComponent();
+              Alpha    = this->Params.get<float>("Alpha");
+              C        = this->Params.get<float>("C");
+              V0       = this->Params.get<float>("V0");
+              DelT     = this->Params.get<float>("DelT");
               Gamma    = std::tgamma(Alpha);
               InvGamma = std::tgamma(Alpha);
               Integrator.Init(Alpha, DelT);
     }
     
-    void Integrate() override;
-    void SetupComponent () override;
-    bool CheckComponent() override;
+    void integrate() override;
+    void setupComponent () override;
+    bool checkComponent() override;
             double C = 0.0, Alpha = 0.0 , Gamma = 0.0, InvGamma = 0.0, V0 = 0.0, DelT = 0.0;
 
     private:
@@ -25,7 +25,7 @@ struct CPE : public BaseComponent {
 };
 
 template <typename INTEGRATOR>
-void CPE<INTEGRATOR>::Integrate()  
+void CPE<INTEGRATOR>::integrate()  
 {
            double sum{0.0};
            int k = this->I.size();
@@ -37,7 +37,7 @@ void CPE<INTEGRATOR>::Integrate()
 }
 
 template <typename INTEGRATOR>
-void CPE<INTEGRATOR>::SetupComponent ()
+void CPE<INTEGRATOR>::setupComponent ()
 {
         this->V.clear();
         this->I.clear();
@@ -46,6 +46,6 @@ void CPE<INTEGRATOR>::SetupComponent ()
 }
 
 template <typename INTEGRATOR>
-bool CPE<INTEGRATOR>::CheckComponent (){
+bool CPE<INTEGRATOR>::checkComponent (){
         return true;
 }

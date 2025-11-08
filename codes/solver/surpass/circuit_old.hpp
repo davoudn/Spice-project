@@ -8,11 +8,11 @@ private:
     
     BaseCircuit baseCircuit;
 
-    void PopulateTransComponents();
-    void PopulateComponents(){};
+    void populateTransComponents();
+    void populateComponents(){};
     void StaticSolve();
     void Translate();
-    void Integrate();
+    void integrate();
     int nIterations;
 public:
     void Solve();

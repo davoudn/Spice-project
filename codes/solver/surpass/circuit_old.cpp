@@ -27,7 +27,7 @@ void circuit::Translate(){
     }
     return;
 }
-void circuit::Integrate(){
+void circuit::integrate(){
     for (auto el : components){
         el->integrate();
     }
@@ -41,15 +41,15 @@ void circuit::StaticSolve(){
 void circuit::Solve(){
     for (int it{0}; it < nIterations; it++){
 
-        Integrate();
-        PopulateTransComponents();
+        integrate();
+        populateTransComponents();
         StaticSolve();
-        PopulateComponents();
+        populateComponents();
     }
     return;
 }
 
-void circuit::PopulateTransComponents() {
+void circuit::populateTransComponents() {
     for (int id{ 0 }; id < components.size(); id++) {
         for (int tid : translationTable[id]) {
             if (transComponents[tid]->type == "IS") {
@@ -63,12 +63,12 @@ void circuit::PopulateTransComponents() {
     return;
 }
 
-void circuit::PopulateComponents() {
+void circuit::populateComponents() {
     for (int id{ 0 }; id < components.size(); id++) {
         for (int tid : translationTable[id]) {
             if (transComponents[tid]->type != "R") {
                 auto dv = baseCircuit.x[transComponents[tid]->nodePos] - baseCircuit.x[transComponents[tid]->nodeNeg];
-                components[id]->Populate(dv);
+                components[id]->populate(dv);
 
             }
 

@@ -1,32 +1,32 @@
 #include "Utility.hpp"
 
 
-DParams::DParams(data_t argdata):Data(argdata){
+DParams::DParams(data_t argdata):data(argdata){
    }
    
    template<>
-   float DParams::Get<float>(std::string argpname){
-      auto result = Data.find(argpname);
-      if (result == Data.end()){
+   float DParams::get<float>(std::string argpname){
+      auto result = data.find(argpname);
+      if (result == data.end()){
          return 0.0;
       }
       return std::stof(result->second);
    }
 
    template<>
-   std::string DParams::Get<std::string>(std::string argpname){
-      auto result = Data.find(argpname);
-      if (result == Data.end()){
+   std::string DParams::get<std::string>(std::string argpname){
+      auto result = data.find(argpname);
+      if (result == data.end()){
          return std::string("");
       }
       return result->second;
    }
 
    template<>
-   int DParams::Get<int>(std::string argpname)
+   int DParams::get<int>(std::string argpname)
    {
-      auto result = Data.find(argpname);
-      if (result == Data.end()){
+      auto result = data.find(argpname);
+      if (result == data.end()){
          return 0;
       }
       return std::stoi(result->second);
@@ -35,7 +35,7 @@ DParams::DParams(data_t argdata):Data(argdata){
 
 
 template <typename T>
-bool DMap<T>::Add(T _Key, int _Id)
+bool DMap<T>::add(T _Key, int _Id)
 {
               
 	      auto search0 = M.find(_Key); 
@@ -57,7 +57,7 @@ bool DMap<T>::Add(T _Key, int _Id)
 }
        //
 template <typename T>
-T DMap<T>::Get(int _Id)
+T DMap<T>::get(int _Id)
 {
 	  if (auto search = InvM.find(_Id); search != InvM.end()){
 	      return search->second;
@@ -66,7 +66,7 @@ T DMap<T>::Get(int _Id)
 }
        //
 template <typename T>
-int DMap<T>::Get(T _Key)
+int DMap<T>::get(T _Key)
 {
          if (auto search = M.find(_Key); search != M.end()){
               return search->second;
@@ -75,7 +75,7 @@ int DMap<T>::Get(T _Key)
 }
        //
 template <typename T>
-int DMap<T>::Size()
+int DMap<T>::size()
 {
 	   if ( M.size() == InvM.size() ){
 		   return M.size();

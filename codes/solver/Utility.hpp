@@ -1,38 +1,39 @@
 #pragma once
 #include <map>
 #include <string>
+#include <vector>
 
 template <typename T>
 struct DMap{
        std::map<T, int> M;
        std::map<int, T> InvM;
        //
-       bool Add(T _Key, int _Id);
+       bool add(T _Key, int _Id);
        //
-       T Get(int _Id);
+       T get(int _Id);
        //
-       int Get(T _Key);
+       int get(T _Key);
        //
-       int Size();
+       int size();
 };
 
 
 struct DParams {
    using data_t = std::map<std::string, std::string>;
-   DParams() = delete;
-   DParams(data_t _Data);
+   DParams() {};
+   DParams(data_t argdata);
    
    template<typename T>
-   T Get(std::string _PName);
+   T get(std::string argpname);
 
    private:
-   std::map<std::string, std::string> Data;
+   std::map<std::string, std::string> data;
 };
 
 template <typename T>
 struct DMat {
  DMat(){};
- using data_t = std::vetor < std::vector <T>>;
+ using data_t = std::vector < std::vector <T>>;
 
  data_t data;
  void resize(int n)
