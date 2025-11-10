@@ -10,11 +10,11 @@
 #include <cstdint>
 
 template<typename INTEGRATOR>
-void BaseCircuit::Init(std::vector<DParams> _Components) 
+void BaseCircuit::Init(std::vector<DParams> argcomponents) 
 {
 	//
      int c = 0;
-     for (auto& x: _Components) {
+     for (auto& x: argcomponents) {
         if ( NodesMap.add(x.get<std::string>("PosNET"), c) ){
         	c++;
 		}
@@ -23,19 +23,8 @@ void BaseCircuit::Init(std::vector<DParams> _Components)
 		}
      }
 	//
-     for (auto& x: _Components){
+     for (auto& x: argcomponents){
          Components.push_back( Components::Make<INTEGRATOR>(x, NodesMap));
-     }
-
-     //
-     ConnectivityTable.resize(NodesMap.size());
-	 c = 0;
-     for (auto& x: Components) {
-	     int Pos = x->PosNET;
-	     int Neg = x->NegNET;
-	     ConnectivityTable(Pos, Neg) = c;
-		 ConnectivityTable(Neg, Pos) = c;
-		 c++;
      }
 	 
      for (uint32_t it=0; it< Components.size(); it++ ){
