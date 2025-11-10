@@ -106,7 +106,7 @@ void BaseCircuit::MakeAll()
 	for (int node{ 0 }; node < NumNodes; node++) 
 	{
 		for (int i{0}; i < CurrentSourceMap.size(); i++){
-            int id = CurrentSourceMap[i];
+            int id = CurrentSourceMap[i]; 
 			CurrentSource* I = nullptr;
 			if (Components[id]->componentClass == ComponentClass::Basic) {
                 I = static_cast<CurrentSource*>(Components[id]);
