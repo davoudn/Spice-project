@@ -1,8 +1,9 @@
 #pragma once
+#include "Utility.hpp"
+#include <cstdint>
 #include <vector>
 #include <map>
 #include <string>
-#include "Utility.hpp"
 // this is just for the constraction of acctual components 
 // r1 n1 n2 10k
 /* general
@@ -37,12 +38,11 @@ public:
     }
 
     BaseComponent() = delete;
-    BaseComponent(DParams argarams, DMap<std::string> nodesmap){
-		 Init(argarams, nodesmap);
-		 componentClass = ComponentClass::Basic;
-	}
+    BaseComponent(DParams argarams, DMap<std::string> nodesmap);
 	
-	int PosNET = 0, NegNET = 0;
+	virtual ~BaseComponent();
+
+	uint32_t PosNET = 0, NegNET = 0;
 	std::string Label, Type, Name;
 	std::vector<double> V;
 	std::vector<double> I;
@@ -51,15 +51,5 @@ public:
 	// this would be populated in the acctual drived class. 
 	DParams Params;
     static ComponentClass componentClass;
-public:
-	void populate(double dv) 
-	{
-		V.push_back(dv);
-		auto i = Ieq + dv * Geq;
-		I.push_back(i);
-	}
-	virtual void setupComponent (double _del_t);
-	virtual bool checkComponent ();
+	virtual void populate(double dv);
 };
-
-ComponentClass BaseComponent::componentClass;

@@ -1,49 +1,27 @@
+#pragma once 
 #include "ComplexComponent.hpp"
 
+struct Resistor;
+struct CurrentSource;
 
 template <typename INTEGRATOR>
-struct Capacitor : public BaseComponent {
+struct Capacitor : public ComplexComponent {
     public:
     Capacitor(DParams argparams, DMap<std::string> argnodemap):ComplexComponent(argparams, argnodemap){
               C        = this->Params.get<float>("C");
               V0       = this->Params.get<float>("V0");
               DelT     = this->Params.get<float>("DelT");
-              componentClass = ComponentClass::Complex;
     }
     
     void integrate() override;
     void setupComponent () override;
     bool checkComponent() override;
     private:
-        double_t C    = 0.f;
-        double_t V0   = 0.f;
-        double_t DelT = 0.f;
+        double C    = 0.f;
+        double V0   = 0.f;
+        double DelT = 0.f;
 
         INTEGRATOR Integrator;
         double InitialV;
 };
 
-template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::integrate ()  
-{
-           double tmp{0.0};
-           for (int i{1}; i < Integrator.size(); i++){
-                tmp += this->I[this->itLast + 1 - i] * Integrator.CorrectorWeighs[i];
-           }
-           this->Ieq = -tmp / (this->DelT * Integrator.CorrectorWeighs[0]) - Geq * this->V[ItLast];
-}
-
-template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::setupComponent ()
-{
-        this->V.clear();
-        this->I.clear();
-        this->Geq = C/(this->DelT * Integrator.CorrectorWeighs[0]);
-        return;
-}
-
-template <typename INTEGRATOR>
-bool Capacitor<INTEGRATOR>:: checkComponent ()
-{
-        return true;
-}

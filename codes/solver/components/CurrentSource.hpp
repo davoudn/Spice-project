@@ -1,4 +1,5 @@
 #pragma once
+
 #include "BaseComponent.hpp"
 
 struct CurrentSource : public BaseComponent {
@@ -7,7 +8,7 @@ struct CurrentSource : public BaseComponent {
         Current   = argparams.get<double>("Current");
     }
     
-    double_t Current = 0.f;
+    double Current = 0.f;
     
 
 };

@@ -1,9 +1,12 @@
+#include "BaseComponent.hpp"
+#include "Utility.hpp"
+
+#include <cstdint>
 #include <string>
 #include <map>
 #include <vector>
 #include <armadillo>
-#include "BaseComponent.hpp"
-#include "Utility.hpp"
+
 
 class BaseCircuit {
 public:
@@ -29,10 +32,10 @@ public:
 	arma::Col<double> Z;
 	arma::Col<double> X;
 	
-	int NumNodes = 0; // number of nodes minus datum
-	int NumVolatgeSourses = 0; // number voltage sources
-	int nDim = 0;
-	int MaxIterations = 0;
+	uint32_t NumNodes = 0; // number of nodes minus datum
+	uint32_t NumVolatgeSourses = 0; // number voltage sources
+	uint32_t nDim = 0;
+	uint32_t MaxIterations = 0;
 private:
 	void CalcDim();
 	void MakeAll();

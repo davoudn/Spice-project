@@ -5,8 +5,8 @@
 #include "VoltageSource.hpp"
 #include "Utility.hpp"
 
-
-namespace Components {
+namespace Components
+ {
 
 template <typename INTEGRATOR>
 BaseComponent* Make(DParams argp, DMap<std::string> nodesmap)
@@ -38,19 +38,6 @@ BaseComponent* Make(DParams argp, DMap<std::string> nodesmap)
 }
 
 
-template <typename T>
-T Cast(BaseComponent* c){
-        T t = nullptr;
-        if (T::componentClass == ComponentClass::Basic) {
-           t = dynamic_cast<T>(c);
-        }
-        if (T::componentClass == ComponentClass::Complex){
-           auto t0 = dynamic_cast<ComplexComponent*>(c);
-           if (t0){
-                t = dynamic_cast<T>(t0);
-           }
-        }
-        return t;
-}
+
 
 }

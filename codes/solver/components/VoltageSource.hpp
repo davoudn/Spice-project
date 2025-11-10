@@ -1,3 +1,5 @@
+#pragma once
+
 #include "BaseComponent.hpp"
 
 struct VoltageSource : public BaseComponent {

@@ -7,6 +7,7 @@
 #include "Utility.hpp"
 #include "ComplexComponent.hpp"
 #include "Components.hpp"
+#include <cstdint>
 
 template<typename INTEGRATOR>
 void BaseCircuit::Init(std::vector<DParams> _Components) 
@@ -37,12 +38,12 @@ void BaseCircuit::Init(std::vector<DParams> _Components)
 		 c++;
      }
 	 
-     for (int it=0; it< Components.size(); it++ ){
+     for (uint32_t it=0; it< Components.size(); it++ ){
          if (Components[it]->Type == "VoltageSource"){
 			VoltageSourceMap.push_back(it);
 		 }
      }
-     for (int it=0; it< Components.size(); it++ ){
+     for (uint32_t it=0; it< Components.size(); it++ ){
          if (Components[it]->Type == "CurrentSource" || Components[it]->componentClass == ComponentClass::Complex){
 			CurrentSourceMap.push_back(it);
 		 }
@@ -69,15 +70,14 @@ void BaseCircuit::MakeAll()
     /*                                                 
      *********************  making A matrix  ***************************
     */
-	double gdiag{ 0.0 }, gtmp{ 0.0 };
-	for (int it=0; it< Components.size(); it++ )
+	for (uint32_t it=0; it< Components.size(); it++ )
 	{
 		 Resistor* R = nullptr;
 		 if (Components[it]->Type == "Resistor"){
 			R = static_cast<Resistor*>(Components[it]);
 		 }
 		 if (Components[it]->componentClass == ComponentClass::Complex){
-			R = Components::Cast<ComplexComponent*>(Components[it])->R;
+			R = Components::Cast<ComplexComponent>(Components[it])->R_eq;
 		 }
          if (R){
 		     // off diagonal
@@ -89,7 +89,7 @@ void BaseCircuit::MakeAll()
 		 }
 	}
 
-    for (int id =0; id < VoltageSourceMap.size(); id++)
+    for (uint32_t id =0; id < VoltageSourceMap.size(); id++)
 	{
 					A(id + NumNodes, Components[VoltageSourceMap[id]]->PosNET) =+1;
 					A(id + NumNodes, Components[VoltageSourceMap[id]]->NegNET) =-1;
@@ -103,16 +103,16 @@ void BaseCircuit::MakeAll()
 	************************** z matrix construction *****************************
     */
 	double itmp{ 0.0 };
-	for (int node{ 0 }; node < NumNodes; node++) 
+	for (uint32_t node{ 0 }; node < NumNodes; node++) 
 	{
-		for (int i{0}; i < CurrentSourceMap.size(); i++){
+		for (uint32_t i{0}; i < CurrentSourceMap.size(); i++){
             int id = CurrentSourceMap[i]; 
 			CurrentSource* I = nullptr;
 			if (Components[id]->componentClass == ComponentClass::Basic) {
                 I = static_cast<CurrentSource*>(Components[id]);
 			}
 			if (Components[id]->componentClass == ComponentClass::Complex) {
-                I = Components::Cast<ComplexComponent*>(Components[id])->I;
+                I = Components::Cast<ComplexComponent>(Components[id])->I_cs;
 			}
 			if (I){
 				if ( Components[id]->PosNET == node ){
@@ -127,7 +127,7 @@ void BaseCircuit::MakeAll()
 		Z(node) = -itmp;
 		itmp = 0.0;
 	}
-	for (int id=0; id < VoltageSourceMap.size(); id++){
+	for (uint32_t id=0; id < VoltageSourceMap.size(); id++){
 		 Z(NumNodes + id) = static_cast<VoltageSource*>(Components[VoltageSourceMap[id]])->Voltage;
 	}
     /*
@@ -148,7 +148,7 @@ void BaseCircuit::integrate()
 {
 	for (auto base : Components) {
 		if (base->componentClass == ComponentClass::Complex){
-            auto comp = Components::Cast<ComplexComponent*>(base);
+            auto comp = Components::Cast<ComplexComponent>(base);
 			if (comp){
                	comp->integrate();
 			}
@@ -163,7 +163,7 @@ void BaseCircuit::Solve_it()
 void BaseCircuit::Solve() 
 {
 
-	for (int it=0; it < MaxIterations; it++) {
+	for (uint32_t it=0; it < MaxIterations; it++) {
 		integrate();
 		Solve_it();
 		populate();
