@@ -70,41 +70,25 @@ void BaseCircuit::MakeAll()
      *********************  making A matrix  ***************************
     */
 	double gdiag{ 0.0 }, gtmp{ 0.0 };
-	for (int it=0; it< Components.size(); it++ ){
-         if (Components[it]->Type == "Resistor"){
+	for (int it=0; it< Components.size(); it++ )
+	{
+		 Resistor* R = nullptr;
+		 if (Components[it]->Type == "Resistor"){
+			R = static_cast<Resistor*>(Components[it]);
+		 }
+		 if (Components[it]->componentClass == ComponentClass::Complex){
+			R = Components::Cast<ComplexComponent*>(Components[it])->R;
+		 }
+         if (R){
 		     // off diagonal
-			 A(Components[it]->PosNET, Components[it]->NegNET) = -static_cast<Resistor*>(Components[it])->G;
+			 A(R->PosNET, R->NegNET) = -R->G;
+			 A(R->NegNET, R->PosNET) = -R->G;
 			 // diagonal
-			 A(Components[it]->PosNET, Components[it]->PosNET)+=  static_cast<Resistor*>(Components[it])->G;
-			 A(Components[it]->NegNET, Components[it]->NegNET)+=  static_cast<Resistor*>(Components[it])->G;
+			 A(R->PosNET, R->PosNET)+=  R->G;
+			 A(R->NegNET, R->NegNET)+=  R->G;
 		 }
-		 else {
-			if (Components[it]->componentClass==ComponentClass::Complex){
-				auto cmp = Cast<ComplexComponent<Null>*>(Components[it]);
-				A(cmp->PosNET, cmp->NegNET) = -cmp->G;
-			 // diagonal
-			 	A(cmp->PosNET, cmp->PosNET)+=  cmp->G;
-			 	A(cmp->NegNET, cmp->NegNET)+=  cmp->G;
-			}
-		 }
-     }
-	/*
-	for (int n1{ 0 }; n1 < NumNodes; n1++) {
-		gdiag = 0.0;
-		for (int n2{ 0 }; n2 < NumNodes; n2++) {
-			gtmp = 0.0;
-			int id = ConnectivityTable(n1, n2);
-			if ( id > 0) {
-				if (Components[id]->Type != "VoltageSource" && Components[id]->Type != "CurrentSource")
-					gtmp += Components[id]->Geq;
-			}
-			gdiag += gtmp;
-			if (n1 != n2)
-				A(n1, n2) = -gtmp;
-		}
-		A(n1, n1) = gdiag;
 	}
-*/
+
     for (int id =0; id < VoltageSourceMap.size(); id++)
 	{
 					A(id + NumNodes, Components[VoltageSourceMap[id]]->PosNET) =+1;
@@ -128,7 +112,7 @@ void BaseCircuit::MakeAll()
                 I = static_cast<CurrentSource*>(Components[id]);
 			}
 			if (Components[id]->componentClass == ComponentClass::Complex) {
-                I = Cast<ComplexComponent<Null>*>(Components[id])->I;
+                I = Components::Cast<ComplexComponent*>(Components[id])->I;
 			}
 			if (I){
 				if ( Components[id]->PosNET == node ){
@@ -162,8 +146,13 @@ void BaseCircuit::populate()
 
 void BaseCircuit::integrate() 
 {
-	for (auto comp : Components) {
-		comp->integrate();
+	for (auto base : Components) {
+		if (base->componentClass == ComponentClass::Complex){
+            auto comp = Components::Cast<ComplexComponent*>(base);
+			if (comp){
+               	comp->integrate();
+			}
+		}
 	}
 }
 void BaseCircuit::Solve_it() 
