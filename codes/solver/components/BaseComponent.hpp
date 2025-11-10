@@ -26,26 +26,22 @@ std::map<std::string, std::string> params;
 struct BaseComponent {
 public:
 
-    void Init(DParams& argarams){
+    void Init(DParams& argarams, DMap<std::string> nodesmap){
 	     Params = argarams;
-	     PosNET = argarams.get<int>("PosNET"); 
-		 NegNET = argarams.get<int>("NegNET"); 
-		 Type   = argarams.get<std::string>("Type");
-		 Label  = argarams.get<std::string>("Label"); 
-		 Name   = argarams.get<std::string>("name");
-		 DelT   = argarams.get<int>("DelT");
-    }
-
-    BaseComponent() = delete;
-    BaseComponent(DParams argarams, DMap<std::string> nodesmap){
-		 Params = argarams;
 	     PosNET = nodesmap.get(argarams.get<std::string>("PosNET")); 
 		 NegNET = nodesmap.get(argarams.get<std::string>("NegNET")); 
 		 Type   = argarams.get<std::string>("Type");
 		 Label  = argarams.get<std::string>("Label"); 
 		 Name   = argarams.get<std::string>("name");
-		 DelT   = argarams.get<int>("DelT");
+		 DelT   = argarams.get<double>("DelT");
+    }
+
+    BaseComponent() = delete;
+    BaseComponent(DParams argarams, DMap<std::string> nodesmap){
+		 Init(argarams, nodesmap);
+		 componentClass = ComponentClass::Basic;
 	}
+	
 	int PosNET = 0, NegNET = 0;
 	std::string Label, Type, Name;
 	std::vector<double> V;
@@ -54,9 +50,8 @@ public:
    	double Ieq, Geq, DelT;
 	// this would be populated in the acctual drived class. 
 	DParams Params;
-
+    static ComponentClass componentClass;
 public:
-	virtual void integrate() {};
 	void populate(double dv) 
 	{
 		V.push_back(dv);
@@ -67,3 +62,4 @@ public:
 	virtual bool checkComponent ();
 };
 
+ComponentClass BaseComponent::componentClass;

@@ -1,11 +1,10 @@
-#include "BaseComponent.hpp"
+#include "ComplexComponent.hpp"
 #include "Integrators.hpp"
 
 template <typename INTEGRATOR>
-struct CPE : public BaseComponent {
+struct CPE : public ComplexComponent {
     public:
-    CPE(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
-	      setupComponent();
+    CPE(DParams argparams, DMap<std::string> argnodemap):ComplexComponent(argparams, argnodemap){
               Alpha    = this->Params.get<float>("Alpha");
               C        = this->Params.get<float>("C");
               V0       = this->Params.get<float>("V0");
@@ -13,6 +12,7 @@ struct CPE : public BaseComponent {
               Gamma    = std::tgamma(Alpha);
               InvGamma = std::tgamma(Alpha);
               Integrator.Init(Alpha, DelT);
+              componentClass = ComponentClass::Complex;
     }
     
     void integrate() override;

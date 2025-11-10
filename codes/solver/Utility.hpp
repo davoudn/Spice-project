@@ -3,6 +3,19 @@
 #include <string>
 #include <vector>
 
+enum class ComponentClass{
+   Basic,
+   Complex
+};
+enum class ComponentType {
+   Resistor,
+   Capacitor,
+   Inductor,
+   CPE,
+   VoltageSource,
+   CurrentSource
+};
+
 template <typename T>
 struct DMap{
        std::map<T, int> M;

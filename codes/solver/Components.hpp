@@ -10,5 +10,7 @@ namespace Components {
 template <typename INTEGRATOR>
 BaseComponent* Make(DParams params, DMap<std::string> argnodemap);
 
+template <typename T>
+T Cast(BaseComponent* c);
 }
  

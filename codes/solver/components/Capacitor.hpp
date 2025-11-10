@@ -1,23 +1,23 @@
-#include "BaseComponent.hpp"
+#include "ComplexComponent.hpp"
 
 
 template <typename INTEGRATOR>
 struct Capacitor : public BaseComponent {
     public:
-    Capacitor(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
+    Capacitor(DParams argparams, DMap<std::string> argnodemap):ComplexComponent(argparams, argnodemap){
               C        = this->Params.get<float>("C");
               V0       = this->Params.get<float>("V0");
               DelT     = this->Params.get<float>("DelT");
-	      setupComponent();
+              componentClass = ComponentClass::Complex;
     }
     
     void integrate() override;
     void setupComponent () override;
     bool checkComponent() override;
     private:
-        double_t C = 0.f;
-        double_t V0= 0.f;
-        double_t DelT= 0.f;
+        double_t C    = 0.f;
+        double_t V0   = 0.f;
+        double_t DelT = 0.f;
 
         INTEGRATOR Integrator;
         double InitialV;
