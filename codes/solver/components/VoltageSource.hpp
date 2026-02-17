@@ -1,11 +1,11 @@
 #pragma once
 
 #include "BaseComponent.hpp"
-
+#include "../Utility.hpp"
 struct VoltageSource : public BaseComponent {
     public:
-    VoltageSource(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
-        Voltage   = argparams.get<double>("Voltage");
+    VoltageSource(DParams argparams, map_ptr_t argnodemap):BaseComponent(argparams, argnodemap){
+        Voltage   = argparams.get<double>("Voltage").value();
     }
 
     double_t Voltage = 0.f;

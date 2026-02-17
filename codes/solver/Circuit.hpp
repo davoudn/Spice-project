@@ -1,4 +1,5 @@
-#include "BaseComponent.hpp"
+#pragma once
+
 #include "Utility.hpp"
 
 #include <cstdint>
@@ -7,11 +8,11 @@
 #include <vector>
 #include <armadillo>
 
+class BaseComponent;
 
 class BaseCircuit {
 public:
-	template<typename INTEGRATOR>
-	void Init(std::vector<DParams> argcomponents);
+	void Init(std::vector<DParams>& argcomponents);
 	void Solve_it();
 	void Solve();
 private:
@@ -19,7 +20,7 @@ private:
      here we construct a map/invmap to index nodes and components, thus we could 
 	 translate the results into the original SPICE naming.
    */
-    DMap<std::string> ComponentsMap, NodesMap;
+    map_ptr_t NodesMap;
 
 	/*
 	*/
@@ -43,3 +44,5 @@ private:
 	void populate();
 	void integrate();
 };
+
+

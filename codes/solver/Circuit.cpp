@@ -1,30 +1,38 @@
 #include "Circuit.hpp"
-#include "Components.hpp"
-#include "VoltageSource.hpp"
-#include "Integrators.hpp"
-#include "CurrentSource.hpp"
-#include "Resistor.hpp"
-#include "Utility.hpp"
-#include "ComplexComponent.hpp"
-#include "Components.hpp"
-#include <cstdint>
+#include "components/Components.hpp"
 
-template<typename INTEGRATOR>
-void BaseCircuit::Init(std::vector<DParams> argcomponents) 
+#include <cstdint>
+#include <memory>
+
+
+//
+void BaseCircuit::Allocate() 
+{
+	
+		A.zeros(nDim, nDim); // arma
+		X.zeros(nDim); // arma
+		Z.zeros(nDim);  // arma
+		//
+		return;
+}
+
+void BaseCircuit::Init(std::vector<DParams>& argcomponents) 
 {
 	//
+	 NodesMap = std::make_shared<map_t>();
+
      int c = 0;
      for (auto& x: argcomponents) {
-        if ( NodesMap.add(x.get<std::string>("PosNET"), c) ){
+        if ( NodesMap->add(x.get<std::string>("PosNET"), c) ){
         	c++;
 		}
-		if ( NodesMap.add(x.get<std::string>("NegNET"), c) ){
+		if ( NodesMap->add(x.get<std::string>("NegNET"), c) ){
 			c++;
 		}
      }
 	//
      for (auto& x: argcomponents){
-         Components.push_back( Components::Make<INTEGRATOR>(x, NodesMap));
+            Components.push_back(Components::Make(x, NodesMap));
      }
 	 
      for (uint32_t it=0; it< Components.size(); it++ ){
@@ -38,19 +46,9 @@ void BaseCircuit::Init(std::vector<DParams> argcomponents)
 		 }
      }
 	  
-     nDim = VoltageSourceMap.size() + NodesMap.size();
-	 NumNodes = NodesMap.size();
+     nDim = VoltageSourceMap.size() + NodesMap->size();
+	 NumNodes = NodesMap->size();
      return;
-}
-//
-void BaseCircuit::Allocate() 
-{
-	
-		A.zeros(nDim, nDim); // arma
-		X.zeros(nDim); // arma
-		Z.zeros(nDim);  // arma
-		//
-		return;
 }
 
 void BaseCircuit::MakeAll() 
@@ -98,7 +96,7 @@ void BaseCircuit::MakeAll()
             int id = CurrentSourceMap[i]; 
 			CurrentSource* I = nullptr;
 			if (Components[id]->componentClass == ComponentClass::Basic) {
-                I = static_cast<CurrentSource*>(Components[id]);
+                I = Components::Cast<CurrentSource>(Components[id]);
 			}
 			if (Components[id]->componentClass == ComponentClass::Complex) {
                 I = Components::Cast<ComplexComponent>(Components[id])->I_cs;
@@ -151,12 +149,10 @@ void BaseCircuit::Solve_it()
 }
 void BaseCircuit::Solve() 
 {
-
 	for (uint32_t it=0; it < MaxIterations; it++) {
 		integrate();
 		Solve_it();
 		populate();
 	}
-
 	return;
 }

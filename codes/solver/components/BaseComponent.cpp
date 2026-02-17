@@ -3,7 +3,7 @@
 
 ComponentClass BaseComponent::componentClass =  ComponentClass::Basic;
 
-BaseComponent::BaseComponent(DParams argarams, DMap<std::string> nodesmap)
+BaseComponent::BaseComponent(DParams argarams, map_ptr_t nodesmap)
 {
 		 Init(argarams, nodesmap);
 		 

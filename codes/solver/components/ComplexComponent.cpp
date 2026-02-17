@@ -3,7 +3,7 @@
 #include "Resistor.hpp"
 #include "CurrentSource.hpp"
 
-ComplexComponent::ComplexComponent(DParams argarams, DMap<std::string> nodesmap):BaseComponent( argarams,  nodesmap)
+ComplexComponent::ComplexComponent(DParams argarams, map_ptr_t nodesmap):BaseComponent( argarams,  nodesmap)
 {
         componentClass = ComponentClass::Complex;
 }

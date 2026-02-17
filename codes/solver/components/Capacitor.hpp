@@ -1,17 +1,15 @@
 #pragma once 
 #include "ComplexComponent.hpp"
+#include "../Utility.hpp"
+#include "Capacitor.hpp"
+#include "Resistor.hpp"
+#include "CurrentSource.hpp"
 
-struct Resistor;
-struct CurrentSource;
 
 template <typename INTEGRATOR>
 struct Capacitor : public ComplexComponent {
     public:
-    Capacitor(DParams argparams, DMap<std::string> argnodemap):ComplexComponent(argparams, argnodemap){
-              C        = this->Params.get<float>("C");
-              V0       = this->Params.get<float>("V0");
-              DelT     = this->Params.get<float>("DelT");
-    }
+    Capacitor(DParams argparams, map_ptr_t argnodemap);
     
     void integrate() override;
     void setupComponent () override;
@@ -24,4 +22,41 @@ struct Capacitor : public ComplexComponent {
         INTEGRATOR Integrator;
         double InitialV;
 };
+
+
+template <typename INTEGRATOR>
+Capacitor<INTEGRATOR>::Capacitor(DParams argparams, map_ptr_t argnodemap):ComplexComponent(argparams, argnodemap)
+{
+        if (this->Params.get<float>("C"))
+              C        = this->Params.get<float>("C").value();
+        if (this->Params.get<float>("V0"))
+              V0       = this->Params.get<float>("V0").value();
+        if (this->Params.get<float>("DelT"))
+              DelT     = this->Params.get<float>("DelT").value();
+}
+template <typename INTEGRATOR>
+void Capacitor<INTEGRATOR>::integrate ()  
+{
+           double tmp{0.0};
+           for (int i{1}; i < Integrator.Nw; i++){
+                tmp += I[ItLast + 1 - i] * Integrator.CorrectorWeighs[i];
+           }
+           I_cs->Current = -tmp / (this->DelT * Integrator.CorrectorWeighs[0]) - R_eq->G* this->V[ItLast];
+}
+
+template <typename INTEGRATOR>
+void Capacitor<INTEGRATOR>::setupComponent ()
+{
+        this->V.clear();
+        this->I.clear();
+        R_eq->G = C/(this->DelT * Integrator.CorrectorWeighs[0]);
+        return;
+}
+
+template <typename INTEGRATOR>
+bool Capacitor<INTEGRATOR>:: checkComponent ()
+{
+        return true;
+}
+
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility.hpp"
+#include "../Utility.hpp"
 #include <cstdint>
 #include <vector>
 #include <map>
@@ -18,27 +18,25 @@ type
 // cpe     capacitance, alpha
 
 
-struct DummyStruct{
-std::map<std::string, std::string> params;
-};
+
 
 //////////////////////////////////////////////////////////
 
 struct BaseComponent {
 public:
 
-    void Init(DParams& argarams, DMap<std::string> nodesmap){
+    void Init(DParams& argarams, map_ptr_t nodesmap){
 	     Params = argarams;
-	     PosNET = nodesmap.get(argarams.get<std::string>("PosNET")); 
-		 NegNET = nodesmap.get(argarams.get<std::string>("NegNET")); 
-		 Type   = argarams.get<std::string>("Type");
-		 Label  = argarams.get<std::string>("Label"); 
-		 Name   = argarams.get<std::string>("name");
-		 DelT   = argarams.get<double>("DelT");
+	     PosNET = nodesmap->get(argarams.get<std::string>("PosNET").value()).value(); 
+		 NegNET = nodesmap->get(argarams.get<std::string>("NegNET").value()).value(); 
+		 Type   = argarams.get<std::string>("Type").value();
+		 Label  = argarams.get<std::string>("Label").value(); 
+		 Name   = argarams.get<std::string>("name").value();
+		 DelT   = argarams.get<double>("DelT").value();
     }
 
     BaseComponent() = delete;
-    BaseComponent(DParams argarams, DMap<std::string> nodesmap);
+    BaseComponent(DParams argarams, map_ptr_t nodesmap);
 	
 	virtual ~BaseComponent();
 

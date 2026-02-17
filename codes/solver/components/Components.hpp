@@ -1,14 +1,16 @@
 #pragma once 
-#include <string>
 #include "ComplexComponent.hpp"
-template <typename T>
-class DMap;
+#include "BaseComponent.hpp"
+#include "Resistor.hpp"
+#include "CPE.hpp"
+#include "Capacitor.hpp"
+#include "VoltageSource.hpp"
+#include "Integrators.hpp"
 
-class DParams;
+namespace Components 
+{
 
-namespace Components {
-template <typename INTEGRATOR>
-BaseComponent* Make(DParams params, DMap<std::string> argnodemap);
+BaseComponent* Make(DParams& argp, map_ptr_t nodesmap);
 
 template <typename T>
 T* Cast(BaseComponent* c){

@@ -1,8 +1,10 @@
 #include "Resistor.hpp"
 
 
-Resistor::Resistor(DParams argparams, DMap<std::string> argnodemap):BaseComponent(argparams, argnodemap){
-        G = 1.0/argparams.get<float>("R");
+Resistor::Resistor(DParams argparams, map_ptr_t argnodemap):BaseComponent(argparams, argnodemap){
+        if (argparams.get<float>("R")) {
+          G = 1.0/argparams.get<float>("R").value();
+        }
     }
     
     

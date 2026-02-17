@@ -1,13 +1,14 @@
 #pragma once
 
 #include "CurrentSource.hpp"
+#include "../Utility.hpp"
 #include <vector>
 class Resistor;
 class CurrentSource;
 
 struct ComplexComponent : public BaseComponent {
 
-ComplexComponent(DParams argarams, DMap<std::string> nodesmap);
+ComplexComponent(DParams argarams, map_ptr_t nodesmap);
 virtual ~ComplexComponent();
 virtual void integrate();
 
