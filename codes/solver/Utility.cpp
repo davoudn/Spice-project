@@ -5,29 +5,29 @@ DParams::DParams(data_t argdata):data(argdata)
 }
 
 template<>
-std::optional<std::string> DParams::get<std::string>(std::string argpname)
+std::string DParams::get<std::string>(std::string argpname)
 {
       if (auto result = data.find(argpname); result == data.end()){
-         return std::nullopt;
+         return std::string();
       } else {
          return result->second;
       }
 }
 
 template<>
-   std::optional<float> DParams::get(std::string argpname)
+   float DParams::get(std::string argpname)
    {
       if (auto result = data.find(argpname); result == data.end()){
-         return std::nullopt;
+         return 0.0;
       } else {
          return std::stof(result->second);
       }
    }
    template<>
-   std::optional<double> DParams::get(std::string argpname)
+   double DParams::get(std::string argpname)
    {
       if (auto result = data.find(argpname); result == data.end()){
-         return std::nullopt;
+         return 0;
       } else {
          return std::stof(result->second);
       }

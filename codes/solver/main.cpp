@@ -12,7 +12,7 @@ std::vector<DParams> ParseFile (std::string FileName)
     for (const auto& x:result){
         dparams.push_back(x);
     }
-    return std::move(dparams);
+    return dparams;
 }
 
 

@@ -14,7 +14,3 @@ BaseComponent::~BaseComponent()
 
 }
 
-void BaseComponent::populate(double dv)
-{
-		
-}

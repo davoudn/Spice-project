@@ -12,14 +12,14 @@ ComplexComponent::~ComplexComponent()
 {
 }
 
-void ComplexComponent::integrate() 
+void ComplexComponent::Integrate() 
 {
 
 }
 
-void ComplexComponent::populate(double dv) 
+void ComplexComponent::Populate(double dv) 
 	{
-		V.push_back(dv);
-		auto i = I_cs->Current + dv * R_eq->G;
-		I.push_back(i);
+		voltages.push_back(dv);
+		auto i = current_cs->current + dv * resistor_eq->g;
+		currents.push_back(i);
 	}

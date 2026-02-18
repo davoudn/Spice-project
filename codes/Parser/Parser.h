@@ -99,29 +99,33 @@ class CircuitParser : TParserBaseVisitor{
   }
 };
 
-std::vector<std :: map<std::string,std:: string>> ParseFile(std:: string FileName){
-  std::ifstream buffer;
-  buffer.open(FileName);
-  if (!buffer.is_open()) {
-    std::vector<std :: map<std::string,std:: string>> temp;
+namespace Parser 
+{
+
+  std::vector<std :: map<std::string,std:: string>> ParseFile(std:: string FileName)
+  {
+    std::ifstream buffer;
+    buffer.open(FileName);
+    if (!buffer.is_open()) {
+      std::vector<std :: map<std::string,std:: string>> temp;
       std::cerr << "Error: Cannot open file " << FileName << std::endl;
       return temp;
+    }
+    ANTLRInputStream input(buffer);
+    TLexer lexer(&input);
+    CommonTokenStream tokens(&lexer);
+  
+    tokens.fill();
+    TParser parser(&tokens);
+
+    CircuitParser visitor;
+    visitor.visitCircuit(parser.circuit());
+  
+    visitor.print_element();
+
+    return visitor.ElementVector;
   }
-  ANTLRInputStream input(buffer);
-  TLexer lexer(&input);
-  CommonTokenStream tokens(&lexer);
-  
-  tokens.fill();
-  TParser parser(&tokens);
-
-  CircuitParser visitor;
-  visitor.visitCircuit(parser.circuit());
-  
-  visitor.print_element();
-
-  return visitor.ElementVector;
 }
-
 // int main(int argc ,const char* argv[]) {
 
 //   if (argc != 2) {

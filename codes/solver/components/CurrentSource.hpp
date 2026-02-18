@@ -6,10 +6,11 @@
 struct CurrentSource : public BaseComponent {
     public:
     CurrentSource(DParams argparams, map_ptr_t argnodemap):BaseComponent(argparams, argnodemap){
-        Current   = argparams.get<double>("Current").value();
+        current   = argparams.get<double>("Current");
     }
     
-    double Current = 0.f;
-    
+    double current = 0.f;
+    virtual void Populate(double dv) override {
+    }
 
 };

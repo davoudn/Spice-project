@@ -11,50 +11,46 @@ struct Capacitor : public ComplexComponent {
     public:
     Capacitor(DParams argparams, map_ptr_t argnodemap);
     
-    void integrate() override;
-    void setupComponent () override;
-    bool checkComponent() override;
+    void Integrate() override;
+    void SetupComponent () override;
+    bool CheckComponent() override;
     private:
-        double C    = 0.f;
-        double V0   = 0.f;
-        double DelT = 0.f;
+        double c    = 0.f;
+        double v0   = 0.f;
 
-        INTEGRATOR Integrator;
-        double InitialV;
+        INTEGRATOR integrator;
+        double initial_v;
 };
 
 
 template <typename INTEGRATOR>
 Capacitor<INTEGRATOR>::Capacitor(DParams argparams, map_ptr_t argnodemap):ComplexComponent(argparams, argnodemap)
 {
-        if (this->Params.get<float>("C"))
-              C        = this->Params.get<float>("C").value();
-        if (this->Params.get<float>("V0"))
-              V0       = this->Params.get<float>("V0").value();
-        if (this->Params.get<float>("DelT"))
-              DelT     = this->Params.get<float>("DelT").value();
+              c        = this->params.get<float>("C");
+              v0       = this->params.get<float>("V0");
+              del_tau     = this->params.get<float>("DelT");
 }
 template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::integrate ()  
+void Capacitor<INTEGRATOR>::Integrate ()  
 {
            double tmp{0.0};
-           for (int i{1}; i < Integrator.Nw; i++){
-                tmp += I[ItLast + 1 - i] * Integrator.CorrectorWeighs[i];
+           for (int i{1}; i < integrator.Nw; i++){
+                tmp += currents[ItLast + 1 - i] * integrator.CorrectorWeighs[i];
            }
-           I_cs->Current = -tmp / (this->DelT * Integrator.CorrectorWeighs[0]) - R_eq->G* this->V[ItLast];
+           current_cs->current = -tmp / (this->del_tau * integrator.CorrectorWeighs[0]) - resistor_eq->g* this->voltages[ItLast];
 }
 
 template <typename INTEGRATOR>
-void Capacitor<INTEGRATOR>::setupComponent ()
+void Capacitor<INTEGRATOR>::SetupComponent ()
 {
-        this->V.clear();
-        this->I.clear();
-        R_eq->G = C/(this->DelT * Integrator.CorrectorWeighs[0]);
+        this->voltages.clear();
+        this->currents.clear();
+        resistor_eq->g = c/(this->del_tau * integrator.CorrectorWeighs[0]);
         return;
 }
 
 template <typename INTEGRATOR>
-bool Capacitor<INTEGRATOR>:: checkComponent ()
+bool Capacitor<INTEGRATOR>:: CheckComponent ()
 {
         return true;
 }

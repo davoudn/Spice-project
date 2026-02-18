@@ -26,13 +26,12 @@ struct BaseComponent {
 public:
 
     void Init(DParams& argarams, map_ptr_t nodesmap){
-	     Params = argarams;
-	     PosNET = nodesmap->get(argarams.get<std::string>("PosNET").value()).value(); 
-		 NegNET = nodesmap->get(argarams.get<std::string>("NegNET").value()).value(); 
-		 Type   = argarams.get<std::string>("Type").value();
-		 Label  = argarams.get<std::string>("Label").value(); 
-		 Name   = argarams.get<std::string>("name").value();
-		 DelT   = argarams.get<double>("DelT").value();
+	     params = argarams;
+	     pos_net = nodesmap->get(argarams.get<std::string>("PosNET")); 
+		 neg_net = nodesmap->get(argarams.get<std::string>("NegNET")); 
+		 type   = argarams.get<std::string>("type");
+		 name   = argarams.get<std::string>("name");
+		 del_tau   = argarams.get<double>("DelT");
     }
 
     BaseComponent() = delete;
@@ -40,14 +39,14 @@ public:
 	
 	virtual ~BaseComponent();
 
-	uint32_t PosNET = 0, NegNET = 0;
-	std::string Label, Type, Name;
-	std::vector<double> V;
-	std::vector<double> I;
+	uint32_t pos_net = 0, neg_net = 0;
+	std::string label, type, name;
+	std::vector<double> voltages;
+	std::vector<double> currents;
 	int ItLast;
-   	double Ieq, Geq, DelT;
+   	double i_eq, g_eq, del_tau;
 	// this would be populated in the acctual drived class. 
-	DParams Params;
+	DParams params;
     static ComponentClass componentClass;
-	virtual void populate(double dv);
+	virtual void Populate(double dv) = 0;
 };

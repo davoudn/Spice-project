@@ -15,49 +15,48 @@ struct CPE: public ComplexComponent {
     public:
     CPE(DParams argparams, map_ptr_t argnodemap);
     
-    void integrate() override;
-    void setupComponent () override;
-    bool checkComponent() override;
-            double C = 0.0, Alpha = 0.0 , Gamma = 0.0, InvGamma = 0.0, V0 = 0.0, DelT = 0.0;
+    void Integrate() override;
+    void SetupComponent () override;
+    bool CheckComponent() override;
+    double c = 0.0, alpha = 0.0 , gamma = 0.0, inv_gamma = 0.0, v0 = 0.0, del_tau = 0.0;
 
     private:
-        INTEGRATOR Integrator;
+        INTEGRATOR integrator;
 };
 
 template <typename INTEGRATOR>
 CPE<INTEGRATOR>::CPE(DParams argparams, map_ptr_t argnodemap):ComplexComponent(argparams, argnodemap)
 {
-              Alpha    = this->Params.get<float>("Alpha").value();
-              C        = this->Params.get<float>("C").value();
-              V0       = this->Params.get<float>("V0").value();
-              DelT     = this->Params.get<float>("DelT").value();
-              Gamma    = std::tgamma(Alpha);
-              InvGamma = std::tgamma(Alpha);
-              Integrator.Init(Alpha, DelT);
+              alpha     = this->params.get<float>("Alpha");
+              c         = this->params.get<float>("C");
+              v0        = this->params.get<float>("V0");
+              del_tau   = this->params.get<float>("DelT");
+              gamma     = std::tgamma(alpha);
+              inv_gamma = 1.0/std::tgamma(alpha);
+              integrator.Init(alpha, del_tau);
 }
 
 template <typename INTEGRATOR>
-void CPE<INTEGRATOR>::integrate()  
+void CPE<INTEGRATOR>::Integrate()  
 {
            double sum{0.0};
-           int k = this->I.size();
+           int k = this->currents.size();
            for (int i{0}; i < k; i++){
-                sum += this->I[i] * Integrator.corrector(i,k);
+                sum += this->currents[i] * integrator.corrector(i,k);
            }
-           I_cs->Current = - V0 * Gamma * C / Integrator.corrector(k,k) - sum / Integrator.corrector(k,k) ;
-           R_eq->G = Gamma * C / Integrator.corrector(k,k);
+           current_cs->current = - v0 * gamma * c / integrator.corrector(k,k) - sum / integrator.corrector(k,k) ;
+           resistor_eq->g = gamma * c / integrator.corrector(1,1);
 }
 
 template <typename INTEGRATOR>
-void CPE<INTEGRATOR>::setupComponent ()
+void CPE<INTEGRATOR>::SetupComponent ()
 {
-        this->V.clear();
-        this->I.clear();
-        this->Geq = Gamma * C / Integrator.corrector(1,1); // be carefull //
+        this->voltages.clear();
+        this->currents.clear();
         return;
 }
 
 template <typename INTEGRATOR>
-bool CPE<INTEGRATOR>::checkComponent (){
+bool CPE<INTEGRATOR>::CheckComponent (){
         return true;
 }

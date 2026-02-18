@@ -4,6 +4,7 @@
 #include <vector>
 #include <optional>
 #include <memory>
+#include <iostream>
 
 enum class ComponentClass{
    Basic,
@@ -29,27 +30,27 @@ struct DMap : public std::enable_shared_from_this<DMap<T>>
        std::map<T, int> M;
        std::map<int, T> InvM;
        //
-       bool add(std::optional<T> _Key, int _Id);
+       bool add(T _Key, int _Id);
        //
-       std::optional<T> get(int _Id);
+       T get(int _Id);
        //
-       std::optional<int> get(T _Key);
+       int get(T _Key);
        //
        int size();
 };
 template <typename T>
-bool DMap<T>::add(std::optional<T> _Key, int _Id)
+bool DMap<T>::add(T _Key, int _Id)
 {
-              
-	      auto search0 = M.find(_Key.value()); 
+      std::cout << _Key;
+	      auto search0 = M.find(_Key); 
          auto search1 = InvM.find(_Id);
 
 	      if (search0 != M.end() || search1 != InvM.end()){
 		      return false;
 	      }
-
-	       const auto [it0, success0] = M.emplace(_Key.value(), _Id);
-	       const auto [it1, success1] = InvM.emplace(_Id, _Key.value());
+         
+	       const auto [it0, success0] = M.emplace(_Key, _Id);
+	       const auto [it1, success1] = InvM.emplace(_Id, _Key);
 
 	       if( success0 &&  success1){ 
 	          return true;
@@ -57,24 +58,24 @@ bool DMap<T>::add(std::optional<T> _Key, int _Id)
 	       else{
 		      return false;
 	       }
-}
+} 
        //
 template <typename T>
-std::optional<T> DMap<T>::get(int _Id)
+T DMap<T>::get(int _Id)
 {
 	  if (auto search = InvM.find(_Id); search != InvM.end()){
 	      return search->second;
      }
-	  return std::nullopt;  
+	  return T();  
 }
        //
 template <typename T>
-std::optional<int> DMap<T>::get(T _Key)
+int DMap<T>::get(T _Key)
 {
          if (auto search = M.find(_Key); search != M.end()){
               return search->second;
           }
-          return std::nullopt;
+          return -1;
 }
        //
 template <typename T>
@@ -101,10 +102,12 @@ struct DParams
    
    
 template<typename T>
-   std::optional<T> get(std::string argpname);
-   
+   T get(std::string argpname);
+   data_t& get_data(){
+      return data;
+   }
    private:
-   std::map<std::string, std::string> data;
+   data_t data;
 };
 /* */
 

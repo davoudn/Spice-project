@@ -10,13 +10,13 @@ struct ComplexComponent : public BaseComponent {
 
 ComplexComponent(DParams argarams, map_ptr_t nodesmap);
 virtual ~ComplexComponent();
-virtual void integrate();
+virtual void Integrate();
 
-Resistor*  R_eq = nullptr;
-CurrentSource* I_cs = nullptr;
+Resistor*  resistor_eq = nullptr;
+CurrentSource* current_cs = nullptr;
  
-virtual void setupComponent (){};
-virtual bool checkComponent (){return true;};
-virtual void populate(double dv) override; 
+virtual void SetupComponent (){};
+virtual bool CheckComponent (){return true;};
+virtual void Populate(double dv) override; 
 	
 };

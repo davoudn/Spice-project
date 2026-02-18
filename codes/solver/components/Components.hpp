@@ -9,7 +9,14 @@
 
 namespace Components 
 {
-
+class MakeError : public std::exception{
+   public:
+MakeError(int argid, std::string argname);
+    const char* what() const noexcept override;     
+    private:
+    std::string name;
+    int id = -1;
+};
 BaseComponent* Make(DParams& argp, map_ptr_t nodesmap);
 
 template <typename T>

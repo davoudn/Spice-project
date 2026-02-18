@@ -30,22 +30,30 @@ void BaseCircuit::Init(std::vector<DParams>& argcomponents)
 			c++;
 		}
      }
-	//
+	 for (auto & x: NodesMap->M) {
+		std::cout << x.first << " " << x.second << "\n";
+ 	 }
      for (auto& x: argcomponents){
-            Components.push_back(Components::Make(x, NodesMap));
+		try {
+			auto c = Components::Make(x, NodesMap);
+            Components.push_back(c);
+		}
+		catch(Components::MakeError& e){
+      		std::cout << e.what() << "\n";
+      		exit(0);
+   		}
      }
-	 
+     
      for (uint32_t it=0; it< Components.size(); it++ ){
-         if (Components[it]->Type == "VoltageSource"){
+         if (Components[it]->type == "VoltageSource"){
 			VoltageSourceMap.push_back(it);
 		 }
      }
      for (uint32_t it=0; it< Components.size(); it++ ){
-         if (Components[it]->Type == "CurrentSource" || Components[it]->componentClass == ComponentClass::Complex){
+         if (Components[it]->type == "CurrentSource" || Components[it]->componentClass == ComponentClass::Complex){
 			CurrentSourceMap.push_back(it);
 		 }
      }
-	  
      nDim = VoltageSourceMap.size() + NodesMap->size();
 	 NumNodes = NodesMap->size();
      return;
@@ -59,30 +67,30 @@ void BaseCircuit::MakeAll()
     */
 	for (uint32_t it=0; it< Components.size(); it++ )
 	{
-		 Resistor* R = nullptr;
-		 if (Components[it]->Type == "Resistor"){
-			R = static_cast<Resistor*>(Components[it]);
+		 Resistor* resistor = nullptr;
+		 if (Components[it]->type == "Resistor"){
+			resistor = static_cast<Resistor*>(Components[it]);
 		 }
 		 if (Components[it]->componentClass == ComponentClass::Complex){
-			R = Components::Cast<ComplexComponent>(Components[it])->R_eq;
+			resistor = Components::Cast<ComplexComponent>(Components[it])->resistor_eq;
 		 }
-         if (R){
+         if (resistor){
 		     // off diagonal
-			 A(R->PosNET, R->NegNET) = -R->G;
-			 A(R->NegNET, R->PosNET) = -R->G;
+			 A(resistor->pos_net, resistor->neg_net) = -resistor->g;
+			 A(resistor->neg_net, resistor->pos_net) = -resistor->g;
 			 // diagonal
-			 A(R->PosNET, R->PosNET)+=  R->G;
-			 A(R->NegNET, R->NegNET)+=  R->G;
+			 A(resistor->pos_net, resistor->pos_net)+=  resistor->g;
+			 A(resistor->pos_net, resistor->pos_net)+=  resistor->g;
 		 }
 	}
 
     for (uint32_t id =0; id < VoltageSourceMap.size(); id++)
 	{
-					A(id + NumNodes, Components[VoltageSourceMap[id]]->PosNET) =+1;
-					A(id + NumNodes, Components[VoltageSourceMap[id]]->NegNET) =-1;
+					A(id + NumNodes, Components[VoltageSourceMap[id]]->pos_net) =+1;
+					A(id + NumNodes, Components[VoltageSourceMap[id]]->neg_net) =-1;
 					//
-					A(Components[VoltageSourceMap[id]]->PosNET, id + NumNodes) =+1;
-					A(Components[VoltageSourceMap[id]]->NegNET, id + NumNodes) =-1;
+					A(Components[VoltageSourceMap[id]]->pos_net, id + NumNodes) =+1;
+					A(Components[VoltageSourceMap[id]]->neg_net, id + NumNodes) =-1;
 	}
 
     /* the end of A matrix construction block */
@@ -99,14 +107,14 @@ void BaseCircuit::MakeAll()
                 I = Components::Cast<CurrentSource>(Components[id]);
 			}
 			if (Components[id]->componentClass == ComponentClass::Complex) {
-                I = Components::Cast<ComplexComponent>(Components[id])->I_cs;
+                I = Components::Cast<ComplexComponent>(Components[id])->current_cs;
 			}
 			if (I){
-				if ( Components[id]->PosNET == node ){
-					itmp+= I->Current;
+				if ( Components[id]->pos_net == node ){
+					itmp+= I->current;
 				}
-				if ( Components[id]->NegNET == node ){
-					itmp-= I->Current;
+				if ( Components[id]->neg_net == node ){
+					itmp-= I->current;
 				}
 			}
 		}
@@ -126,8 +134,8 @@ void BaseCircuit::MakeAll()
 void BaseCircuit::populate() 
 {
 	for (auto comp : Components) {
-		auto dv = X[comp->PosNET] - X[comp->NegNET];
-		comp->populate(dv);
+		auto dv = X[comp->pos_net] - X[comp->neg_net];
+		comp->Populate(dv);
 	}
 }
 
@@ -137,7 +145,7 @@ void BaseCircuit::integrate()
 		if (base->componentClass == ComponentClass::Complex){
             auto comp = Components::Cast<ComplexComponent>(base);
 			if (comp){
-               	comp->integrate();
+               	comp->Integrate();
 			}
 		}
 	}
