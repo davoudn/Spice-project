@@ -92,7 +92,14 @@ int DMap<T>::size()
 
 */
 
-
+class DParamsException : public std::exception{
+   public:
+DParamsException(int argid, std::string argname);
+    const char* what() const noexcept override;     
+    private:
+    std::string name;
+    int id = -1;
+};
 
 struct DParams 
 {

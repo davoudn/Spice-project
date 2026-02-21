@@ -30,9 +30,7 @@ void BaseCircuit::Init(std::vector<DParams>& argcomponents)
 			c++;
 		}
      }
-	 for (auto & x: NodesMap->M) {
-		std::cout << x.first << " " << x.second << "\n";
- 	 }
+	
      for (auto& x: argcomponents){
 		try {
 			auto c = Components::Make(x, NodesMap);
@@ -56,6 +54,10 @@ void BaseCircuit::Init(std::vector<DParams>& argcomponents)
      }
      nDim = VoltageSourceMap.size() + NodesMap->size();
 	 NumNodes = NodesMap->size();
+	 /* print out a report about the nodes/components etc */
+	 for (auto & x: NodesMap->M) {
+		std::cout << x.first << " " << x.second << "\n";
+ 	 }
      return;
 }
 

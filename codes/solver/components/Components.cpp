@@ -25,6 +25,13 @@ namespace Components
 
 BaseComponent* Make(DParams& argp, map_ptr_t nodesmap)
 {
+   try {
+      argp.get<std::string>("type");
+   } catch(DParamsException& e) {
+     std::cout << e.what();
+     exit(0);
+   }
+
    if( argp.get<std::string>("type") == "Capacitor" ){
 		return new Capacitor<Weights<EULER>>( argp,  nodesmap);
 	}
@@ -48,7 +55,7 @@ BaseComponent* Make(DParams& argp, map_ptr_t nodesmap)
    if( argp.get<std::string>("type") == "CurrentSource" ){
                 return new CurrentSource( argp, nodesmap);
    }
-   throw MakeError(0, argp.get<std::string>("Type")) ;
+   throw MakeError(0, "Nonexistant component name. ") ;
 
    return nullptr;
 }

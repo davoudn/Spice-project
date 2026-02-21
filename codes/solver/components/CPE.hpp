@@ -48,6 +48,8 @@ void CPE<INTEGRATOR>::Integrate()
            resistor_eq->g = gamma * c / integrator.corrector(1,1);
 }
 
+/// @brief 
+/// @tparam INTEGRATOR 
 template <typename INTEGRATOR>
 void CPE<INTEGRATOR>::SetupComponent ()
 {
