@@ -3,7 +3,7 @@
 #include "ComplexComponent.hpp"
 #include "CurrentSource.hpp"
 #include "Resistor.hpp"
-#include "../Utility.hpp"
+#include "Utility.hpp"
 
 #include<cmath>
 

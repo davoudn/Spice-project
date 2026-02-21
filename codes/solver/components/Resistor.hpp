@@ -1,7 +1,7 @@
 #pragma once 
 
 #include "BaseComponent.hpp"
-#include "../Utility.hpp"
+#include "Utility.hpp"
 
 struct Resistor : public BaseComponent {
     public:

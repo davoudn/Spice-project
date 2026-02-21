@@ -1,6 +1,6 @@
 #pragma once 
 #include "ComplexComponent.hpp"
-#include "../Utility.hpp"
+#include "Utility.hpp"
 #include "Capacitor.hpp"
 #include "Resistor.hpp"
 #include "CurrentSource.hpp"

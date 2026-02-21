@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CurrentSource.hpp"
-#include "../Utility.hpp"
+#include "Utility.hpp"
 #include <vector>
 class Resistor;
 class CurrentSource;
