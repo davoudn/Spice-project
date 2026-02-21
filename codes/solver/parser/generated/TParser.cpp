@@ -1,7 +1,8 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.2
+// Generated from TParser.g4 by ANTLR 4.10
 
 
+#include "TParserListener.h"
 #include "TParserVisitor.h"
 
 #include "TParser.h"
@@ -37,20 +38,11 @@ struct TParserStaticData final {
   std::unique_ptr<antlr4::atn::ATN> atn;
 };
 
-::antlr4::internal::OnceFlag tparserParserOnceFlag;
-#if ANTLR4_USE_THREAD_LOCAL_CACHE
-static thread_local
-#endif
-std::unique_ptr<TParserStaticData> tparserParserStaticData = nullptr;
+std::once_flag tparserParserOnceFlag;
+TParserStaticData *tparserParserStaticData = nullptr;
 
 void tparserParserInitialize() {
-#if ANTLR4_USE_THREAD_LOCAL_CACHE
-  if (tparserParserStaticData != nullptr) {
-    return;
-  }
-#else
   assert(tparserParserStaticData == nullptr);
-#endif
   auto staticData = std::make_unique<TParserStaticData>(
     std::vector<std::string>{
       "circuit", "element", "voltagesource", "currentsource", "resistor", 
@@ -164,7 +156,7 @@ void tparserParserInitialize() {
   for (size_t i = 0; i < count; i++) { 
     staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
   }
-  tparserParserStaticData = std::move(staticData);
+  tparserParserStaticData = staticData.release();
 }
 
 }
@@ -228,6 +220,18 @@ size_t TParser::CircuitContext::getRuleIndex() const {
   return TParser::RuleCircuit;
 }
 
+void TParser::CircuitContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterCircuit(this);
+}
+
+void TParser::CircuitContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitCircuit(this);
+}
+
 
 std::any TParser::CircuitContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
@@ -254,7 +258,11 @@ TParser::CircuitContext* TParser::circuit() {
     _errHandler->sync(this);
     _la = _input->LA(1);
     while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 496) != 0)) {
+      ((1ULL << _la) & ((1ULL << TParser::RESISTOR_NAME)
+      | (1ULL << TParser::CAPACITOR_NAME)
+      | (1ULL << TParser::INDUCTOR_NAME)
+      | (1ULL << TParser::VOLTAGE_SOURCE_NAME)
+      | (1ULL << TParser::CURRENT_SOURCE_NAME))) != 0)) {
       setState(14);
       element();
       setState(19);
@@ -305,6 +313,18 @@ TParser::CurrentsourceContext* TParser::ElementContext::currentsource() {
 
 size_t TParser::ElementContext::getRuleIndex() const {
   return TParser::RuleElement;
+}
+
+void TParser::ElementContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterElement(this);
+}
+
+void TParser::ElementContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitElement(this);
 }
 
 
@@ -432,6 +452,18 @@ tree::TerminalNode* TParser::VoltagesourceContext::PARAMS(size_t i) {
 
 size_t TParser::VoltagesourceContext::getRuleIndex() const {
   return TParser::RuleVoltagesource;
+}
+
+void TParser::VoltagesourceContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterVoltagesource(this);
+}
+
+void TParser::VoltagesourceContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitVoltagesource(this);
 }
 
 
@@ -615,6 +647,18 @@ size_t TParser::CurrentsourceContext::getRuleIndex() const {
   return TParser::RuleCurrentsource;
 }
 
+void TParser::CurrentsourceContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterCurrentsource(this);
+}
+
+void TParser::CurrentsourceContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitCurrentsource(this);
+}
+
 
 std::any TParser::CurrentsourceContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
@@ -792,6 +836,18 @@ size_t TParser::ResistorContext::getRuleIndex() const {
   return TParser::RuleResistor;
 }
 
+void TParser::ResistorContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterResistor(this);
+}
+
+void TParser::ResistorContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitResistor(this);
+}
+
 
 std::any TParser::ResistorContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
@@ -955,6 +1011,18 @@ tree::TerminalNode* TParser::CapacitorContext::PARAMS(size_t i) {
 
 size_t TParser::CapacitorContext::getRuleIndex() const {
   return TParser::RuleCapacitor;
+}
+
+void TParser::CapacitorContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterCapacitor(this);
+}
+
+void TParser::CapacitorContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitCapacitor(this);
 }
 
 
@@ -1122,6 +1190,18 @@ size_t TParser::InductorContext::getRuleIndex() const {
   return TParser::RuleInductor;
 }
 
+void TParser::InductorContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterInductor(this);
+}
+
+void TParser::InductorContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitInductor(this);
+}
+
 
 std::any TParser::InductorContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
@@ -1237,9 +1317,5 @@ TParser::InductorContext* TParser::inductor() {
 }
 
 void TParser::initialize() {
-#if ANTLR4_USE_THREAD_LOCAL_CACHE
-  tparserParserInitialize();
-#else
-  ::antlr4::internal::call_once(tparserParserOnceFlag, tparserParserInitialize);
-#endif
+  std::call_once(tparserParserOnceFlag, tparserParserInitialize);
 }

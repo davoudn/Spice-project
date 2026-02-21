@@ -1,5 +1,5 @@
 
-// Generated from TLexer.g4 by ANTLR 4.13.2
+// Generated from TLexer.g4 by ANTLR 4.10
 
 
 #include "TLexer.h"
@@ -42,20 +42,11 @@ struct TLexerStaticData final {
   std::unique_ptr<antlr4::atn::ATN> atn;
 };
 
-::antlr4::internal::OnceFlag tlexerLexerOnceFlag;
-#if ANTLR4_USE_THREAD_LOCAL_CACHE
-static thread_local
-#endif
-std::unique_ptr<TLexerStaticData> tlexerLexerStaticData = nullptr;
+std::once_flag tlexerLexerOnceFlag;
+TLexerStaticData *tlexerLexerStaticData = nullptr;
 
 void tlexerLexerInitialize() {
-#if ANTLR4_USE_THREAD_LOCAL_CACHE
-  if (tlexerLexerStaticData != nullptr) {
-    return;
-  }
-#else
   assert(tlexerLexerStaticData == nullptr);
-#endif
   auto staticData = std::make_unique<TLexerStaticData>(
     std::vector<std::string>{
       "COMMENT", "WHITESPACE", "NEWLINE", "RESISTOR_NAME", "CAPACITOR_NAME", 
@@ -143,7 +134,7 @@ void tlexerLexerInitialize() {
   for (size_t i = 0; i < count; i++) { 
     staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
   }
-  tlexerLexerStaticData = std::move(staticData);
+  tlexerLexerStaticData = staticData.release();
 }
 
 }
@@ -189,9 +180,5 @@ const atn::ATN& TLexer::getATN() const {
 
 
 void TLexer::initialize() {
-#if ANTLR4_USE_THREAD_LOCAL_CACHE
-  tlexerLexerInitialize();
-#else
-  ::antlr4::internal::call_once(tlexerLexerOnceFlag, tlexerLexerInitialize);
-#endif
+  std::call_once(tlexerLexerOnceFlag, tlexerLexerInitialize);
 }

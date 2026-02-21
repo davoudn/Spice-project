@@ -1,5 +1,5 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.2
+// Generated from TParser.g4 by ANTLR 4.10
 
 #pragma once
 
@@ -26,12 +26,10 @@ public:
   }
 
   virtual std::any visitVoltagesource(TParser::VoltagesourceContext *ctx) override {
-    std :: cout << ctx->VOLTAGE_SOURCE_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
   virtual std::any visitCurrentsource(TParser::CurrentsourceContext *ctx) override {
-    std :: cout << ctx->CURRENT_SOURCE_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
@@ -40,12 +38,10 @@ public:
   }
 
   virtual std::any visitCapacitor(TParser::CapacitorContext *ctx) override {
-    std :: cout << ctx->CAPACITOR_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 
   virtual std::any visitInductor(TParser::InductorContext *ctx) override {
-    std :: cout << ctx->INDUCTOR_NAME()->toString() << "\n";
     return visitChildren(ctx);
   }
 

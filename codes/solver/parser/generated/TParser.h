@@ -1,5 +1,5 @@
 
-// Generated from TParser.g4 by ANTLR 4.13.2
+// Generated from TParser.g4 by ANTLR 4.10
 
 #pragma once
 
@@ -58,6 +58,8 @@ public:
     std::vector<ElementContext *> element();
     ElementContext* element(size_t i);
 
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -75,6 +77,8 @@ public:
     VoltagesourceContext *voltagesource();
     CurrentsourceContext *currentsource();
 
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -98,6 +102,8 @@ public:
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -121,6 +127,8 @@ public:
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -143,6 +151,8 @@ public:
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -165,6 +175,8 @@ public:
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -187,6 +199,8 @@ public:
     std::vector<antlr4::tree::TerminalNode *> PARAMS();
     antlr4::tree::TerminalNode* PARAMS(size_t i);
 
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    

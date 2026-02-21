@@ -6,8 +6,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Find a package (example: spdlog)
-find_package(spdlog REQUIRED)
+# Find ANTLR4 runtime
+##set(CMAKE_FIND_DEBUG_MODE TRUE)
+# Try these different variable names (use only one at a time)
+#set(antlr4-runtime_DIR "/usr/lib/x86_64-linux-gnu/cmake/antlr4-runtime")
+# OR# Include directories
+
+
+#set(ANTLR4_RUNTIME_DIR "/usr/lib/x86_64-linux-gnu/cmake/antlr4-runtime")
+find_package(antlr4-runtime REQUIRED)
+#set(CMAKE_FIND_DEBUG_MODE FALSE)
+message(STATUS "ANTLR4_INCLUDE_DIR: ${ANTLR4_INCLUDE_DIR}")
+# Libraries
+message(STATUS "ANTLR4_LIB_DIR: ${ANTLR4_LIB_DIR}")
+#find_package(spdlog REQUIRED)
 # You can also find other packages like:
 # find_package(OpenCV REQUIRED)
 # find_package(Boost REQUIRED COMPONENTS system filesystem)
@@ -16,8 +28,10 @@ find_package(spdlog REQUIRED)
 # Include directories (if you have local include folders)
 include_directories(
     ${PROJECT_SOURCE_DIR}/components
+    ${PROJECT_SOURCE_DIR}/parser
+    ${PROJECT_SOURCE_DIR}/parser/generated
     ${PROJECT_SOURCE_DIR}
-    /usr/local/include/antlr4-runtime
+    ${ANTLR4_INCLUDE_DIR}
     # Add any other include paths
 )
 
@@ -26,7 +40,7 @@ include_directories(
 
 # Collect source files
 file(GLOB_RECURSE SOURCES 
-    "./Parser/generated/*.cpp"
+    "./parser/generated/*.cpp"
     "./components/*.cpp"
 )
 
@@ -49,6 +63,7 @@ target_include_directories(${PROJECT_NAME}
 # Link libraries (including the package we found)
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
+    ${}
      armadillo 
      lapack 
      blas  
