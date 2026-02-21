@@ -13,36 +13,34 @@ class BaseComponent;
 class BaseCircuit {
 public:
 	void Init(std::vector<DParams>& argcomponents);
-	void Solve_it();
+	void SolveIt();
 	void Solve();
 private:
    /*
      here we construct a map/invmap to index nodes and components, thus we could 
 	 translate the results into the original SPICE naming.
    */
-    map_ptr_t NodesMap;
+    map_ptr_t nodes_map_;
 
 	/*
 	*/
-	std::vector<BaseComponent*> Components;
-	DMat<int>   ConnectivityTable;
-	std::vector<int> VoltageSourceMap, CurrentSourceMap;
+	std::vector<BaseComponent*> components_;
+	DMat<int>   connectivity_table_;
+	std::vector<int> voltage_source_map_, current_source_map_;
 public:	
 	// a x = z
-	arma::Mat<double> A;
-	arma::Col<double> Z;
-	arma::Col<double> X;
+	arma::Mat<double> a_;
+	arma::Col<double> z_;
+	arma::Col<double> x_;
 	
-	uint32_t NumNodes = 0; // number of nodes minus datum
-	uint32_t NumVolatgeSourses = 0; // number voltage sources
-	uint32_t nDim = 0;
-	uint32_t MaxIterations = 0;
+	uint32_t num_nodes_ = 0; // number of nodes minus datum
+	uint32_t num_voltage_sources_ = 0; // number voltage sources
+	uint32_t n_dim_ = 0;
+	uint32_t max_iterations_ = 1000; // Default max iterations
 private:
 	void CalcDim();
 	void MakeAll();
 	void Allocate();
-	void populate();
-	void integrate();
+	void Populate();
+	void Integrate();
 };
-
-

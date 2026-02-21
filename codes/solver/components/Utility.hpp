@@ -11,15 +11,15 @@ enum class ComponentClass{
    Complex
 };
 enum class ComponentType {
-   Resistor,
-   Capacitor,
-   Inductor,
-   CPE,
-   VoltageSource,
-   CurrentSource
+    Resistor,
+    Capacitor,
+    Inductor,
+    CPE,
+    VoltageSource,
+    CurrentSource
 };
 
-/*
+/* 
 
 
 */
@@ -27,30 +27,30 @@ enum class ComponentType {
 template <typename T>
 struct DMap : public std::enable_shared_from_this<DMap<T>>
 {
-       std::map<T, int> M;
-       std::map<int, T> InvM;
+       std::map<T, int> m_;
+       std::map<int, T> inv_m_;
        //
-       bool add(T _Key, int _Id);
+       bool Add(T _Key, int _Id);
        //
-       T get(int _Id);
+       T Get(int _Id);
        //
-       int get(T _Key);
+       int Get(T _Key);
        //
-       int size();
+       int Size();
 };
 template <typename T>
-bool DMap<T>::add(T _Key, int _Id)
+bool DMap<T>::Add(T _Key, int _Id)
 {
       std::cout << _Key;
-	      auto search0 = M.find(_Key); 
-         auto search1 = InvM.find(_Id);
+	      auto search0 = m_.find(_Key); 
+         auto search1 = inv_m_.find(_Id);
 
-	      if (search0 != M.end() || search1 != InvM.end()){
+	      if (search0 != m_.end() || search1 != inv_m_.end()){
 		      return false;
 	      }
          
-	       const auto [it0, success0] = M.emplace(_Key, _Id);
-	       const auto [it1, success1] = InvM.emplace(_Id, _Key);
+	       const auto [it0, success0] = m_.emplace(_Key, _Id);
+	       const auto [it1, success1] = inv_m_.emplace(_Id, _Key);
 
 	       if( success0 &&  success1){ 
 	          return true;
@@ -61,34 +61,34 @@ bool DMap<T>::add(T _Key, int _Id)
 } 
        //
 template <typename T>
-T DMap<T>::get(int _Id)
+T DMap<T>::Get(int _Id)
 {
-	  if (auto search = InvM.find(_Id); search != InvM.end()){
+	  if (auto search = inv_m_.find(_Id); search != inv_m_.end()){
 	      return search->second;
      }
 	  return T();  
 }
        //
 template <typename T>
-int DMap<T>::get(T _Key)
+int DMap<T>::Get(T _Key)
 {
-         if (auto search = M.find(_Key); search != M.end()){
+         if (auto search = m_.find(_Key); search != m_.end()){
               return search->second;
           }
           return -1;
 }
        //
 template <typename T>
-int DMap<T>::size()
+int DMap<T>::Size()
 {
-	   if ( M.size() == InvM.size() ){
-		   return M.size();
+	   if ( m_.size() == inv_m_.size() ){
+		   return m_.size();
 	   }
 	   return 0;
 }
 
 
-/*
+/* 
 
 */
 
@@ -97,8 +97,8 @@ class DParamsException : public std::exception{
 DParamsException(int argid, std::string argname);
     const char* what() const noexcept override;     
     private:
-    std::string name;
-    int id = -1;
+    std::string name_;
+    int id_ = -1;
 };
 
 struct DParams 
@@ -109,50 +109,50 @@ struct DParams
    
    
 template<typename T>
-   T get(std::string argpname);
-   data_t& get_data(){
-      return data;
+   T Get(std::string argpname);
+   data_t& GetData(){
+      return data_;
    }
    private:
-   data_t data;
+   data_t data_;
 };
 /* */
 
    
+
    
 
-
-
+ 
 
 template <typename T>
 struct DMat {
  DMat(){};
  using data_t = std::vector < std::vector <T>>;
 
- data_t data;
- void resize(int n)
+ data_t data_;
+ void Resize(int n)
  {
-   data.resize(n);
-   for (int i=0; i <data.size(); i++){
-      data[i].reize(n);
+   data_.resize(n);
+   for (int i=0; i <data_.size(); i++){
+      data_[i].resize(n);
    }
  }
 
- int size(){
-   return data.size();
+ int Size(){
+   return data_.size();
  }
 
- void fill(T t){
-   for (int i=0; i < data.size(); i++)
+ void Fill(T t){
+   for (int i=0; i < data_.size(); i++)
    {
-      for (int j=0; j < data.size(); j++){
-          data[i][j] = t;
+      for (int j=0; j < data_.size(); j++){
+          data_[i][j] = t;
       }
    }
  }
 
  T operator() (int n, int m) {
-   return data[n][m];
+   return data_[n][m];
  }
  
 };

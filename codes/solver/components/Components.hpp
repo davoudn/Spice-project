@@ -14,8 +14,8 @@ class MakeError : public std::exception{
 MakeError(int argid, std::string argname);
     const char* what() const noexcept override;     
     private:
-    std::string name;
-    int id = -1;
+    std::string name_;
+    int id_ = -1;
 };
 BaseComponent* Make(DParams& argp, map_ptr_t nodesmap);
 
@@ -34,4 +34,3 @@ T* Cast(BaseComponent* c){
         return t;
 }
 }
- 

@@ -5,10 +5,10 @@
 struct VoltageSource : public BaseComponent {
     public:
     VoltageSource(DParams argparams, map_ptr_t argnodemap):BaseComponent(argparams, argnodemap){
-        Voltage   = argparams.get<double>("Voltage");
+        voltage_   = argparams.Get<double>("Voltage");
     }
 
-    double_t Voltage = 0.f;
+    double_t voltage_ = 0.f;
 	virtual void Populate(double dv) override {
     }
 };

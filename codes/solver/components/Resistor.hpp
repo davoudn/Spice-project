@@ -7,7 +7,7 @@ struct Resistor : public BaseComponent {
     public:
     Resistor(DParams argparams, map_ptr_t argnodemap);
     
-    double g = 0.f;
+    double g_ = 0.f;
     
     void Populate(double dv) override;
 

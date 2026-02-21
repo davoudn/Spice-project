@@ -3,16 +3,16 @@
 
 
 
- DParamsException::DParamsException(int argid, std::string argname):id(argid), name(argname)
+ DParamsException::DParamsException(int argid, std::string argname):id_(argid), name_(argname)
      {
 
      }
     const char* DParamsException::what() const noexcept  
     {
       std::string ret_val;
-      switch(id){
+      switch(id_){
          case 0: {
-            ret_val = std::string("DParamsException::what() : the parameted=r ") + name + std::string("not found");
+            ret_val = std::string("DParamsException::what() : the parameted=r ") + name_ + std::string("not found");
             break;
          }
       }
@@ -20,14 +20,14 @@
     }   
 
 
-DParams::DParams(data_t argdata):data(argdata)
+DParams::DParams(data_t argdata):data_(argdata)
 {
 }
 
 template<>
-std::string DParams::get<std::string>(std::string argpname)
+std::string DParams::Get<std::string>(std::string argpname)
 {
-      if (auto result = data.find(argpname); result == data.end()){
+      if (auto result = data_.find(argpname); result == data_.end()){
          throw DParamsException(0, argpname);
          return std::string();
       } else {
@@ -36,18 +36,18 @@ std::string DParams::get<std::string>(std::string argpname)
 }
 
 template<>
-   float DParams::get(std::string argpname)
+   float DParams::Get(std::string argpname)
    {
-      if (auto result = data.find(argpname); result == data.end()){
+      if (auto result = data_.find(argpname); result == data_.end()){
          return 0.0;
       } else {
          return std::stof(result->second);
       }
    }
    template<>
-   double DParams::get(std::string argpname)
+   double DParams::Get(std::string argpname)
    {
-      if (auto result = data.find(argpname); result == data.end()){
+      if (auto result = data_.find(argpname); result == data_.end()){
          return 0;
       } else {
          return std::stof(result->second);

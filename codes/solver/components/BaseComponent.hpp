@@ -4,10 +4,10 @@
 #include <vector>
 #include <map>
 #include <string>
-// this is just for the constraction of acctual components 
+// this is just for the construction of actual components 
 // r1 n1 n2 10k
 /* general
-lable
+label
 npos
 nneg
 type
@@ -26,12 +26,12 @@ struct BaseComponent {
 public:
 
     void Init(DParams& argarams, map_ptr_t nodesmap){
-	     params = argarams;
-	     pos_net = nodesmap->get(argarams.get<std::string>("PosNET")); 
-		 neg_net = nodesmap->get(argarams.get<std::string>("NegNET")); 
-		 type   = argarams.get<std::string>("type");
-		 name   = argarams.get<std::string>("name");
-		 del_tau   = argarams.get<double>("DelT");
+	     params_ = argarams;
+	     pos_net_ = nodesmap->Get(argarams.Get<std::string>("PosNET")); 
+		 neg_net_ = nodesmap->Get(argarams.Get<std::string>("NegNET")); 
+		 type_   = argarams.Get<std::string>("type");
+		 name_   = argarams.Get<std::string>("name");
+		 del_tau_   = argarams.Get<double>("DelT");
     }
 
     BaseComponent() = delete;
@@ -39,14 +39,14 @@ public:
 	
 	virtual ~BaseComponent();
 
-	uint32_t pos_net = 0, neg_net = 0;
-	std::string label, type, name;
-	std::vector<double> voltages;
-	std::vector<double> currents;
-	int ItLast;
-   	double i_eq, g_eq, del_tau;
-	// this would be populated in the acctual drived class. 
-	DParams params;
+	uint32_t pos_net_ = 0, neg_net_ = 0;
+	std::string label_, type_, name_;
+	std::vector<double> voltages_;
+	std::vector<double> currents_;
+	int it_last_;
+   	double i_eq_, g_eq_, del_tau_;
+	// this would be populated in the actual derived class. 
+	DParams params_;
     static ComponentClass componentClass;
 	virtual void Populate(double dv) = 0;
 };

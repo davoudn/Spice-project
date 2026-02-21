@@ -14,7 +14,7 @@ class Weights{};
 template <>
 class Weights<DIETHELM>{
     public:
-      double m_alpha, m_h;
+      double m_alpha_, m_h_;
       Weights();
       Weights(double _alpha, double _h);
       void Init(double _alpha, double _h);
