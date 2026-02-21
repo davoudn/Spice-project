@@ -1,5 +1,0 @@
-V1 Net-_C1-Pad2_ Net-_R1-Pad2_ DC 12 
-R1 Net-_I1-Pad2_ Net-_R1-Pad2_ 100 
-I1 unconnected-_I1-Pad1_ Net-_I1-Pad2_ DC 2 
-C1 unconnected-_C1-Pad1_ Net-_C1-Pad2_ 100n 
-.end
