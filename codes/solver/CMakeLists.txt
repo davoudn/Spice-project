@@ -63,7 +63,6 @@ target_include_directories(${PROJECT_NAME}
 # Link libraries (including the package we found)
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-    ${}
      armadillo 
      lapack 
      blas  
