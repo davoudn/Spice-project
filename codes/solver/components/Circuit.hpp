@@ -27,7 +27,7 @@ private:
 	std::vector<BaseComponent*> components_;
 	DMat<int>   connectivity_table_;
 	std::vector<int> voltage_source_map_, current_source_map_;
-public:	
+private:	
 	// a x = z
 	arma::Mat<double> a_;
 	arma::Col<double> z_;

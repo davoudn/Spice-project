@@ -71,10 +71,10 @@ void BaseCircuit::MakeAll()
 	{
 		 Resistor* resistor = nullptr;
 		 if (components_[it]->type_ == "Resistor"){
-			resistor = static_cast<Resistor*>(components_[it]);
+			resistor = dynamic_cast<Resistor*>(components_[it]);
 		 }
 		 if (components_[it]->componentClass == ComponentClass::Complex){
-			resistor = Components::Cast<ComplexComponent>(components_[it])->resistor_eq;
+			resistor = Components::Cast<ComplexComponent>(components_[it])->GetEquivalentResistor();
 		 }
          if (resistor){
 		     // off diagonal
@@ -82,7 +82,7 @@ void BaseCircuit::MakeAll()
 			 a_(resistor->neg_net_, resistor->pos_net_) = -resistor->g_;
 			 // diagonal
 			 a_(resistor->pos_net_, resistor->pos_net_)+=  resistor->g_;
-			 a_(resistor->pos_net_, resistor->pos_net_)+=  resistor->g_;
+			 a_(resistor->neg_net_, resistor->neg_net_)+=  resistor->g_;
 		 }
 	}
 
@@ -109,7 +109,7 @@ void BaseCircuit::MakeAll()
                 I = Components::Cast<CurrentSource>(components_[id]);
 			}
 			if (components_[id]->componentClass == ComponentClass::Complex) {
-                I = Components::Cast<ComplexComponent>(components_[id])->current_cs;
+                I = Components::Cast<ComplexComponent>(components_[id])->GetEquivalentCurrentSource();
 			}
 			if (I){
 				if ( components_[id]->pos_net_ == node ){

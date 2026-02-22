@@ -34,7 +34,7 @@ public:
 		 del_tau_   = argarams.Get<double>("DelT");
     }
 
-    BaseComponent() = delete;
+    BaseComponent();
     BaseComponent(DParams argarams, map_ptr_t nodesmap);
 	
 	virtual ~BaseComponent();
@@ -43,7 +43,7 @@ public:
 	std::string label_, type_, name_;
 	std::vector<double> voltages_;
 	std::vector<double> currents_;
-	int it_last_;
+	int it_last_ = 0;
    	double i_eq_, g_eq_, del_tau_;
 	// this would be populated in the actual derived class. 
 	DParams params_;

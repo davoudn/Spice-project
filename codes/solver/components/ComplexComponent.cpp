@@ -6,6 +6,8 @@
 ComplexComponent::ComplexComponent(DParams argarams, map_ptr_t nodesmap):BaseComponent( argarams,  nodesmap)
 {
         componentClass = ComponentClass::Complex;
+		resistor_eq = std::make_unique<Resistor>();
+		current_cs = std::make_unique<CurrentSource>();
 }
  
 ComplexComponent::~ComplexComponent()
@@ -15,6 +17,16 @@ ComplexComponent::~ComplexComponent()
 void ComplexComponent::Integrate() 
 {
 
+}
+
+
+Resistor* ComplexComponent::GetEquivalentResistor()
+{
+   return resistor_eq.get();
+}
+CurrentSource* ComplexComponent::GetEquivalentCurrentSource()
+{
+      return current_cs.get();
 }
 
 void ComplexComponent::Populate(double dv) 

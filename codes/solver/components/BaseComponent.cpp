@@ -8,7 +8,10 @@ BaseComponent::BaseComponent(DParams argarams, map_ptr_t nodesmap)
 		 Init(argarams, nodesmap);
 		 
 }
-	
+BaseComponent::BaseComponent()
+{
+		 
+}	
 BaseComponent::~BaseComponent()
 {
 
