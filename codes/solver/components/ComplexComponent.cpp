@@ -19,7 +19,7 @@ void ComplexComponent::Integrate()
 
 void ComplexComponent::Populate(double dv) 
 	{
-		voltages.push_back(dv);
-		auto i = current_cs->current + dv * resistor_eq->g;
-		currents.push_back(i);
+		voltages_.push_back(dv);
+		auto i = current_cs->current_ + dv * resistor_eq->g_;
+		currents_.push_back(i);
 	}

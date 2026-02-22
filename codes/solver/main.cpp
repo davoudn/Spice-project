@@ -3,7 +3,7 @@
 #include "Circuit.hpp"
 
 #include <iostream>
-#include "../Parser/Parser.h"
+#include "parser.h"
 
 
 /*    */
