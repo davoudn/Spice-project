@@ -7,8 +7,9 @@
 #include <map>
 #include <vector>
 #include <armadillo>
+#include <memory>
 
-class BaseComponent;
+#include "BaseComponent.hpp"
 
 class BaseCircuit {
 public:
@@ -24,7 +25,7 @@ private:
 
 	/*
 	*/
-	std::vector<BaseComponent*> components_;
+	std::vector<std::unique_ptr<BaseComponent>> components_;
 	DMat<int>   connectivity_table_;
 	std::vector<int> voltage_source_map_, current_source_map_;
 private:	

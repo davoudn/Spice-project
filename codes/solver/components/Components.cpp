@@ -23,7 +23,7 @@ namespace Components
       return ret_val.c_str();
     }   
 
-BaseComponent* Make(DParams& argp, map_ptr_t nodesmap)
+std::unique_ptr<BaseComponent> Make(DParams& argp, map_ptr_t nodesmap)
 {
    try {
       argp.Get<std::string>("type");
@@ -31,33 +31,35 @@ BaseComponent* Make(DParams& argp, map_ptr_t nodesmap)
       std::cout << e.what();
       exit(0);
    }
+   BaseComponent* basecomponent = nullptr;
 
    if( argp.Get<std::string>("type") == "Capacitor" ){
-		return new Capacitor<Weights<EULER>>( argp,  nodesmap);
+		basecomponent = new Capacitor<Weights<EULER>>( argp,  nodesmap);
 	}
 
 	if( argp.Get<std::string>("type") == "Resistor" ){
-                return new Resistor( argp, nodesmap);
+                basecomponent =  new Resistor( argp, nodesmap);
    }
 
 	if( argp.Get<std::string>("type") == "CPE" ){
-                return new CPE<Weights<DIETHELM>>( argp, nodesmap);
+                basecomponent =  new CPE<Weights<DIETHELM>>( argp, nodesmap);
    }
 
 	if( argp.Get<std::string>("type") == "Inductor" ){
-                return new Capacitor<Weights<EULER>>( argp,  nodesmap);
+                basecomponent =  new Capacitor<Weights<EULER>>( argp,  nodesmap);
    }
 
     if( argp.Get<std::string>("type") == "VoltageSource" ){
-                return new VoltageSource( argp, nodesmap);
+                basecomponent =  new VoltageSource( argp, nodesmap);
    }
 
-    if( argp.Get<std::string>("type") == "CurrentSource" ){
-                return new CurrentSource( argp, nodesmap);
+   if( argp.Get<std::string>("type") == "CurrentSource" ){
+                basecomponent =  new CurrentSource( argp, nodesmap);
    }
-    throw MakeError(0, "Nonexistant component name. ") ;
-
-    return nullptr;
+   if (!basecomponent)
+      throw MakeError(0, "Nonexistant component name. ") ;
+   
+    return std::unique_ptr<BaseComponent>(basecomponent);
 }
 
 

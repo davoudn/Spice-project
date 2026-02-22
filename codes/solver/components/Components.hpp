@@ -17,7 +17,7 @@ MakeError(int argid, std::string argname);
     std::string name_;
     int id_ = -1;
 };
-BaseComponent* Make(DParams& argp, map_ptr_t nodesmap);
+std::unique_ptr<BaseComponent>  Make(DParams& argp, map_ptr_t nodesmap);
 
 template <typename T>
 T* Cast(BaseComponent* c){

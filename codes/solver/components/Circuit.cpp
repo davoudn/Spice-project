@@ -33,8 +33,7 @@ void BaseCircuit::Init(std::vector<DParams>& argcomponents)
 	
      for (auto& x: argcomponents){
 		try {
-			auto c = Components::Make(x, nodes_map_);
-            components_.push_back(c);
+            components_.emplace_back(Components::Make(x, nodes_map_));
 		}
 		catch(Components::MakeError& e){
       		std::cout << e.what() << "\n";
@@ -71,10 +70,10 @@ void BaseCircuit::MakeAll()
 	{
 		 Resistor* resistor = nullptr;
 		 if (components_[it]->type_ == "Resistor"){
-			resistor = dynamic_cast<Resistor*>(components_[it]);
+			resistor = dynamic_cast<Resistor*>(components_[it].get());
 		 }
 		 if (components_[it]->componentClass == ComponentClass::Complex){
-			resistor = Components::Cast<ComplexComponent>(components_[it])->GetEquivalentResistor();
+			resistor = Components::Cast<ComplexComponent>(components_[it].get())->GetEquivalentResistor();
 		 }
          if (resistor){
 		     // off diagonal
@@ -106,10 +105,10 @@ void BaseCircuit::MakeAll()
             int id = current_source_map_[i]; 
 			CurrentSource* I = nullptr;
 			if (components_[id]->componentClass == ComponentClass::Basic) {
-                I = Components::Cast<CurrentSource>(components_[id]);
+                I = Components::Cast<CurrentSource>(components_[id].get());
 			}
 			if (components_[id]->componentClass == ComponentClass::Complex) {
-                I = Components::Cast<ComplexComponent>(components_[id])->GetEquivalentCurrentSource();
+                I = Components::Cast<ComplexComponent>(components_[id].get())->GetEquivalentCurrentSource();
 			}
 			if (I){
 				if ( components_[id]->pos_net_ == node ){
@@ -125,7 +124,7 @@ void BaseCircuit::MakeAll()
 		itmp = 0.0;
 	}
 	for (uint32_t id=0; id < voltage_source_map_.size(); id++){
-		 z_(num_nodes_ + id) = static_cast<VoltageSource*>(components_[voltage_source_map_[id]])->voltage_;
+		 z_(num_nodes_ + id) = static_cast<VoltageSource*>(components_[voltage_source_map_[id]].get())->voltage_;
 	}
     /*
      * ********************************************************************************
@@ -135,17 +134,17 @@ void BaseCircuit::MakeAll()
 
 void BaseCircuit::Populate() 
 {
-	for (auto comp : components_) {
-		auto dv = x_[comp->pos_net_] - x_[comp->neg_net_];
-		comp->Populate(dv);
+	for (int it=0; it <  components_.size(); it++) {
+		auto dv = x_[components_[it]->pos_net_] - x_[components_[it]->neg_net_];
+		components_[it]->Populate(dv);
 	}
 }
 
 void BaseCircuit::Integrate() 
 {
-	for (auto base : components_) {
-		if (base->componentClass == ComponentClass::Complex){
-            auto comp = Components::Cast<ComplexComponent>(base);
+	for (int it=0; it <  components_.size(); it++) {
+		if (components_[it]->componentClass == ComponentClass::Complex){
+            auto comp = Components::Cast<ComplexComponent>(components_[it].get());
 			if (comp){
                	comp->Integrate();
 			}
